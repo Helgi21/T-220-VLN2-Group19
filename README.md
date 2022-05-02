@@ -11,3 +11,7 @@ Link: [Verklegt námskeið 2 - Group 19](https://drive.google.com/drive/folders/
 + `HSJ` Helgi Steinarr Júlíusson - helgi21@ru.is
 + `IS` Ingólfur Sigurbjörnsson  - ingolfurs21@ru.is
 + `RAE` Ríkharður Aron Eiríksson - rikhardur21@ru.is
+
+## First time setup
+## text is WIP
+`pip install -r requirements.txt`
