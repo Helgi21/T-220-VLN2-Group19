@@ -13,5 +13,17 @@ Link: [Verklegt námskeið 2 - Group 19](https://drive.google.com/drive/folders/
 + `RAE` Ríkharður Aron Eiríksson - rikhardur21@ru.is
 
 ## First time setup
-## text is WIP
-`pip install -r requirements.txt`
++ Create new venv in pycharm (called venv)
++ install dependencies
+..+ `pip install -r requirements.txt`
++ opening terminal in pycharm should automatically activate the venv but if not, you can activate it by doing the following:
+Needs to be done every time the project is opened/new terminal opened
+
+**_Windows_**
+>venv\Scripts\activate
+
+**_Windows bash terminal_**
+>source venv/Scripts/activate
+
+**_Linux or MacOS_**
+>source venv/bin/activate
