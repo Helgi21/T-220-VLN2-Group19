@@ -19,7 +19,7 @@ Link: [Verklegt námskeið 2 - Group 19](https://drive.google.com/drive/folders/
   + `pip install -r requirements.txt`
 
 + opening terminal in pycharm should automatically activate the venv but if not, you can activate it by doing the following:
-##### Needs to be done every time the project is opened/new terminal opened
+##### If it's not happening automatically, this needs to be done every time the project is opened/new terminal opened
 
 **_Windows_**
 >venv\Scripts\activate
