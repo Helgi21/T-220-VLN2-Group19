@@ -83,7 +83,7 @@ DATABASES = {
         'USER': 'fire-sale-db-user',
         'PASSWORD': "Fire.123",
         'Host': '34.88.84.213',
-        'PORT': '5432'
+        'PORT': '5433'
     }
 }
 
