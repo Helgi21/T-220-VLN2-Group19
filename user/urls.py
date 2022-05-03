@@ -2,15 +2,15 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.auctions, name="auctions"),
-    path('/profile', views.profile, name="profile"),
-    path('/purchases', views.purchases, name="purchases"),
-    path('/sales', views.sales, name="sales"),
-    path('/register', views.register, name="register"),
-    path('/login', views.login, name="login"),
-    path('/logout', views.logout, name="logout"),
-    path('/offers', views.offers, name="offers"),
-    path('/make_offer', views.make_offer, name="offers"),
-    path('/report', views.report, name="report"),
-    path('/pay', views.pay, name="pay")
+    path('', views.Auctions.as_view(), name="auctions"),
+    path('profile', views.Profile.as_view(), name="profile"),
+    path('purchases', views.Purchases.as_view(), name="purchases"),
+    path('sales', views.Sales.as_view(), name="sales"),
+    path('register', views.Register.as_view(), name="register"),
+    path('login', views.Login.as_view(), name="login"),
+    path('logout', views.Logout.as_view(), name="logout"),
+    path('offers', views.Offers.as_view(), name="offers"),
+    path('make_offer', views.MakeOffer.as_view(), name="offers"),
+    path('report', views.Report.as_view(), name="report"),
+    path('pay', views.Pay.as_view(), name="pay")
 ]

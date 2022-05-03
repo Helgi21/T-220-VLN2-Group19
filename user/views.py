@@ -1,15 +1,17 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
 
 
 # Create your views here.
 class Profile(View):
-    def get(self):
-        pass
+    def get(self, request):
+        return HttpResponse("this is the profile view")
 
 
 class Auctions(View):
-    pass
+    def get(self, request):
+        return HttpResponse("this is the auction view")
 
 
 class Purchases(View):
