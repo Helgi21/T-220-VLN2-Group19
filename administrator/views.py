@@ -6,4 +6,4 @@ from django.views import View
 # Create your views her e.
 class AdminPage(View):
     def get(self, request):
-        pass
+        return HttpResponse("Admin page view!")

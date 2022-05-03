@@ -11,7 +11,7 @@ class Profile(View):
 
 class Auctions(View):
     def get(self, request):
-        return HttpResponse("this is the auction view")
+        return render(request, 'user/auctions.html')
 
 
 class Purchases(View):
