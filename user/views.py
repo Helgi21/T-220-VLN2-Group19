@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
+from . import models
 
 
 # Create your views here.
@@ -11,7 +12,8 @@ class Profile(View):
 
 class Auctions(View):
     def get(self, request):
-        return render(request, 'user/auctions.html')
+        data = models.Auction.objects.all()
+        return render(request, 'user/auctions.html', data)
 
 
 class Purchases(View):

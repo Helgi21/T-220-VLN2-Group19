@@ -33,7 +33,7 @@ class Auction(models.Model):
     price = models.IntegerField()
     locID = models.ForeignKey(Location, on_delete=models.CASCADE)
     catID = models.ForeignKey(Category, on_delete=models.CASCADE)
-    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+    tag = models.ManyToManyField(Tag, on_delete=models.CASCADE)
 
 
 class Report(models.Model):
