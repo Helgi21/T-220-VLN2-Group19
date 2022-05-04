@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
     <h2>Auctions!</h2>
-    {% for auction in auctions %}
+    {% for auction in object_list %}
         <style>
             div{
                 border: 2px solid gray;
@@ -15,10 +15,8 @@
             }
         </style>
         <div class="well">
-            {% for img in auction_imgs %}
-                {% if img.auction == auction %}
-                    <img src="{{ img.link }}">
-                {% endif %} 
+            {% for img in auction.images.all %}
+                <img src="{{ img.link }}">
             {% endfor %}
 
             <h3>{{ auction.title }}</h3>

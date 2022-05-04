@@ -30,7 +30,7 @@ class Location(models.Model):
     prov = models.ForeignKey(Province, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.postal_code)
+        return str(self.postal_code) + ' ' + self.name + ' ' + str(self.prov)
 
 
 class Auction(models.Model):
@@ -45,7 +45,7 @@ class Auction(models.Model):
 
 class Image(models.Model):
     link = models.CharField(max_length=255)
-    auction = models.ForeignKey(Auction, on_delete=models.CASCADE)
+    auction = models.ForeignKey(Auction, on_delete=models.CASCADE, related_name='images')
 
 
 class Offer(models.Model):

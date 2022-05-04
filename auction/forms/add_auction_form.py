@@ -1,25 +1,17 @@
-from django.forms import ModelForm, widgets
+from django.forms import ModelForm, widgets, Form
 from django import forms
-from auction.models import Auction, Image
+from auction.models import Auction, Location, Category
+from user.models import User
 
 
-class AddAuctionForm(ModelForm):
+class AddAuctionForm(Form):
+    # TODO: remove user choice, should be automatic the user that is logged in to
+    user = forms.ModelChoiceField(queryset=User.objects.all())
+    title = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    description = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    price = forms.IntegerField(required=True, widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    loc = forms.ModelChoiceField(queryset=Location.objects.all())
+    cat = forms.ModelChoiceField(queryset=Category.objects.all())
+
     image = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
     tag = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
-
-    class Meta:
-        model = Auction
-        exclude = {'id'}
-        widgets = {
-            'title': widgets.TextInput(attrs={'class': 'form-control'}),
-            'description': widgets.TextInput(attrs={'class': 'form-control'}),
-            'price': widgets.NumberInput(attrs={'class': 'form-control'}),
-            'loc': widgets.Select(attrs={'class': 'form-control'}),
-            'cat': widgets.Select(attrs={'class': 'form-control'}),
-        }
-
-
-class AddImageForm(ModelForm):
-    class Meta:
-        model = Image
-        fields = ['link', 'auction']
