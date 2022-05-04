@@ -6,19 +6,31 @@ from user import models as user
 class Category(models.Model):
     name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
 
 class Province(models.Model):
     name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
 
 
 class Location(models.Model):
     postal_code = models.IntegerField()
     name = models.CharField(max_length=255)
     prov = models.ForeignKey(Province, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.postal_code)
 
 
 class Auction(models.Model):

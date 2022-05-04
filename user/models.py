@@ -8,6 +8,9 @@ class User(models.Model):
     birthday = models.DateField()
     is_admin = models.BooleanField()
 
+    def __str__(self):
+        return self.name
+
 
 class Report(models.Model):
     class ReportsTypes(models.IntegerChoices):
