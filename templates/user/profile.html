@@ -1,10 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
+    <div class="sidenav">
+        <a href="">Profile</a>
+        <a href="">Edit Info</a>
+        <a href="">Payment Options</a>
+        <a href="" id="deactivate" style="color: red; padding-top: 80%">Deactivate Account</a>
+    </div>
 
-</body>
-</html>
+    {% for user in users %}
+        {% if user.id == profile_id %}
+    <div class="main_page">
+        <div class="user-profile-info">
+            <img src="">
+            <a id="user-profile-username">{{ user.name }}</a>
+            <div class="user-profile-small-info">
+<!--                <a id="user-profile-from">{{user.from}}</a>-->
+<!--                <a id="user-profile-joined">{{user.joined}}</a>-->
+<!--                <a id="user-profile-email">{{user.email}}</a>-->
+                <a id="user-profile-born">{{user.birthday}}</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+{% endblock %}
