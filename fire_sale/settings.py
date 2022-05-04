@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'administrator.apps.AdministratorConfig',
-    'user.apps.UserConfig'
+    'user.apps.UserConfig',
+    'auction.apps.AuctionConfig'
 ]
 
 MIDDLEWARE = [

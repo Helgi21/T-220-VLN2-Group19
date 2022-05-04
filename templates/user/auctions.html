@@ -1,4 +1,35 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2>Auctions page!</h2>
+    <h2>Auctions!</h2>
+    {% for auction in auctions %}
+        <style>
+            div{
+                border: 2px solid gray;
+                margin: 5px auto;
+                padding: 5px;
+                width: 800px;
+            }
+            img{
+                width: 790px;
+                height: 250px;
+            }
+        </style>
+        <div class="well">
+            {% for img in auction_imgs %}
+                {% if img.auction == auction %}
+                    <img src="{{ img.link }}">
+                {% endif %} 
+            {% endfor %}
+
+            <h3>{{ auction.title }}</h3>
+            <p>{{ auction.description }}</p>
+            <h4>{{ auction.price }}kr </h4>
+            <p>
+                <span> Seller: {{ auction.user.name }} </span>
+                <span>Location: {{ auction.loc.name }} </span>
+                <span>Category: {{ auction.cat.name }} </span>
+            </p>
+        </div>
+    {% endfor %}
+
 {% endblock %}

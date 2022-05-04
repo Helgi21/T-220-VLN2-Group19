@@ -6,14 +6,8 @@ from . import models
 
 # Create your views here.
 class Profile(View):
-    def get(self, request):
-        return HttpResponse("this is the profile view")
-
-
-class Auctions(View):
-    def get(self, request):
-        data = models.Auction.objects.all()
-        return render(request, 'user/auctions.html', data)
+    def get(self, request, profile_id):
+        return HttpResponse("this is the profile view of user with id" + str(profile_id))
 
 
 class Purchases(View):
@@ -33,14 +27,6 @@ class Login(View):
 
 
 class Logout(View):
-    pass
-
-
-class Offers(View):
-    pass
-
-
-class MakeOffer(View):
     pass
 
 
