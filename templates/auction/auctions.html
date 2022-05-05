@@ -14,20 +14,14 @@
                 height: 250px;
             }
         </style>
-        <div class="well">
-            {% for img in auction.images.all %}
-                <img src="{{ img.link }}">
-            {% endfor %}
-
-            <h3>{{ auction.title }}</h3>
-            <p>{{ auction.description }}</p>
-            <h4>{{ auction.price }}kr </h4>
-            <p>
-                <span> Seller: {{ auction.user.name }} </span>
-                <span>Location: {{ auction.loc.name }} </span>
-                <span>Category: {{ auction.cat.name }} </span>
-            </p>
-        </div>
+        <a href="/{{ auction.id }}">
+            <div class="well">
+                {% for img in auction.images.all %}
+                    <img src="{{ img.link }}">
+                {% endfor %}
+                <h3>{{ auction.title }}</h3>
+            </div>
+        </a>
     {% endfor %}
 
 {% endblock %}
