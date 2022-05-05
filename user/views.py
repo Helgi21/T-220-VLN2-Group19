@@ -1,16 +1,28 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views import View
+from django.views.generic import DetailView
 from user.forms import UserCreateForm as UsCrF
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 
 # Create your views here.
-class Profile(View):
-    def get(self, request, profile_id):
-        """return HttpResponse("this is the profile view of user with id" + str(profile_id))"""
-        return render(request, 'user/profile.html', {'profile_id': profile_id})
+class UserProfile(LoginRequiredMixin, View):
+    def get(self, request):
+        return redirect(f'/profile/{request.user.id}')
+
+
+class Profile(DetailView):
+    queryset = User.objects.all()
+    template_name = 'user/profile.html'
+
+    def get_object(self, **kwargs):
+        obj = super().get_object()
+        return obj
 
 
 class Purchases(View):
