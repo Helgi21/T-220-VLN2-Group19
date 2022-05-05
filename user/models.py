@@ -1,7 +1,9 @@
 from django.db import models
-
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 # Create your models here.
+""" REPLACED BY AUTH_USER BUILT INTO DJANGO
 class User(models.Model):
     name = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
@@ -10,6 +12,7 @@ class User(models.Model):
 
     def __str__(self):
         return self.name
+"""
 
 
 class Report(models.Model):
