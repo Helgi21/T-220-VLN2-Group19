@@ -19,6 +19,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     profile_picture = models.CharField(max_length=999)
     birthday = models.DateField()
+    rating = models.IntegerField(default=0)  # 0-10, 0 = 0 star, 5 = 2.5 star, 10 = 5 star
 
 
 class Report(models.Model):
