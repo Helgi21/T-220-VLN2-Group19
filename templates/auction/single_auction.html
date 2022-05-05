@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+    {% for image in auction.images.all %}
+        <img src="{{ image.link }}">
+    {% endfor %}
+
+    <h1>{{ auction.title }}</h1>
+    <p>{{ auction.description }}</p>
+    <h4>{{ auction.price }}kr </h4>
+    <p>
+        <span> Seller: {{ auction.user.name }} </span>
+        <span>Location: {{ auction.loc.name }} </span>
+        <span>Category: {{ auction.cat.name }} </span>
+    </p>
+
+    <!-- Make offer button -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#offerModal">
+        Make offer
+    </button>
+    <!-- Make offer Modal -->
+    <div class="modal fade" id="offerModal" tabindex="-1" role="dialog" aria-labelledby="offerModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="offerModalLabel">Make Offer</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" action="/{{ auction.id }}" method="post">
+                        {% csrf_token %}
+                        {{ form }}
+                        <input type="submit" value="Send" class="btn btn-primary pull-right"  style="clear:both; margin: 10px 0">
+                    </form>
+                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,18 +1,29 @@
 from django.db import models
-from user import models as user
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
 
 class Province(models.Model):
     name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
 
 
 class Location(models.Model):
@@ -20,9 +31,12 @@ class Location(models.Model):
     name = models.CharField(max_length=255)
     prov = models.ForeignKey(Province, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return str(self.postal_code) + ' ' + self.name + ' ' + str(self.prov)
+
 
 class Auction(models.Model):
-    user = models.ForeignKey(user.User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
     price = models.IntegerField()
@@ -33,7 +47,7 @@ class Auction(models.Model):
 
 class Image(models.Model):
     link = models.CharField(max_length=255)
-    auction = models.ForeignKey(Auction, on_delete=models.CASCADE)
+    auction = models.ForeignKey(Auction, on_delete=models.CASCADE, related_name='images')
 
 
 class Offer(models.Model):
@@ -44,7 +58,7 @@ class Offer(models.Model):
         ACC = 4, 'accepted'
         PAID = 5, 'paid'
 
-    user = models.ForeignKey(user.User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     auction = models.ForeignKey(Auction, on_delete=models.CASCADE)
     price = models.IntegerField()
     status = models.CharField(max_length=1, choices=OfferStatus.choices)
