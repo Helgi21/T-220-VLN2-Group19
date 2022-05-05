@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth import get_user_model
 User = get_user_model()
@@ -19,7 +20,8 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     profile_picture = models.CharField(max_length=999)
     birthday = models.DateField()
-    rating = models.IntegerField(default=0)  # 0-10, 0 = 0 star, 5 = 2.5 star, 10 = 5 star
+    # 0-10, 0 = 0 star, 5 = 2.5 star, 10 = 5 star
+    rating = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(10)])
 
 
 class Report(models.Model):
