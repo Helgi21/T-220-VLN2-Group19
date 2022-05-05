@@ -9,7 +9,8 @@ from user.forms import UserCreateForm as UsCrF
 # Create your views here.
 class Profile(View):
     def get(self, request, profile_id):
-        return HttpResponse("this is the profile view of user with id" + str(profile_id))
+        """return HttpResponse("this is the profile view of user with id" + str(profile_id))"""
+        return render(request, 'user/profile.html', {'profile_id': profile_id})
 
 
 class Purchases(View):
