@@ -1,26 +1,34 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="sidenav">
-        <a href="">Profile</a>
-        <a href="">Edit Info</a>
-        <a href="">Payment Options</a>
-        <a href="" id="deactivate" style="color: red; padding-top: 80%">Deactivate Account</a>
-    </div>
+    <div class="profile_container">
+        <div class="sidenav">
+            {% if request.user.username == user.username %}
+            <a href="">Profile</a>
+            <a href="">Edit Info</a>
+            <a href="">Payment Options</a>
+            <a href="" id="deactivate" style="color: red; padding-top: 80%">Deactivate Account</a>
+            {% endif %}
+        </div>
 
-    {% for user in users %}
-        {% if user.id == profile_id %}
-    <div class="main_page">
-        <div class="user-profile-info">
-            <img src="">
-            <a id="user-profile-username">{{ user.name }}</a>
-            <div class="user-profile-small-info">
-<!--                <a id="user-profile-from">{{user.from}}</a>-->
-<!--                <a id="user-profile-joined">{{user.joined}}</a>-->
-<!--                <a id="user-profile-email">{{user.email}}</a>-->
-                <a id="user-profile-born">{{user.birthday}}</a>
-            </div>
+        <div class="main_page">
+                <div class="user-profile-info">
+                    <img src="{{ user.profile.profile_picture }}">
+                    <a id="user-profile-frst"></a>
+                    <a id="user-profile-username">{{ user.username }}</a>
+                    <div class="user-profile-small-info">
+        <!--                <a id="user-profile-joined"></a>-->
+        <!--                <a id="user-profile-email"></a>-->
+{#                        <a id="user-profile-born">{{ user.profile.birthday }}</a>#}
+                    </div>
+                </div>
+                <div class="user-profile-other-buttons">
+                    {%  if request.user.username != user.username %}
+                        <button id="user-profile-report-user">Report User</button>
+                    {% endif %}
+                    {% if request.user.is_admin %} {# Change this depending on what is we are gonna use #}
+                        <button id="user-profile-ban-user">Ban User</button>
+                    {% endif %}
+                </div>
         </div>
     </div>
-    {% endif %}
-    {% endfor %}
 {% endblock %}
