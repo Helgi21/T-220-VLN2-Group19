@@ -7,7 +7,10 @@ User = get_user_model()
 
 
 class UserCreateForm(UserCreationForm):
-    email = forms.EmailField(label='email')
+    email = forms.EmailField(label='email', required=True, widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    first_name = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    last_name = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    fields = ("username", "email", "first_name", "last_name")
 
     def email_clean(self):
         email = self.cleaned_data['email'].lower()
@@ -16,9 +19,6 @@ class UserCreateForm(UserCreationForm):
             raise ValidationError(" Email Already Exist")
         return email
 
-    def save(self, commit=True):
-        super
-        return user
     """
 class Meta:
         model = User

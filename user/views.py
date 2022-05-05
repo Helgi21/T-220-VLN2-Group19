@@ -1,5 +1,7 @@
+from django.contrib.auth.views import LoginView
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.views import View
 from user.forms import UserCreateForm as UsCrF
 
@@ -28,9 +30,17 @@ class Register(View):
         form = UsCrF.UserCreateForm(data=request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login/')
+            return redirect('/login/')
         else:
-            return HttpResponse("failed")
+            messages.info(request, 'invalid registration details')
+            return render(request, 'user/register.html', {
+                'form': UsCrF.UserCreateForm(data=request.POST)
+            })
+
+
+class Login(LoginView):
+    template_name = "user/login.html"
+    redirect_authenticated_user = True
 
 
 class Report(View):
