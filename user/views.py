@@ -1,5 +1,6 @@
+from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from . import models
 
@@ -19,16 +20,18 @@ class Sales(View):
 
 
 class Register(View):
-    pass
+    def get(self, request):
+        return render(request, 'user/register.html', {
+            'form': UserCreationForm()
+        })
 
-
-class Login(View):
-    pass
-
-
-class Logout(View):
-    pass
-
+    def post(self, request):
+        form = UserCreationForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login/')
+        else:
+            return HttpResponse("failed")
 
 class Report(View):
     pass
