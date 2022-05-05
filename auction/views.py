@@ -4,10 +4,13 @@ from django.views import View
 from django.views.generic import DetailView, ListView
 from . import models
 from .forms.add_auction_form import AddAuctionForm
+from .forms.make_offer_form import MakeOfferForm
 from django.http import Http404
 
 
 # Create your views here.
+
+
 class AllAuctions(ListView):
     template_name = 'auction/auctions.html'
     model = models.Auction
@@ -20,6 +23,18 @@ class SingleAuction(DetailView):
     def get_object(self, **kwargs):
         obj = super().get_object()
         return obj
+
+    def get_context_data(self, **kwargs):
+        form = MakeOfferForm()
+        context = super().get_context_data(**kwargs)
+        context['form'] = form
+        return context
+
+    def post(self, request):
+        form = MakeOfferForm(data=request.POST)
+        if form.is_valid():
+            offer_obj = models.Offer()
+            offer_obj.save()
 
 
 class AddAuction(View):
