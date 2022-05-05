@@ -43,6 +43,7 @@ class Auction(models.Model):
     loc = models.ForeignKey(Location, on_delete=models.CASCADE)
     cat = models.ForeignKey(Category, on_delete=models.CASCADE)
     tag = models.ManyToManyField(Tag)
+    creation_time = models.DateTimeField(auto_now_add=True)
 
 
 class Image(models.Model):

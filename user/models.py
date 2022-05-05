@@ -15,6 +15,12 @@ class User(models.Model):
 """
 
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    profile_picture = models.CharField(max_length=999)
+    birthday = models.DateField()
+
+
 class Report(models.Model):
     class ReportsTypes(models.IntegerChoices):
         USER = 1, "user"
