@@ -43,6 +43,7 @@ class Register(View):
         form = UsCrF.UserCreateForm(data=request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Account created successfully')
             return redirect('/login/')
         else:
             messages.info(request, 'invalid registration details')
