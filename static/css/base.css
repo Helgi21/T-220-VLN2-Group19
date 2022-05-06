@@ -4,6 +4,7 @@
   margin-top: 65px;
 }
 .sidenav {
+  padding-top: 40px;
   height: 100%;
   width: 280px;
   min-width: 280px;
@@ -28,6 +29,36 @@
   width: 100%;
 }
 
+#user-profile-picture {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 50%;
+
+  margin: 35px 0px 20px 30px;
+}
+
+#user-profile-username {
+  position: absolute;
+  margin: 98px 3% 3% 3%;
+  font-size: 35px;
+}
+
+.user-profile-small-info {
+  margin: 20px 20px 20px 50px;
+}
+
+.user-profile-small-info a {
+  font-size: 20px;
+  margin: 10px 0px 0px 0px;
+  display: block;
+}
+
+.user-profile-other-buttons {
+  position: absolute;
+  right: 6%;
+  top: 70px;
+}
 
 /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {

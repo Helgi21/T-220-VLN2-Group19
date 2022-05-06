@@ -18,7 +18,7 @@ class UserProfile(LoginRequiredMixin, View):
 
 class Profile(DetailView):
     queryset = User.objects.all()
-    template_name = 'user/profile.html'
+    template_name = 'user/profile_info.html'
 
     def get_object(self, **kwargs):
         obj = super().get_object()
