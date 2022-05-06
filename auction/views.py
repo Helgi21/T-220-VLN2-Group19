@@ -88,11 +88,12 @@ class ViewOffers(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        return qs.filter(user=self.request.user)
+        return qs.filter(user=self.request.user).exclude(status=5)
 
     def get_context_data(self, *args):
         context = super().get_context_data()
-        context['received_offers'] = models.Offer.objects.all().filter(auction__user=self.request.user)
+        context['received_offers'] = models.Offer.objects.all().filter(auction__user=self.request.user) \
+            .exclude(status=5)
         return context
 
 
