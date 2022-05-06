@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
     <h2>Auctions!</h2>
+    <a href="/add_auction" class="btn btn-info" role="button">Add Auction</a>
     {% for auction in object_list %}
         <style>
             main div{

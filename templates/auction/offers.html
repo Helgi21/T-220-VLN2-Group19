@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block header %}
+    <script href="js/offers.js"></script>
+{% endblock %}
+
+{% block content %}
+
+    <h2>View Offers</h2>
+    <div class="well">
+        <input type="radio" class="btn-check" name="options" id="sent" autocomplete="on" checked>
+        <label class="btn btn-secondary" for="option1">Sent offers</label>
+
+        <input type="radio" class="btn-check" name="options" id="received" autocomplete="off">
+        <label class="btn btn-secondary" for="option2">Received offers</label>
+    </div>
+    {% for offer in offer_list %}
+        <style>
+            main div{
+                border: 2px solid gray;
+                margin: 5px auto;
+                padding: 5px;
+                width: 800px;
+            }
+            main img{
+                width: 100px;
+            }
+
+        </style>
+        <div class="well">
+            <div class="container-fluid {{ offer.get_status }}">
+                <div class="row">
+                    <a href="/{{offer.auction.id}}"> {{ offer.auction.title }}</a>
+                    <h4>{{ offer.auction.user }}</h4> {# ToDo link to seller profile #}
+                </div>
+                <div class="row">
+                    <h4> Offer: {{ offer.price }}</h4>
+                    <h4> {{ offer.get_status }}</h4>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+    {% endfor %}
+
+{% endblock %}

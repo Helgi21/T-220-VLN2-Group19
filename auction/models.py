@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.utils.translation import gettext_lazy as _
 
 User = get_user_model()
 
@@ -53,14 +54,17 @@ class Image(models.Model):
 
 class Offer(models.Model):
     class OfferStatus(models.IntegerChoices):
-        PEND = 1, 'pending'
-        COUNT = 2, 'counter'
-        DECL = 3, 'declined'
-        ACC = 4, 'accepted'
-        PAID = 5, 'paid'
+        PEND = 1, _('Pending')
+        COUNT = 2, _('Counter')
+        DECL = 3, _('Declined')
+        ACC = 4, _('Accepted')
+        PAID = 5, _('Paid')
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     auction = models.ForeignKey(Auction, on_delete=models.CASCADE)
-    price = models.IntegerField()
-    status = models.CharField(max_length=1, choices=OfferStatus.choices)
+    price = models.PositiveIntegerField()
+    status = models.IntegerField(choices=OfferStatus.choices, validators=[MinValueValidator(1), MaxValueValidator(5)])
+
+    def get_status(self):
+        return self.OfferStatus(self.status).label
 

@@ -25,11 +25,11 @@ class Profile(DetailView):
         return obj
 
 
-class Purchases(View):
+class Purchases(LoginRequiredMixin, View):
     pass
 
 
-class Sales(View):
+class Sales(LoginRequiredMixin, View):
     pass
 
 
