@@ -6,6 +6,7 @@ from django.views.generic import DetailView, ListView
 from . import models
 from .forms.add_auction_form import AddAuctionForm
 from .forms.make_offer_form import MakeOfferForm
+from .forms.make_counter_offer_form import MakeCounterOfferForm
 from django.contrib import messages
 
 from django.http import Http404
@@ -45,7 +46,7 @@ class SingleAuction(DetailView):
 
             messages.success(request, 'Offer sent!')
 
-            return redirect(f'/{pk}')
+            return redirect(f'/{pk}/')
 
 
 class AddAuction(LoginRequiredMixin, View):
@@ -88,12 +89,49 @@ class ViewOffers(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        return qs.filter(user=self.request.user).exclude(status=5)
+        return qs.filter(user=self.request.user).exclude(status=5).exclude(status=2)
 
     def get_context_data(self, *args):
         context = super().get_context_data()
         context['received_offers'] = models.Offer.objects.all().filter(auction__user=self.request.user) \
-            .exclude(status=5)
+            .exclude(status__in=[5,2])
+        q2 = models.Offer.objects.all().filter(user=self.request.user).filter(status=2)
+
+        context['received_offers'] = context['received_offers'].union(q2)
         return context
+
+    def post(self, request):
+        if 'counter_offer_id' in request.POST:  # Counter offer only
+            print("in if")
+            offer_id = request.POST['counter_offer_id']
+            print(offer_id)
+            offer_price = request.POST['counter_offer_price']
+
+            offer = models.Offer.objects.get(id=offer_id)
+
+            offer.price = offer_price
+            offer.status = 2
+            print(offer.auction.title)
+
+            offer.save()
+            messages.success(request, f'Counter offer sent!')
+
+            return redirect(f'/offers/?received_offers')
+
+        else:  # Accept or decline only
+            offer_response = request.POST['offer_response'].split('_')
+
+            offer = models.Offer.objects.get(id=offer_response[1])
+            offer.status = offer_response[0]
+
+            offer.save()
+
+            if offer_response == 5:
+                messages.success(request, f'Offer accepted!')
+            elif offer_response == 4:
+                messages.success(request, f'Offer declined!')
+
+            return redirect(f'/offers/?received_offers')
+
 
 

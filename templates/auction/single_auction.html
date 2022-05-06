@@ -8,7 +8,7 @@
     <p>{{ auction.description }}</p>
     <h4>{{ auction.price }}kr </h4>
     <p>
-        <span> Seller: {{ auction.user.name }} </span>
+        <span> Seller: {{ auction.user.username }} </span>
         <span>Location: {{ auction.loc.name }} </span>
         <span>Category: {{ auction.cat.name }} </span>
     </p>
@@ -18,20 +18,23 @@
         Make offer
     </button>
     <!-- Make offer Modal -->
-    <div class="modal fade" id="offerModal" tabindex="-1" role="dialog" aria-labelledby="offerModalLabel" aria-hidden="true">
+    <div class="modal fade" id="offerModal" tabindex="-1" role="dialog" aria-labelledby="offerModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="offerModalLabel">Make Offer</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-bs-toggle="modal" data-bs-target="#offerModal">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-bs-toggle="modal"
+                            data-bs-target="#offerModal">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal" action="/{{ auction.id }}" method="post">
+                    <form class="form-horizontal" action="/{{ auction.id }}/" method="post">
                         {% csrf_token %}
                         {{ form }}
-                        <input type="submit" value="Send" class="btn btn-primary pull-right"  style="clear:both; margin: 10px 0">
+                        <input type="submit" value="Send" class="btn btn-primary pull-right"
+                               style="clear:both; margin: 10px 0">
                     </form>
                  </div>
             </div>

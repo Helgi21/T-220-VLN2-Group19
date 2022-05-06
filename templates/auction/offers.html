@@ -16,11 +16,11 @@
         {% for offer in offer_list %} {# SENT OFFERS #}
                 <div class="well container-fluid ">
                     <div class="row">
-                        <a href="/{{offer.auction.id}}"> {{ offer.auction.title }}</a>
-                        <h4>{{ offer.auction.user }}</h4> {# ToDo link to seller profile #}
+                        <a href="/{{offer.auction.id}}"> <h2>{{ offer.auction.title }}</h2></a>
+                        <h4>Sent to: {{ offer.auction.user }}</h4> {# ToDo link to seller profile #}
                     </div>
                     <div class="row">
-                        <h4> Offer: {{ offer.price }}</h4>
+                        <h4> Offer: {{ offer.price }} kr.</h4>
                         <h4> {{ offer.get_status }}</h4>
                     </div>
                 </div>
@@ -28,32 +28,70 @@
     </div>
     <div class="received_offers ">
         {% for offer in received_offers %} {# SENT OFFERS #}
-                <div class="well container-fluid ">
+                <div class="well container-fluid">
                     <div class="row">
-                        <a href="/{{offer.auction.id}}"> {{ offer.auction.title }}</a>
-                        <h4>{{ offer.auction.user }}</h4> {# ToDo link to seller profile #}
+                        <a href="/{{offer.auction.id}}"> <h2>{{ offer.auction.title }}</h2></a>
+                        <h4 class="not_{{ offer.get_status }}_offer_from_user">{{ offer.get_status }} Offer from: {{ offer.user.username }}</h4> {# ToDo link to seller profile #}
+                        <h4 class="{{ offer.get_status }}_offer_from_user"  style="display: none;"> Counter Offer from: {{ offer.auction.user.username }}</h4> {# ToDo link to seller profile #}
                     </div>
-                    <div class="row">
-                        <h4> Offer: {{ offer.price }}</h4>
-                        <h4> {{ offer.get_status }}</h4>
+                    <div class="row" id="view_offer_btn">
+                        <h4> Offer {{ offer.price }}</h4>
                         <!-- Make offer button -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#offerModal">
+                        <button type="button" class="btn btn-primary modal_{{ offer.get_status }}" data-bs-toggle="modal"
+                                data-bs-target="#offerModal{{ offer.id }}"  style="display: none;">
                             View
                         </button>
                         <!-- View offer Modal -->
-                        <div class="modal fade" id="offerModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="offerModal{{ offer.id }}" tabindex="-1" role="dialog"
+                             aria-labelledby="myLargeModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-bs-toggle="modal" data-bs-target="#offerModal">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                                data-bs-toggle="modal" data-bs-target="#offerModal">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                                     <div class="modal-body">
                                         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                          <button type="button" class="btn btn-success">Accept</button>
-                                          <button type="button" class="btn btn-danger">Decline</button>
-                                          <button type="button" class="btn btn-warning">Make Counter offer</button>
+                                            <form role="form" action="/offers/" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="offer_response" value="4_{{ offer.id }}">
+                                                <input type="submit" value="Accept" class="btn btn-success">
+                                            </form>
+                                            <form role="form" action="/offers/" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="offer_response" value="3_{{ offer.id }}">
+                                                <input type="submit" value="Decline" class="btn btn-success">
+                                            </form>
+                                            <button type="button" class="btn btn-primary button_counter_{{ offer.status }}" data-bs-toggle="modal"
+                                                    data-bs-target="#counterOfferModal{{ offer.id }}">
+                                                Make counter offer
+                                            </button>
+
+                                        </div>
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="counterOfferModal{{ offer.id }}" tabindex="-1" role="dialog"
+                             aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                                data-bs-toggle="modal" data-bs-target="#CounterOfferModal">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                            <form role="form" action="/offers/" method="post">
+                                                {% csrf_token %}
+                                                <input name="counter_offer_price" type="number" >
+                                                <input type="hidden" name="counter_offer_id" value="{{ offer.id }}">
+                                                <input type="submit" value="Send" class="btn btn-success">
+                                            </form>
                                         </div>
                                      </div>
                                 </div>
