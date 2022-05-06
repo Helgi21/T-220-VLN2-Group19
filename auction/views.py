@@ -94,7 +94,7 @@ class ViewOffers(LoginRequiredMixin, ListView):
     def get_context_data(self, *args):
         context = super().get_context_data()
         context['received_offers'] = models.Offer.objects.all().filter(auction__user=self.request.user) \
-            .exclude(status__in=[5,2])
+            .exclude(status__in=[5, 2])
         q2 = models.Offer.objects.all().filter(user=self.request.user).filter(status=2)
 
         context['received_offers'] = context['received_offers'].union(q2)
