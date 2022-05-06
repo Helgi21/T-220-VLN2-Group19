@@ -13,7 +13,7 @@
         <input type="radio" class="btn-check" name="options" id="received" autocomplete="off">
         <label class="btn btn-secondary" for="option2">Received offers</label>
     </div>
-    {% for offer in offer_list %}
+    {% for offer in offer_list %} # SENT OFFERS
         <style>
             main div{
                 border: 2px solid gray;
@@ -43,6 +43,11 @@
 
 
 
+    {% endfor %}
+    {% for offer in received_offers %}  # RECEIVED OFFERS
+        {{ offer.auction.name }}
+        {{ offer.price }}
+        {{ offer.user }}
     {% endfor %}
 
 {% endblock %}

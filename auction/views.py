@@ -1,4 +1,3 @@
-import kwargs as kwargs
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -84,12 +83,16 @@ class AddAuction(LoginRequiredMixin, View):
 
 class ViewOffers(LoginRequiredMixin, ListView):
     template_name = 'auction/offers.html'
-    paginate_by = 100
+    # paginate_by = 100
     model = models.Offer
 
     def get_queryset(self):
         qs = super().get_queryset()
         return qs.filter(user=self.request.user)
 
+    def get_context_data(self, *args):
+        context = super().get_context_data()
+        context['received_offers'] = models.Offer.objects.all().filter(auction__user=self.request.user)
+        return context
 
 
