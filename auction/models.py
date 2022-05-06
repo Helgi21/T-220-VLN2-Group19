@@ -29,7 +29,7 @@ class Province(models.Model):
 
 
 class Location(models.Model):
-    postal_code = models.IntegerField()
+    postal_code = models.IntegerField(validators=[MinValueValidator(100), MaxValueValidator(999)])
     name = models.CharField(max_length=255)
     prov = models.ForeignKey(Province, on_delete=models.CASCADE)
 
@@ -41,7 +41,7 @@ class Auction(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
-    price = models.IntegerField()
+    price = models.PositiveIntegerField()
     loc = models.ForeignKey(Location, on_delete=models.CASCADE)
     cat = models.ForeignKey(Category, on_delete=models.CASCADE)
     tag = models.ManyToManyField(Tag)
