@@ -6,6 +6,8 @@ from django.views.generic import DetailView, ListView
 from . import models
 from .forms.add_auction_form import AddAuctionForm
 from .forms.make_offer_form import MakeOfferForm
+from django.contrib import messages
+
 from django.http import Http404
 
 
@@ -17,7 +19,7 @@ class AllAuctions(ListView):
     model = models.Auction
 
 
-class SingleAuction(LoginRequiredMixin, DetailView):
+class SingleAuction(DetailView):
     queryset = models.Auction.objects.all()
     template_name = 'auction/single_auction.html'
 
@@ -31,14 +33,22 @@ class SingleAuction(LoginRequiredMixin, DetailView):
         context['form'] = form
         return context
 
-    def post(self, request):
+    def post(self, request, pk):
         form = MakeOfferForm(data=request.POST)
         if form.is_valid():
             offer_obj = models.Offer()
+            offer_obj.price = form.cleaned_data.get('price')
+            offer_obj.auction = models.Auction.objects.get(id=pk)
+            offer_obj.user = request.user
+            offer_obj.status = 1
             offer_obj.save()
 
+            messages.success(request, 'Offer sent!')
 
-class AddAuction(View):
+            return redirect(f'/{pk}')
+
+
+class AddAuction(LoginRequiredMixin, View):
     def get(self, request):
         form = AddAuctionForm()
         return render(request, 'auction/add_auction.html', {
@@ -49,7 +59,7 @@ class AddAuction(View):
         form = AddAuctionForm(data=request.POST)
         if form.is_valid():
             auction_obj = models.Auction()
-            auction_obj.user = form.cleaned_data.get('user')
+            auction_obj.user = request.user
             auction_obj.title = form.cleaned_data['title']
             auction_obj.description = form.cleaned_data['description']
             auction_obj.price = form.cleaned_data['price']
@@ -69,3 +79,20 @@ class AddAuction(View):
             # tag_obj.name
             # tag_obj.save()
             return redirect('/')
+
+
+class ViewOffers(LoginRequiredMixin, ListView):
+    template_name = 'auction/offers.html'
+    # paginate_by = 100
+    model = models.Offer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(user=self.request.user)
+
+    def get_context_data(self, *args):
+        context = super().get_context_data()
+        context['received_offers'] = models.Offer.objects.all().filter(auction__user=self.request.user)
+        return context
+
+

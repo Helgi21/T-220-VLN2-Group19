@@ -25,11 +25,11 @@ class Profile(DetailView):
         return obj
 
 
-class Purchases(View):
+class Purchases(LoginRequiredMixin, View):
     pass
 
 
-class Sales(View):
+class Sales(LoginRequiredMixin, View):
     pass
 
 
@@ -43,6 +43,7 @@ class Register(View):
         form = UsCrF.UserCreateForm(data=request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Account created successfully')
             return redirect('/login/')
         else:
             messages.info(request, 'invalid registration details')
