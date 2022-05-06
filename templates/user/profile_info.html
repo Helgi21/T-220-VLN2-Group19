@@ -13,7 +13,7 @@
         {%  if request.user.username != user.username %}
             <button id="user-profile-report-user">Report User</button>
         {% endif %}
-        {% if request.user.is_admin %} {# Change this depending on what is we are gonna use #}
+        {% if request.user.is_superuser %} {# Change this depending on what is we are gonna use #}
             <button id="user-profile-ban-user">Ban User</button>
         {% endif %}
     </div>
