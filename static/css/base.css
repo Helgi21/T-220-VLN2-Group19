@@ -1,3 +1,7 @@
+main {
+  margin-top: 65px;
+}
+
 /* The sidebar menu */
 .profile_container {
   display: flex;
@@ -63,4 +67,28 @@
 /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
   .sidenav a {font-size: 18px;}
+}
+
+/* Register page style*/
+
+#register-title {
+  margin: 90px 0px 20px 40px
+}
+
+.form {
+  margin: 40px 2% 80% 4%;
+}
+
+.form input {
+  margin-bottom: 1.5%;
+  max-width: 600px;
+}
+
+.form label[for='id_email'] {
+  margin-top: 10px;
+  display: block;
+}
+
+.form .btn {
+  position: relative;
 }
