@@ -30,7 +30,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal" action="{% url 'single_auction' pk=auction.id %}" method="post">
+                    <form class="form-horizontal" action="{% url 'auction:singleAuction' pk=auction.id %}" method="post">
                         {% csrf_token %}
                         {{ form }}
                         <input type="submit" value="Send" class="btn btn-primary pull-right"

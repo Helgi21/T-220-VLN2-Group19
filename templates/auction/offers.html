@@ -16,24 +16,24 @@
         {% for offer in offer_list %} {# SENT OFFERS #}
                 <div class="well container-fluid ">
                     <div class="row">
-                        <a href="{% url 'single_auction' pk=offer.auction.id %}"> <h2>{{ offer.auction.title }}</h2></a>
+                        <a href="{% url 'auction:singleAuction' pk=offer.auction.id %}"> <h2>{{ offer.auction.title }}</h2></a>
                         <h4>Sent to: {{ offer.auction.user }}</h4> {# ToDo link to seller profile #}
                     </div>
                     <div class="row">
                         <h4> Offer: {{ offer.price }} kr.</h4>
                         <h4> {{ offer.get_status }}</h4>
                         <div class="pay_button_{{ offer.get_status }}" style="display: none;">
-                            <button class="btn btn-success" onclick="window.location.href='{% url 'pay' id=offer.id %}}'">Pay now</button>
+                            <button class="btn btn-success" onclick="window.location.href='{% url 'auction:pay' id=offer.id %}}'">Pay now</button>
                         </div>
                     </div>
                 </div>
         {% endfor %}
     </div>
     <div class="received_offers ">
-        {% for offer in received_offers %} {# SENT OFFERS #}
+        {% for offer in received_offers %} {# Received OFFERS #}
                 <div class="well container-fluid">
                     <div class="row">
-                        <a href="{% url 'single_auction' pk=offer.auction.id %}"> <h2>{{ offer.auction.title }}</h2></a>
+                        <a href="{% url 'auction:singleAuction' pk=offer.auction.id %}"> <h2>{{ offer.auction.title }}</h2></a>
                         <h4 class="not_{{ offer.get_status }}_offer_from_user">{{ offer.get_status }} Offer from: {{ offer.user.username }}</h4> {# ToDo link to seller profile #}
                         <h4 class="{{ offer.get_status }}_offer_from_user"  style="display: none;"> Counter Offer from: {{ offer.auction.user.username }}</h4> {# ToDo link to seller profile #}
                     </div>
@@ -57,12 +57,12 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                            <form role="form" action="{% url 'offers' %}" method="post">
+                                            <form role="form" action="{% url 'auction:offers' %}" method="post">
                                                 {% csrf_token %}
                                                 <input type="hidden" name="offer_response" value="4_{{ offer.id }}">
                                                 <input type="submit" value="Accept" class="btn btn-success">
                                             </form>
-                                            <form role="form" action="{% url 'offers' %}" method="post">
+                                            <form role="form" action="{% url 'auction:offers' %}" method="post">
                                                 {% csrf_token %}
                                                 <input type="hidden" name="offer_response" value="3_{{ offer.id }}">
                                                 <input type="submit" value="Decline" class="btn btn-success">
@@ -89,7 +89,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                            <form role="form" action="{% url 'offers' %}" method="post">
+                                            <form role="form" action="{% url 'auction:offers' %}" method="post">
                                                 {% csrf_token %}
                                                 <input name="counter_offer_price" type="number" >
                                                 <input type="hidden" name="counter_offer_id" value="{{ offer.id }}">

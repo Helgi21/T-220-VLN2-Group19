@@ -6,28 +6,30 @@
     <div class="input-group">
         <input id="search-box" type="search" placeholder="search.." class="form-control" />
         <div class="input-group-btn">
-            <button id="search-btn" class="btn btn-default">Search</button>
+            <button type="button" id="search-btn" class="btn btn-default">Search</button>
         </div>
     </div>
-    {% for auction in object_list %}
-        <style>
-            main div{
-                border: 2px solid gray;
-                margin: 5px auto;
-                padding: 5px;
-                width: 800px;
-            }
-            main img{
-                width: 790px;
-                height: 250px;
-            }
-        </style>
-        <a href="{% url 'auction:singleAuction' pk=auction.id %}">
-            <div class="well">
-                <img src="{{ auction.images.first.link }}">
-                <h3>{{ auction.title }}</h3>
-            </div>
-        </a>
-    {% endfor %}
+    <div id="auctions_container">
+        {% for auction in object_list %}
+            <style>
+                main div{
+                    border: 2px solid gray;
+                    margin: 5px auto;
+                    padding: 5px;
+                    width: 800px;
+                }
+                main img{
+                    width: 790px;
+                    height: 250px;
+                }
+            </style>
+            <a href="{% url 'auction:singleAuction' pk=auction.id %}">
+                <div class="well">
+                    <img src="{{ auction.images.first.link }}">
+                    <h3>{{ auction.title }}</h3>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
 
 {% endblock %}
