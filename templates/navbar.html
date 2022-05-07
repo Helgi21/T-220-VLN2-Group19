@@ -28,15 +28,15 @@
                           {{ request.user.username }}
                       </a>
                       <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                          <li><a class="dropdown-item" href="/profile/">Profile</a></li>
+                          <li><a class="dropdown-item" href="profile/">Profile</a></li>
                           <li><a class="dropdown-item" href="/offers">Offers</a></li>
-                          <li><a class="dropdown-item" href="/sales/">Sales</a></li>
-                          <li><a class="dropdown-item" href="/purchases/">Purchases</a></li>
+                          <li><a class="dropdown-item" href="sales/">Sales</a></li>
+                          <li><a class="dropdown-item" href="purchases/">Purchases</a></li>
                           {% if request.user.is_superuser %}
                               <li><a class="dropdown-item" href="#">Manage</a></li>
                           {% endif %}
-                          <li><a class="dropdown-item" href="/logout/">Log Out</a></li>
-                          <li><a class="dropdown-item" href="/report/">Report</a></li>
+                          <li><a class="dropdown-item" href="logout/">Log Out</a></li>
+                          <li><a class="dropdown-item" href="report/">Report</a></li>
                       </ul>
                     </li>
                   </ul>

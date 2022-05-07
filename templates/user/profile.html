@@ -1,24 +1,18 @@
 {% extends 'base.html' %}
-{% load static %}
 {% block content %}
     <div class="profile_container">
         <div class="sidenav">
             {% if request.user.username == user.username %}
-            <a href="./?profile_info">Profile</a>
-            <a href="./?profile_edit">Edit Info</a>
-            <a href="./?payment_options">Payment Options</a>
+            <a href="">Profile</a>
+            <a href="">Edit Info</a>
+            <a href="">Payment Options</a>
             <a href="" id="deactivate" style="color: red; padding-top: 80%">Deactivate Account</a>
             {% endif %}
         </div>
 
-        <div id="profile_main_page" class="main_page">
-            <span id="profile_message" style="display: none;"></span>
-            {% include 'user/profile_info.html' %}
-            {% if edit_user_form != None and payment_options != None %}
-                {% include 'user/profile_edit.html' %}
-                {% include 'user/profile_payment_options.html' %}
-            {% endif %}
+        <div class="main_page">
+            {% block profile_main_page %}
+            {% endblock %}
         </div>
     </div>
-    <script type="text/javascript" src="{% static 'js/profile.js' %}"></script>
 {% endblock %}

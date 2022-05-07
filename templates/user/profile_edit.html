@@ -1,7 +1,0 @@
-<div id="profile_edit">
-    <form method="post" action="/profile/{{request.user.id}}/" name="profile_edit" class="form form-horizontal">
-        {% csrf_token %}
-        {{ edit_user_form }}
-        <input type="submit" value="Update" class="btn btn-primary pull-right">
-    </form>
-</div>

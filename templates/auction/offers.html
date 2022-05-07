@@ -22,6 +22,10 @@
                     <div class="row">
                         <h4> Offer: {{ offer.price }} kr.</h4>
                         <h4> {{ offer.get_status }}</h4>
+                        <div class="pay_button_{{ offer.get_status }}" style="display: none;">
+                            <input type="hidden" name="pay_for_auction" value="{{ offer.id }}">
+                            <input type="submit" value="Pay now" class="btn btn-success">
+                        </div>
                     </div>
                 </div>
         {% endfor %}
@@ -36,7 +40,7 @@
                     </div>
                     <div class="row" id="view_offer_btn">
                         <h4> Offer {{ offer.price }}</h4>
-                        <!-- Make offer button -->
+                        <!-- View offer button -->
                         <button type="button" class="btn btn-primary modal_{{ offer.get_status }}" data-bs-toggle="modal"
                                 data-bs-target="#offerModal{{ offer.id }}"  style="display: none;">
                             View
