@@ -11,5 +11,5 @@ urlpatterns = [
     path('login/', views.Login.as_view(), name="login"),
     path('logout/', LogoutView.as_view(next_page="login"), name="logout"),
     path('report/', views.Report.as_view(), name="report"),
-    path('pay.html/', views.Pay.as_view(), name="pay.html")
+    path('pay/', views.Pay.as_view(), name="pay")
 ]
