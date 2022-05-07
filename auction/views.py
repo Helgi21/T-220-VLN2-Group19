@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.views.generic import DetailView, ListView
@@ -19,8 +19,39 @@ class AllAuctions(ListView):
     template_name = 'auction/auctions.html'
     model = models.Auction
 
-    def get(self, request, *args, **kwargs):
-        pass
+    def get(self, *args, **kwargs):
+        search = self.request.GET.get('search')
+        order_by = self.request.GET.get('order_by')
+        direction = self.request.GET.get('dir')
+        if search or order_by or direction:
+            if search:
+                if search == "*":
+                    search = ""
+            else:
+                search = ""
+
+            a = models.Auction.objects
+            auctions = [{
+                'id': x.id,
+                'title': x.title,
+                'price': x.price,
+                'cat': x.cat.id,
+                'loc': x.loc.id,
+                'user': x.user.id,
+                'first_pic': x.images.first().link,
+                'creation_time': x.creation_time
+            } for x in a.filter(title__icontains=search)]
+            return JsonResponse({"data": auctions})
+        else:
+            # ignore this warning
+            self.object_list = self.get_queryset()
+            context = self.get_context_data()
+            return self.render_to_response(context)
+
+
+    def get_queryset(self):
+        qs = self.model.objects.all()
+        return qs
 
 
 class SingleAuction(DetailView):

@@ -1,7 +1,14 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
     <h2>Auctions!</h2>
-    <a href="{% url 'add_auction' %}" class="btn btn-info" role="button">Add Auction</a>
+    <a href="{% url 'auction:addAuction' %}" class="btn btn-info" role="button">Add Auction</a>
+    <div class="input-group">
+        <input id="search-box" type="search" placeholder="search.." class="form-control" />
+        <div class="input-group-btn">
+            <button id="search-btn" class="btn btn-default">Search</button>
+        </div>
+    </div>
     {% for auction in object_list %}
         <style>
             main div{
@@ -15,11 +22,9 @@
                 height: 250px;
             }
         </style>
-        <a href="{% url 'single_auction' pk=auction.id %}">
+        <a href="{% url 'auction:singleAuction' pk=auction.id %}">
             <div class="well">
-                {% for img in auction.images.all %}
-                    <img src="{{ img.link }}">
-                {% endfor %}
+                <img src="{{ auction.images.first.link }}">
                 <h3>{{ auction.title }}</h3>
             </div>
         </a>
