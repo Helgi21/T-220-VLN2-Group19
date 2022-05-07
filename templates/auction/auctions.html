@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
     <h2>Auctions!</h2>
-    <a href="/add_auction" class="btn btn-info" role="button">Add Auction</a>
+    <a href="{% url 'add_auction' %}" class="btn btn-info" role="button">Add Auction</a>
     {% for auction in object_list %}
         <style>
             main div{
@@ -15,7 +15,7 @@
                 height: 250px;
             }
         </style>
-        <a href="/{{ auction.id }}">
+        <a href="{% url 'single_auction' pk=auction.id %}">
             <div class="well">
                 {% for img in auction.images.all %}
                     <img src="{{ img.link }}">

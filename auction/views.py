@@ -19,6 +19,9 @@ class AllAuctions(ListView):
     template_name = 'auction/auctions.html'
     model = models.Auction
 
+    def get(self, request, *args, **kwargs):
+        pass
+
 
 class SingleAuction(DetailView):
     queryset = models.Auction.objects.all()
