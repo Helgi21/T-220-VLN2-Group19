@@ -136,5 +136,6 @@ class ViewOffers(LoginRequiredMixin, ListView):
 
             return redirect(f'/offers/?received_offers')
 
-
+class Pay(View):
+    pass
 
