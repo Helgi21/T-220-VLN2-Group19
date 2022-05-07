@@ -1,5 +1,4 @@
-{% extends 'user/profile.html' %}
-{% block profile_main_page %}
+<div id="profile_info">
     <div class="user-profile-info">
         <img id="user-profile-picture" src="{{ user.profile.profile_picture }}">
 {#        <a id="user-profile-frst"></a>#}
@@ -18,4 +17,4 @@
             <button id="user-profile-ban-user">Ban User</button>
         {% endif %}
     </div>
-{% endblock %}
+</div>

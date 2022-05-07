@@ -11,7 +11,6 @@ let counter_offers = document.getElementsByClassName('modal_Counter')
 let counter_button = document.getElementsByClassName('button_counter_2')
 let regular_received_offer = document.getElementsByClassName('not_Counter_offer_from_user')
 let counter_received_offer = document.getElementsByClassName('Counter_offer_from_user')
-let pay_button = document.getElementsByClassName('pay_button_Accepted')
 
 for(let i = 0; i < pending_offers.length; i++){
     pending_offers[i].style.display = "block"
@@ -27,9 +26,6 @@ for(let i = 0; i < regular_received_offer.length; i++){
 }
 for(let i = 0; i < counter_received_offer.length; i++){
     counter_received_offer[i].style.display = "block"
-}
-for(let i = 0; i < pay_button.length; i++){
-    pay_button[i].style.display = "block"
 }
 
 function offers_rb(option){

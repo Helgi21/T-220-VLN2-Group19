@@ -117,9 +117,7 @@ class ViewOffers(LoginRequiredMixin, ListView):
             messages.success(request, f'Counter offer sent!')
 
             return redirect(f'/offers/?received_offers')
-        elif 'pay_for_auction' in request.POST:  # pay for offer
-            print('Pay for auction')
-            return redirect(f'/pay/?{{offer.id}}')
+
         else:  # Accept or decline only
             offer_response = request.POST['offer_response'].split('_')
 
