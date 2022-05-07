@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Register</h1>
+    <h1 id="register-title">Register</h1>
     <form class="form form-horizontal" action="{% url 'register' %}" method="post">
         {% csrf_token %}
         {{ form }}
