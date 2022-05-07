@@ -52,7 +52,7 @@ class Review(models.Model):
 
 
 class CardInfo(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="cards")
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     card_number = models.BigIntegerField(validators=[MinValueValidator(1000000000000000),
