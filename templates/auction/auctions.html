@@ -1,35 +1,53 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <h2>Auctions!</h2>
-    <a href="{% url 'auction:addAuction' %}" class="btn btn-info" role="button">Add Auction</a>
-    <div class="input-group">
-        <input id="search-box" type="search" placeholder="search.." class="form-control" />
+    <div class="input-group" style="width: 68%; margin: 10px;">
+        <a href="{% url 'auction:addAuction' %}" class="btn btn-info" role="button" style="border-radius: 0.25rem; height: 45px; margin: 24px 10px 0px 0px;">Add Auction</a>
+        <input id="search-box" style="  height: 45px; margin-top: 24px; border-radius: 0.25rem 0 0 0.25rem;" type="search" placeholder="search.." class="form-control" />
+        <ul style="margin-bottom:0; padding-left: 0px; height: 70px; width: 155px;">
+            <label>Order By</label>
+            <select id="order_by_select" style="height:45px; display: block; border-radius: 0;" class="form-select" aria-label="Order by select">
+                <option value="creation_time" selected>Newest &#10033;</option>
+                <option value="price">Lowest Price &#9046;</option>
+                <option value="title">Alphabet &#127312;</option>
+            </select>
+        </ul>
+        <ul style="margin-bottom:0; padding-left: 0px; height: 70px; width: 150px;">
+            <label>Direction</label>
+            <select id="direction_select" style="height:45px; display: block; border-radius: 0;" class="form-select" aria-label="Order by select">
+                <option value="desc" selected>Descending &#9660;</option>
+                <option value="asc">Ascending &nbsp;&nbsp;&#9650;</option>
+            </select>
+        </ul>
         <div class="input-group-btn">
-            <button type="button" id="search-btn" class="btn btn-default">Search</button>
+            <button type="button" id="search-btn" class="btn btn-primary" style="margin-top: 24px; height: 45px; border-radius: 0 0.25rem 0.25rem 0">Search</button>
         </div>
     </div>
-    <div id="auctions_container">
-        {% for auction in object_list %}
-            <style>
-                main div{
-                    border: 2px solid gray;
-                    margin: 5px auto;
-                    padding: 5px;
-                    width: 800px;
-                }
-                main img{
-                    width: 790px;
-                    height: 250px;
-                }
-            </style>
-            <a href="{% url 'auction:singleAuction' pk=auction.id %}">
-                <div class="well">
-                    <img src="{{ auction.images.first.link }}">
-                    <h3>{{ auction.title }}</h3>
+    <div id="main_auction_and_category_container" style="display: flex;">
+        <div id="auctions_container" style="display: flex; flex-wrap: wrap; width: 70%;">
+            {% for auction in object_list %}
+                <div class="card" style="width: 18rem; margin:5px auto;">
+                    <div class="card-header">
+                        <h5 style="font-weight: 400; line-height: 1.2;">{{ auction.title }}</h5>
+                    </div>
+                    <div style="height: 200px; text-align: center;"><img src="{{ auction.images.first.link }}" class="card-img-middle" alt="..." style="max-height: 100%; max-width: 100%;"></div>
+                    <div class="card-body">
+                        <h5 class="card-text">{{ auction.price }}<span style="font-size: 15px">Kr.</span></h5>
+                        <p> Posted: {{ auction.creation_time|date:'j M, Y - H:i:s' }}</p>
+                        <a href="{% url 'auction:singleAuction' pk=auction.id %}" class="btn btn-primary stretched_link">View Auction</a>
+                    </div>
                 </div>
-            </a>
-        {% endfor %}
+            {% endfor %}
+        </div>
+        <div id="category_container" style="width: 30%; margin:10px ;">
+            <h1 class="display-6">Categories</h1>
+            <ul id="category_list" class="list-group">
+                <li class="list-group-item active" data-catid="all">All</li>
+                {% for category in  categories%}
+                   <li class="list-group-item" aria-current="true" data-catid="{{ category.id }}">&nbsp;&nbsp;&nbsp;{{ category.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 
 {% endblock %}

@@ -22,15 +22,29 @@ class AllAuctions(ListView):
     def get(self, *args, **kwargs):
         search = self.request.GET.get('search')
         order_by = self.request.GET.get('order_by')
-        direction = self.request.GET.get('dir')
-        if search or order_by or direction:
-            if search:
-                if search == "*":
-                    search = ""
-            else:
+        direction = self.request.GET.get('direction')
+        category = self.request.GET.get('category')
+        if search and order_by and direction and category:
+            if search == "*":
                 search = ""
 
-            a = models.Auction.objects
+            dir_map = {
+                'asc': '',
+                'desc': '-'
+            }
+            if order_by == 'price' or order_by == 'title':
+                dir_map['asc'] = '-'
+                dir_map['desc'] = ''
+
+            direction = dir_map[direction]
+
+            if category == 'all':
+                a = models.Auction.objects.filter(title__icontains=search)
+                a = a.union(models.Auction.objects.filter(description__icontains=search))
+            else:
+                a = models.Auction.objects.filter(title__icontains=search, cat_id=category)
+                a = a.union(models.Auction.objects.filter(description__icontains=search, cat_id=category))
+            a = a.order_by(str(direction) + str(order_by))
             auctions = [{
                 'id': x.id,
                 'title': x.title,
@@ -40,7 +54,7 @@ class AllAuctions(ListView):
                 'user': x.user.id,
                 'first_pic': x.images.first().link,
                 'creation_time': x.creation_time
-            } for x in a.filter(title__icontains=search)]
+            } for x in a]
             return JsonResponse({"data": auctions})
         else:
             # ignore this warning
@@ -48,10 +62,15 @@ class AllAuctions(ListView):
             context = self.get_context_data()
             return self.render_to_response(context)
 
-
     def get_queryset(self):
-        qs = self.model.objects.all()
+        qs = self.model.objects.order_by('-creation_time')
         return qs
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data()
+        context['categories'] = models.Category.objects.all()
+        return context
+
 
 
 class SingleAuction(DetailView):
