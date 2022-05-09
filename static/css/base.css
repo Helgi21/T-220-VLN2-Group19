@@ -74,24 +74,102 @@ main {
 
 /* Register page style*/
 
-#register-title {
-  margin: 90px 0px 20px 40px
+.register-center {
+  position: absolute;
+  top: 10%;
+  left: 15%;
+  background: #fff;
+  width: 65%;
+  min-width: 400px;
+  padding: 40px;
 }
 
-.form {
-  margin: 40px 2% 80% 4%;
+.register-center #register-title {
+  font-size: 28px;
+  margin: 0 0 20px;
+  text-align: center;
 }
 
-.form input {
-  margin-bottom: 1.5%;
-  max-width: 600px;
-}
-
-.form label[for='id_email'] {
-  margin-top: 10px;
+.register-center input[type=text], input[type=password] {
+  outline: none;
   display: block;
+  width: 100%;
+  margin: 0 0 20px;
+  padding: 10px 15px;
+  border: 1px solid blue;
+  color: #ccc;
+  box-sizing: border-box;
+  font-size: 14px;
 }
 
-.form .btn {
-  position: relative;
+.register-center input[type=text], input[type=password]:focus {
+  color: #333;
+  border: 1px solid lightblue;
+}
+
+.register-center .btn {
+  cursor: pointer;
+  background: blue;
+  width: 100%;
+  padding: 10px 15px;
+  border: 0;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 20px;
+}
+
+/* Sign in style */
+
+.login-center {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  background: #fff;
+  width: 450px;
+  margin: 40px 0 0 -230px;
+  padding: 40px;
+  height: 500px;
+}
+
+.login-Title {
+  font-size: 26px;
+  margin: 0 0 20px;
+  text-align: center;
+}
+
+.login-center input[type=text], input[type=password] {
+  outline: none;
+  display: block;
+  width: 100%;
+  margin: 0 0 20px;
+  padding: 10px 15px;
+  border: 1px solid blue;
+  color: #ccc;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.login-center input[type=text], input[type=password]:focus {
+  color: #333;
+  border: 1px solid lightblue;
+}
+
+.login-center .btn {
+  cursor: pointer;
+    background: blue;
+    width: 100%;
+    padding: 10px 15px;
+    border: 0;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.login-center .btn:hover {
+  background: #369cb8;
+}
+
+#signup-btn {
+  margin-top: 40px;
 }
