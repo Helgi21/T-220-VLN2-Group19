@@ -167,6 +167,12 @@ class ViewOffers(LoginRequiredMixin, ListView):
 
             return redirect(f'/offers/?received_offers')
 
+
 class Pay(View):
-    pass
+    queryset = models.Offer.objects.all()
+    template_name = 'auction/pay.html'
+
+    def get_object(self, **kwargs):
+        obj = super().get_object()
+        return obj
 
