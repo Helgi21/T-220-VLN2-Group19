@@ -186,7 +186,7 @@ class ViewOffers(LoginRequiredMixin, ListView):
             return redirect(f'/offers/?received_offers')
 
 
-class Pay(DetailView):
+class Pay(LoginRequiredMixin, DetailView):
     model = Offer
     template_name = 'auction/pay.html'
 
@@ -208,6 +208,3 @@ class Pay(DetailView):
 
         messages.success(request, f'Payment sent!')
         return redirect(f'/offers')
-
-
-

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <h1>Purchases</h1>
+    <p>Auctions you have won</p>
+    {% for offer in object_list %}
+         <div class="card" style="margin: 10px;">
+            <div class="card-header">
+                <span style="font-weight: 400; line-height: 1.2; font-size: 1.25rem">
+                    {{ offer.auction.title }}
+                    {% if offer.status == 4 %}
+                        <b style="color: yellow; text-shadow: 0px 0px 1px black">Unpaid - Please pay now</b>
+                    {% elif offer.status == 5 %}
+                        <b style="color: green;">Paid!</b>
+                    {% endif %}
+                </span>
+            </div>
+            <div style="height: 200px; text-align: center;"><img src="{{ offer.auction.images.first.link }}" class="card-img-middle" alt="..." style="max-height: 100%; max-width: 100%;"></div>
+            <div class="card-body">
+                <h5 class="card-text">{% if offer.status == 5%}Paid price: {% endif %}{% if offer.status == 4%}Accepted price: {% endif %}{{ offer.price }}<span style="font-size: 15px">Kr.</span></h5>
+                <p> Posted: {{ offer.auction.creation_time|date:'j M, Y - H:i' }}<small style="font-size:15px">{{ offer.auction.creation_time|date:'.s' }}</small></p>
+                <a href="{% url 'auction:singleAuction' pk=offer.auction.id %}" class="btn btn-primary stretched_link">View Auction</a>
+                {% if offer.status == 4 %}
+                    <a href="{% url 'auction:pay' pk=offer.id %}" class="btn btn-success stretched_link">Pay</a>
+                {% elif offer.status == 5 %}
+                    <a href="" class="btn btn-info stretched_link">Rate Seller</a>
+                {% endif %}
+            </div>
+         </div>
+    {% endfor %}
+{% endblock %}
