@@ -41,6 +41,17 @@ ul.messages li.edit_form_msg_li ul li{
   background-color: darkred;
 }
 
+/* Navbar style */
+
+.navbar-user-profile-pic {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 3px;
+}
+
+
 /* The sidebar menu */
 .profile_container {
   display: flex;

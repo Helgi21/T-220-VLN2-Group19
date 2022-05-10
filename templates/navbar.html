@@ -7,7 +7,7 @@
           </button>
 
           {% if request.user.is_authenticated %}
-          <div style="float: right; margin-left: 70%">
+          <div style="float: right; margin-left: 60%">
               <div class="collapse navbar-collapse" id="notificationNavbar">
                 <ul class="navbar-nav">
                     <li class="nav-item">
@@ -19,12 +19,13 @@
           </div>
           {% endif %}
 
-          <div style="float:right; margin-right: 0%; margin-left: 20px;">
+          <div style="float:right; margin-right: 20px; margin-left: 15px;">
           {% if request.user.is_authenticated %}
               <div class="collapse navbar-collapse" id="profileNavbarDropdown">
                   <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                       <a class="nav-link dropdown-toggle" href="" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          <img class="navbar-user-profile-pic" src="{{ request.user.profile.profile_picture }}">
                           {{ request.user.username }}
                       </a>
                       <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
