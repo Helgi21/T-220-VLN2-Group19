@@ -1,22 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
-    {% for image in auction.images.all %}
-        <img src="{{ image.link }}">
-    {% endfor %}
+    <div class="single-auction-main-section">
+{#        <div class="single-auction-img-container">#}
+        {% for image in auction.images.all %}
+            <img src="{{ image.link }}">
+        {% endfor %}
+{#        </div>#}
+        <div class="single-auction-main-info">
+            <h1 class="single-auction-title">{{ auction.title }}</h1>
+            <p class="single-auction-description">{{ auction.description }}</p>
+        </div>
+        <h4 class="single-auction-price">Price: {{ auction.price }} kr </h4>
+        <p class="single-auction-small-info-section">
+            <span> Seller: {{ auction.user.username }} </span>
+            <span>Location: {{ auction.loc.name }} </span>
+            <span>Category: {{ auction.cat.name }} </span>
+        </p>
 
-    <h1>{{ auction.title }}</h1>
-    <p>{{ auction.description }}</p>
-    <h4>{{ auction.price }}kr </h4>
-    <p>
-        <span> Seller: {{ auction.user.username }} </span>
-        <span>Location: {{ auction.loc.name }} </span>
-        <span>Category: {{ auction.cat.name }} </span>
-    </p>
+        <span class="single-auction-condition">Condition: {{ auction.condition }}</span>
 
-    <!-- Make offer button -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#offerModal">
-        Make offer
-    </button>
+        <div class="single-auction-btn-section">
+            {% if request.user.username != auction.user.username %}
+            <!-- Make offer button -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#offerModal">
+                Make offer
+            </button>
+            {% endif %}
+
+            {% if request.user.username == auction.user.username %}
+                <button type="button" class="btn btn-primary">Edit Info</button>
+            {% endif %}
+        </div>
+    </div>
+
     <!-- Make offer Modal -->
     <div class="modal fade" id="offerModal" tabindex="-1" role="dialog" aria-labelledby="offerModalLabel"
          aria-hidden="true">
@@ -40,6 +56,6 @@
             </div>
         </div>
     </div>
-</div>
+
 
 {% endblock %}
