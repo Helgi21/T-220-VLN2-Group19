@@ -1,7 +1,37 @@
 {% extends "base.html" %}
 {% block content %}
-    <input class="form-control" type="text" placeholder="Readonly input here…" readonly>
+    <form>
+        <label for="price" >Price</label>
+        <input class="form-control" id="price" type="text" placeholder="500" readonly>
+        <div class="row">
+        <div class="row" id="first_last_name">
+            <div class="col">
+              <input type="text" class="form-control" placeholder="First name" id="first_name">
+            </div>
+            <div class="col">
+              <input type="text" class="form-control" placeholder="Last name" id="last_name">
+            </div>
+        </div>
+        <div class="row" id="credit_card_cvc">
+            <div class="col">
+              <input type="text" class="form-control" placeholder="Credit Card Number" id="card_number">
+            </div>
+            <div class="col">
+              <input type="text" class="form-control" placeholder="CVC" id="cvc">
+            </div>
+        </div>
+        <label for="month_year" >Expiration date</label>
+        <div class="row" id="month_year">
+            <div class="col">
+              <input type="text" class="form-control" placeholder="Month" id="month">
+            </div>
+            <div class="col">
+              <input type="text" class="form-control" placeholder="Year" id="year">
+            </div>
+        </div>
 
 
-    <script src="{% static 'js/pay.js' %}"></script>
+    </form>
+
+{#    <script src="{% static 'js/pay.js' %}"></script>#}
 {% endblock %}
