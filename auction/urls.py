@@ -8,5 +8,5 @@ urlpatterns = [
     path('<int:pk>/', views.SingleAuction.as_view(), name="singleAuction"),
     path('add_auction/', views.AddAuction.as_view(), name="addAuction"),
     path('offers/', views.ViewOffers.as_view(), name="offers"),
-    path('pay/<int:id>', views.Pay.as_view(), name="pay"),
+    path('pay/<int:pk>/', views.Pay.as_view(), name="pay"),
 ]
