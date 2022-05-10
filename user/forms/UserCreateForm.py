@@ -16,6 +16,7 @@ class UserCreateForm(UserCreationForm, forms.Form):
         fields = ("username", "email", "first_name", "last_name")
 
     def clean(self):
+        super().clean()
         try:
             email = self.cleaned_data['email'].lower()
         except KeyError:

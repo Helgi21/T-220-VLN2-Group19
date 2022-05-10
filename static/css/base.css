@@ -113,12 +113,13 @@ ul.messages li.edit_form_msg_li ul li{
   width: 50%;
 }
 
-
-
 /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
   .sidenav a {font-size: 18px;}
 }
+
+/* Some of the auction list styles - other styles in the list still need to be moved other */
+/*@media screen and ()
 
 /* Register page style*/
 

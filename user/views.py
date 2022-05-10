@@ -94,7 +94,7 @@ class Register(View):
             messages.success(request, 'Account created successfully')
             return redirect('/login/')
         else:
-            messages.error(request, 'invalid registration details')
+            # messages.error(request, 'invalid registration details')
             return render(request, 'user/register.html', {
                 'form': UsCrF.UserCreateForm(data=request.POST)
             })
