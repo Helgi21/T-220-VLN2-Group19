@@ -200,6 +200,14 @@ class Pay(DetailView):
         offer_instance.status = 5
         offer_instance.save()
 
+        offers_to_update = Offer.objects.all()
+        for offer in offers_to_update:
+            if offer.id != pk and offer.auction == offer_instance.auction:
+                offer.status = 3
+                offer.save()
+
         messages.success(request, f'Payment sent!')
         return redirect(f'/offers')
+
+
 
