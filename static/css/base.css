@@ -353,7 +353,7 @@ ul.messages li.edit_form_msg_li ul li{
   position: absolute;
   margin: 60px 1% 20px;
   width: 98%;
-  min-height: 340px;
+  min-height: 370px;
   min-width: 1140px;
   border: 1px solid lightgrey;
   padding: 12px 15px;
@@ -402,6 +402,8 @@ ul.messages li.edit_form_msg_li ul li{
 
 .single-auction-condition {
   margin-left: 25px;
+  margin-top: -10px;
+  margin-bottom: 18px;
 }
 
 .single-auction-img-container {
@@ -415,7 +417,22 @@ ul.messages li.edit_form_msg_li ul li{
 }
 
 .single-auction-main-info {
-  /*border: 1px solid red;*/
   height: 219px;
   margin: 0 240px 0 385px;
+}
+
+.single-auction-highest-offer {
+  margin-left: 19px;
+  text-decoration: underline;
+}
+
+#single-auction-btn-sold {
+  background-color: grey;
+  color: white;
+}
+
+.single-auction-accepted_offer-info {
+  margin-top: 10px;
+  margin-left: 4px;
+  font-size: 18px;
 }
