@@ -41,18 +41,21 @@ queries = {
 url = window.location.href.split("?")
 if (url.length > 1){
     url = url[1].split("&")
-    if(url.length > 1){
-        if(url[1] === "error"){
-            // TODO: make compatible with more errors if needed (cards)
-            messageElement.innerHTML = "Failed to update user data (wrong format on either birthday or email)";
+    if(url.length > 1){/*
+        if(message[0] === "error"){
+            messageElement.innerHTML = message[1]
             messageElement.style.display = "inline-block";
             messageElement.style.color = "red";
+            // TODO: make compatible with more errors if needed (cards)
+            //messageElement.innerHTML = "Failed to update user data (wrong format on either birthday or email)";
+            //messageElement.style.display = "inline-block";
+            //messageElement.style.color = "red";
         }
-        if(url[1] === "success"){
+        if(message[0] === "success"){
             messageElement.innerHTML = "User data successfully updated!";
             messageElement.style.display = "inline-block";
             messageElement.style.color = "green";
-        }
+        }*/
     }
     if (queries.hasOwnProperty(url[0])){
         queries[url[0]]()
@@ -64,4 +67,13 @@ if (url.length > 1){
     showInfo()
 }
 
+let label = $("label[for='id_bio']")
+let bio = $("#id_bio")
+let bio_counter = $("<span id='bio_counter' style='font-size:10px; padding-left: 10px;'>")
+bio_counter.text("Characters left: " + (255 - bio.val().length));
+label.append(bio_counter)
+
+bio.keyup(function(){
+    bio_counter.text("Characters left: " + (255 - $(this).val().length));
+});
 

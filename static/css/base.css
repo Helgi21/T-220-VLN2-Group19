@@ -4,6 +4,42 @@ body{
 main {
   margin-top: 65px;
 }
+ul.messages li{
+  text-align: center;
+  list-style-type: none;
+  width: 30%;
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  margin-top: 12px;
+  background-color: lightblue;
+  border-radius: 0.25rem;
+}
+ul.messages li.error{
+  background-color: darkred;
+}
+ul.messages li.success{
+  background-color: darkgreen;
+}
+ul.messages li.warning{
+  background-color: yellow;
+}
+
+.errorlist li{
+  color: red;
+  font-weight: bold;
+}
+
+ul.messages li.edit_form_msg_li{
+  background-color: inherit;
+}
+
+ul.messages li.edit_form_msg_li ul li{
+  text-align: left;
+  list-style-type: square;
+  width: 100%;
+  background-color: darkred;
+}
 
 /* The sidebar menu */
 .profile_container {
@@ -36,36 +72,48 @@ main {
   width: 100%;
 }
 
+.user-profile-info{
+  margin: 10px;
+}
+
 #user-profile-picture {
   width: 180px;
   height: 180px;
   object-fit: cover;
   border-radius: 50%;
-
-  margin: 35px 0px 20px 30px;
+  margin: 35px 0 20px 30px;
+  border: 1px solid black;
 }
 
 #user-profile-username {
-  position: absolute;
   margin: 98px 3% 3% 3%;
   font-size: 35px;
 }
 
 .user-profile-small-info {
   margin: 20px 20px 20px 50px;
+  display: inline-block;
+  flex-shrink: 0;
 }
 
 .user-profile-small-info a {
   font-size: 20px;
-  margin: 10px 0px 0px 0px;
+  margin: 0 1px 15px 0;
   display: block;
 }
 
-.user-profile-other-buttons {
-  position: absolute;
-  right: 6%;
-  top: 70px;
+#profile_lower_container{
+  display: flex;
+  justify-content: space-between;
 }
+
+#profile_bio{
+  display: inline-block;
+  margin: 20px 20px 0 0;
+  width: 50%;
+}
+
+
 
 /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {

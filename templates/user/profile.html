@@ -4,10 +4,18 @@
     <div class="profile_container">
         <div class="sidenav">
             {% if request.user.username == user.username %}
-            <a href="./?profile_info">Profile</a>
-            <a href="./?profile_edit">Edit Info</a>
-            <a href="./?payment_options">Payment Options</a>
-            <a href="" id="deactivate" style="color: red; padding-top: 80%">Deactivate Account</a>
+                <a href="./?profile_info">Profile</a>
+                <a href="./?profile_edit">Edit Info</a>
+                <a href="./?payment_options">Payment Options</a>
+                <a href="" id="deactivate" style="color: red; padding-top: 80%">Deactivate Account</a>
+            {% else %}
+                {%  if request.user.username != user.username %}
+                    <a id="user-profile-report-user" href="#" class="text-danger">Report User</a>
+                {% endif %}
+                {% if request.user.is_superuser %}
+                    <a id="user-profile-ban-user" href="#" class="text-danger">Ban User</a>
+                    <a id="user-profile-ban-user" href="#" class="text-danger">Make Admin</a>
+                {% endif %}
             {% endif %}
         </div>
 
@@ -20,5 +28,4 @@
             {% endif %}
         </div>
     </div>
-    <script type="text/javascript" src="{% static 'js/profile.js' %}"></script>
 {% endblock %}

@@ -1,20 +1,33 @@
 <div id="profile_info">
-    <div class="user-profile-info">
-        <img id="user-profile-picture" src="{{ user.profile.profile_picture }}">
-{#        <a id="user-profile-frst"></a>#}
-        <a id="user-profile-username">{{ user.username }}</a>
-        <div class="user-profile-small-info">
-            <a id="user-profile-joined">Joined</a>
-            <a id="user-profile-email">email: </a>
-            <a id="user-profile-born">{{ user.profile.birthday }}</a>
+    <div class="user-profile-info card">
+        <div id="img_username_container">
+            {% if not user.profile.profile_picture %}
+                <img id="user-profile-picture" src="https://www.cmcaindia.org/wp-content/uploads/2015/11/default-profile-picture-gmail-2.png">
+            {% else %}
+                <img id="user-profile-picture" src="{{ user.profile.profile_picture }}">
+            {% endif %}
+            <a id="user-profile-username">{{ user.username }}</a>
         </div>
-    </div>
-    <div class="user-profile-other-buttons">
-        {%  if request.user.username != user.username %}
-            <button id="user-profile-report-user">Report User</button>
-        {% endif %}
-        {% if request.user.is_superuser %} {# Change this depending on what is we are gonna use #}
-            <button id="user-profile-ban-user">Ban User</button>
-        {% endif %}
+        <div id="profile_lower_container">
+            <div class="user-profile-small-info">
+                <a><b>{{ user.first_name }} {{ user.last_name }}</b></a>
+                <label>Joined</label>
+                <a id="user-profile-joined">{{ user.date_joined|date:'j M, Y - H:i' }}<small style="font-size:15px">{{ user.date_joined|date:'.s' }}</small></a>
+                <label>Email</label>
+                <a id="user-profile-email">{{ user.email }}</a>
+                <label>Birthday</label>
+                {% if not user.profile.birthday %}
+                    <a id="user-profile-born">Unknown</a>
+                {% else %}
+                    <a id="user-profile-born">{{ user.profile.birthday }}</a>
+                {% endif %}
+            </div>
+            <div id="profile_bio">
+                {% if user.profile.bio %}
+                    <label><b>Bio</b></label>
+                    <p>{{ user.profile.bio }}</p>
+                {% endif %}
+            </div>
+        </div>
     </div>
 </div>

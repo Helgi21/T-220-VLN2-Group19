@@ -33,7 +33,7 @@
                     <div style="height: 200px; text-align: center;"><img src="{{ auction.images.first.link }}" class="card-img-middle" alt="..." style="max-height: 100%; max-width: 100%;"></div>
                     <div class="card-body">
                         <h5 class="card-text">{{ auction.price }}<span style="font-size: 15px">Kr.</span></h5>
-                        <p> Posted: {{ auction.creation_time|date:'j M, Y - H:i:s' }}</p>
+                        <p> Posted: {{ auction.creation_time|date:'j M, Y - H:i' }}<small style="font-size:15px">{{ auction.creation_time|date:'.s' }}</small></p>
                         <a href="{% url 'auction:singleAuction' pk=auction.id %}" class="btn btn-primary stretched_link">View Auction</a>
                     </div>
                 </div>
