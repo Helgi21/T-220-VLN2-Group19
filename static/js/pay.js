@@ -1,8 +1,6 @@
-
-
 function validateCard(numb) {
     const validCardNumber = numb => {
-        const regex = new RegExp("^[0-9]{13,19}$");
+        const regex = new RegExp("^[/d]{13,19}$");
         if (!regex.test(numb)) {
             return false;
         }
@@ -42,17 +40,17 @@ function validateForm() {
     let first_name_contact = document.getElementById('contact_first').value;
     let last_name_contact = document.getElementById('contact_second').value;
     let street = document.getElementById('street').value;
-    let house_number = document.getElementById('house_number').value
-    let postal_code = document.getElementById('postal_code').value
-    let city = document.getElementById('city').value
-    let country = document.getElementById('country').value
+    let house_number = document.getElementById('house_number').value;
+    let postal_code = document.getElementById('postal_code').value;
+    let city = document.getElementById('city').value;
+    let country = document.getElementById('country').value;
 
     if (first_name === "") {
         alert("First name must be filled out");
         return false;
     }
     else if (hasNumber.test(first_name)){
-        alert("First name must not contain number")
+        alert("First name must not contain number");
         return false;
     }
 
@@ -61,25 +59,28 @@ function validateForm() {
         return false;
     }
     else if (hasNumber.test(last_name)){
-        alert("Last name must not contain number")
+        alert("Last name must not contain number");
         return false;
     }
 
     if (validateCard(card_number) === false) {
-        alert ("Credit card number invalid")
+        alert ("Credit card number invalid");
         return false;
     }
 
     if (cvc.length !== 3 && hasNonNumber.test(cvc) === false){
-        alert("CVC must be 3 digits")
+        alert("CVC must be 3 digits");
+        return false;
     }
 
     if (month.length !== 2 && hasNonNumber.test(month) === false){
-        alert("CVC must be 3 digits")
+        alert("Month must be 2 digits")
+        return false;
     }
 
     if (year.length !== 2 && hasNonNumber.test(year) === false){
-        alert("CVC must be 3 digits")
+        alert("year must be 4 digits")
+        return false;
     }
 
     if (first_name_contact === "") {
@@ -92,11 +93,11 @@ function validateForm() {
     }
 
     if (last_name_contact === "") {
-        alert("Contact last must be filled out");
+        alert("Contact last name must be filled out");
         return false;
     }
     else if (hasNumber.test(last_name_contact)){
-        alert("Contact last must not contain number")
+        alert("Contact last name must not contain number")
         return false;
     }
 
