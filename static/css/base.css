@@ -119,7 +119,119 @@ ul.messages li.edit_form_msg_li ul li{
 }
 
 /* Some of the auction list styles - other styles in the list still need to be moved other */
-/*@media screen and ()
+#auctions_container div.card{
+  min-width: 18rem;
+  width: 33%;
+  margin:5px auto;
+}
+
+@media screen and (min-width: 700px){
+  #search_container {
+  width: 68%;
+  margin: 10px;
+  }
+
+  #search_container a{
+    border-radius: 0.25rem;
+    height: 45px;
+    margin: 24px 10px 0 0;
+  }
+
+  #search_container input#search-box{
+    height: 45px;
+    margin-top: 24px;
+    border-radius: 0.25rem 0 0 0.25rem;
+  }
+
+  #search_container #orderby_drop, #direction_drop{
+    margin-bottom:0;
+    padding-left: 0;
+    height: 70px;
+    width: 155px;
+  }
+  #search_container #order_by_select, #search_container #direction_select{
+    height: 45px;
+    display: block;
+    border-radius: 0;
+  }
+
+  #search_container #search-btn{
+    margin-top: 24px;
+    height: 45px;
+    border-radius: 0 0.25rem 0.25rem 0
+  }
+}
+
+
+@media screen and (max-width: 1274px) {
+  #auctions_container div.card{
+    min-width: 18rem;
+    width: 50%;
+    margin:5px auto;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  #search_container{
+    width: 95%;
+  }
+}
+
+@media screen and (max-width: 860px){
+  #auctions_container div.card{
+    min-width: 18rem;
+    width: 100%;
+    margin:5px auto;
+  }
+}
+
+@media screen and (max-width: 700px){
+  #search_container{
+    flex-wrap: wrap;
+    width: 98%;
+    margin: 0 auto;
+  }
+  #search_container input{
+    margin: 5px 0 0 0;
+    border-radius: 0.25rem;
+    height: 39px;
+  }
+  #search_container #orderby_drop, #direction_drop{
+    width: 100%;
+    display: flex;
+    padding-left: 0;
+  }
+  #search_container #orderby_drop{
+    margin-top: 10px;
+    margin-bottom: -1px;
+    height: 44px;
+  }
+  #search_container ul label{
+    width: 80px;
+    padding-top: 7px;
+  }
+  #orderby_drop select{
+    border-radius: 0.25rem 0.25rem 0 0;
+  }
+  #direction_drop select{
+    border-radius: 0 0 0.25rem 0.25rem;
+  }
+  #search_container a{
+    width: 30%;
+    margin: 5px 5px 5px 0;
+    border-radius: 0.25rem;
+  }#search_container input#search-box{
+    width: 65%;
+  }
+  #search_container div.input-group-btn{
+    width: 100%;
+    height: 60px;
+  }
+  #search-btn{
+    margin: 0;
+    width: 100%;
+  }
+}
 
 /* Register page style*/
 

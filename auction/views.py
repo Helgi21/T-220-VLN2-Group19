@@ -40,11 +40,12 @@ class AllAuctions(ListView):
             direction = dir_map[direction]
 
             if category == 'all':
-                a = models.Auction.objects.filter(title__icontains=search)
-                a = a.union(models.Auction.objects.filter(description__icontains=search))
+                a = models.Auction.objects.filter(title__icontains=search).exclude(offer__status__in=[4, 5])
+                a = a.union(models.Auction.objects.filter(description__icontains=search).exclude(offer__status__in=[4, 5]))
             else:
-                a = models.Auction.objects.filter(title__icontains=search, cat_id=category)
-                a = a.union(models.Auction.objects.filter(description__icontains=search, cat_id=category))
+                a = models.Auction.objects.filter(title__icontains=search, cat_id=category).exclude(offer__status__in=[4, 5])
+                a = a.union(models.Auction.objects.filter(description__icontains=search, cat_id=category).exclude(offer__status__in=[4, 5]))
+            print(a)
             a = a.order_by(str(direction) + str(order_by))
             auctions = [{
                 'id': x.id,
@@ -64,7 +65,7 @@ class AllAuctions(ListView):
             return self.render_to_response(context)
 
     def get_queryset(self):
-        qs = self.model.objects.order_by('-creation_time')
+        qs = self.model.objects.exclude(offer__status__in=[4, 5]).order_by('-creation_time')
         return qs
 
     def get_context_data(self, *args, **kwargs):
