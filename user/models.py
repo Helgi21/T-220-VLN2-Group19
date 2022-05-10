@@ -19,8 +19,9 @@ class User(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    profile_picture = models.CharField(max_length=999)
-    birthday = models.DateField()
+    profile_picture = models.CharField(max_length=999, null=True)
+    birthday = models.DateField(null=True)
+    bio = models.CharField(max_length=255, null=True)
     # 0-10, 0 = 0 star, 5 = 2.5 star, 10 = 5 star
     rating = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(10)])
 

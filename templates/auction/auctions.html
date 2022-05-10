@@ -1,39 +1,39 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <div class="input-group" style="width: 68%; margin: 10px;">
-        <a href="{% url 'auction:addAuction' %}" class="btn btn-info" role="button" style="border-radius: 0.25rem; height: 45px; margin: 24px 10px 0px 0px;">Add Auction</a>
-        <input id="search-box" style="  height: 45px; margin-top: 24px; border-radius: 0.25rem 0 0 0.25rem;" type="search" placeholder="search.." class="form-control" />
-        <ul style="margin-bottom:0; padding-left: 0px; height: 70px; width: 155px;">
+    <div id="search_container" class="input-group">
+        <a href="{% url 'auction:addAuction' %}" class="btn btn-info" role="button">Add Auction</a>
+        <input id="search-box" type="search" placeholder="search.." class="form-control" />
+        <ul id="orderby_drop">
             <label>Order By</label>
-            <select id="order_by_select" style="height:45px; display: block; border-radius: 0;" class="form-select" aria-label="Order by select">
+            <select id="order_by_select" class="form-select" aria-label="Order by select">
                 <option value="creation_time" selected>Newest &#10033;</option>
                 <option value="price">Lowest Price &#9046;</option>
                 <option value="title">Alphabet &#127312;</option>
             </select>
         </ul>
-        <ul style="margin-bottom:0; padding-left: 0px; height: 70px; width: 150px;">
+        <ul id="direction_drop">
             <label>Direction</label>
-            <select id="direction_select" style="height:45px; display: block; border-radius: 0;" class="form-select" aria-label="Order by select">
+            <select id="direction_select" class="form-select" aria-label="Order by select">
                 <option value="desc" selected>Descending &#9660;</option>
                 <option value="asc">Ascending &nbsp;&nbsp;&#9650;</option>
             </select>
         </ul>
         <div class="input-group-btn">
-            <button type="button" id="search-btn" class="btn btn-primary" style="margin-top: 24px; height: 45px; border-radius: 0 0.25rem 0.25rem 0">Search</button>
+            <button type="button" id="search-btn" class="btn btn-primary">Search</button>
         </div>
     </div>
     <div id="main_auction_and_category_container" style="display: flex;">
         <div id="auctions_container" style="display: flex; flex-wrap: wrap; width: 70%;">
             {% for auction in object_list %}
-                <div class="card" style="width: 18rem; margin:5px auto;">
+                <div class="card">
                     <div class="card-header">
                         <h5 style="font-weight: 400; line-height: 1.2;">{{ auction.title }}</h5>
                     </div>
                     <div style="height: 200px; text-align: center;"><img src="{{ auction.images.first.link }}" class="card-img-middle" alt="..." style="max-height: 100%; max-width: 100%;"></div>
                     <div class="card-body">
                         <h5 class="card-text">{{ auction.price }}<span style="font-size: 15px">Kr.</span></h5>
-                        <p> Posted: {{ auction.creation_time|date:'j M, Y - H:i:s' }}</p>
+                        <p> Posted: {{ auction.creation_time|date:'j M, Y - H:i' }}<small style="font-size:15px">{{ auction.creation_time|date:'.s' }}</small></p>
                         <a href="{% url 'auction:singleAuction' pk=auction.id %}" class="btn btn-primary stretched_link">View Auction</a>
                     </div>
                 </div>

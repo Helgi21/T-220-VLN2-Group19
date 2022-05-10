@@ -13,6 +13,7 @@ from django.http import Http404
 
 
 # Create your views here.
+from .models import Offer
 
 
 class AllAuctions(ListView):
@@ -39,11 +40,12 @@ class AllAuctions(ListView):
             direction = dir_map[direction]
 
             if category == 'all':
-                a = models.Auction.objects.filter(title__icontains=search)
-                a = a.union(models.Auction.objects.filter(description__icontains=search))
+                a = models.Auction.objects.filter(title__icontains=search).exclude(offer__status__in=[4, 5])
+                a = a.union(models.Auction.objects.filter(description__icontains=search).exclude(offer__status__in=[4, 5]))
             else:
-                a = models.Auction.objects.filter(title__icontains=search, cat_id=category)
-                a = a.union(models.Auction.objects.filter(description__icontains=search, cat_id=category))
+                a = models.Auction.objects.filter(title__icontains=search, cat_id=category).exclude(offer__status__in=[4, 5])
+                a = a.union(models.Auction.objects.filter(description__icontains=search, cat_id=category).exclude(offer__status__in=[4, 5]))
+            print(a)
             a = a.order_by(str(direction) + str(order_by))
             auctions = [{
                 'id': x.id,
@@ -63,14 +65,13 @@ class AllAuctions(ListView):
             return self.render_to_response(context)
 
     def get_queryset(self):
-        qs = self.model.objects.order_by('-creation_time')
+        qs = self.model.objects.exclude(offer__status__in=[4, 5]).order_by('-creation_time')
         return qs
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data()
         context['categories'] = models.Category.objects.all()
         return context
-
 
 
 class SingleAuction(DetailView):
@@ -155,9 +156,7 @@ class ViewOffers(LoginRequiredMixin, ListView):
 
     def post(self, request):
         if 'counter_offer_id' in request.POST:  # Counter offer only
-            print("in if")
             offer_id = request.POST['counter_offer_id']
-            print(offer_id)
             offer_price = request.POST['counter_offer_price']
 
             offer = models.Offer.objects.get(id=offer_id)
@@ -186,6 +185,29 @@ class ViewOffers(LoginRequiredMixin, ListView):
 
             return redirect(f'/offers/?received_offers')
 
-class Pay(View):
-    pass
+
+class Pay(DetailView):
+    model = Offer
+    template_name = 'auction/pay.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['auction'] = self.object.auction
+        return context
+
+    def post(self, request, pk):
+        offer_instance = Offer.objects.get(id=pk)
+        offer_instance.status = 5
+        offer_instance.save()
+
+        offers_to_update = Offer.objects.all()
+        for offer in offers_to_update:
+            if offer.id != pk and offer.auction == offer_instance.auction:
+                offer.status = 3
+                offer.save()
+
+        messages.success(request, f'Payment sent!')
+        return redirect(f'/offers')
+
+
 

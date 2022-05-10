@@ -23,7 +23,7 @@
                         <h4> Offer: {{ offer.price }} kr.</h4>
                         <h4> {{ offer.get_status }}</h4>
                         <div class="pay_button_{{ offer.get_status }}" style="display: none;">
-                            <button class="btn btn-success" onclick="window.location.href='{% url 'auction:pay' id=offer.id %}}'">Pay now</button>
+                            <button class="btn btn-success" onclick="window.location.href='{% url "auction:pay" pk=offer.id %}'">Pay now</button>
                         </div>
                     </div>
                 </div>

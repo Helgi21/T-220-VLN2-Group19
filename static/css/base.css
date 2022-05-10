@@ -4,6 +4,42 @@ body{
 main {
   margin-top: 65px;
 }
+ul.messages li{
+  text-align: center;
+  list-style-type: none;
+  width: 30%;
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  margin-top: 12px;
+  background-color: lightblue;
+  border-radius: 0.25rem;
+}
+ul.messages li.error{
+  background-color: darkred;
+}
+ul.messages li.success{
+  background-color: darkgreen;
+}
+ul.messages li.warning{
+  background-color: yellow;
+}
+
+.errorlist li{
+  color: red;
+  font-weight: bold;
+}
+
+ul.messages li.edit_form_msg_li{
+  background-color: inherit;
+}
+
+ul.messages li.edit_form_msg_li ul li{
+  text-align: left;
+  list-style-type: square;
+  width: 100%;
+  background-color: darkred;
+}
 
 /* The sidebar menu */
 .profile_container {
@@ -36,40 +72,165 @@ main {
   width: 100%;
 }
 
+.user-profile-info{
+  margin: 10px;
+}
+
 #user-profile-picture {
   width: 180px;
   height: 180px;
   object-fit: cover;
   border-radius: 50%;
-
-  margin: 35px 0px 20px 30px;
+  margin: 35px 0 20px 30px;
+  border: 1px solid black;
 }
 
 #user-profile-username {
-  position: absolute;
   margin: 98px 3% 3% 3%;
   font-size: 35px;
 }
 
 .user-profile-small-info {
   margin: 20px 20px 20px 50px;
+  display: inline-block;
+  flex-shrink: 0;
 }
 
 .user-profile-small-info a {
   font-size: 20px;
-  margin: 10px 0px 0px 0px;
+  margin: 0 1px 15px 0;
   display: block;
 }
 
-.user-profile-other-buttons {
-  position: absolute;
-  right: 6%;
-  top: 70px;
+#profile_lower_container{
+  display: flex;
+  justify-content: space-between;
+}
+
+#profile_bio{
+  display: inline-block;
+  margin: 20px 20px 0 0;
+  width: 50%;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
   .sidenav a {font-size: 18px;}
+}
+
+/* Some of the auction list styles - other styles in the list still need to be moved other */
+#auctions_container div.card{
+  min-width: 18rem;
+  width: 33%;
+  margin:5px auto;
+}
+
+@media screen and (min-width: 700px){
+  #search_container {
+  width: 68%;
+  margin: 10px;
+  }
+
+  #search_container a{
+    border-radius: 0.25rem;
+    height: 45px;
+    margin: 24px 10px 0 0;
+  }
+
+  #search_container input#search-box{
+    height: 45px;
+    margin-top: 24px;
+    border-radius: 0.25rem 0 0 0.25rem;
+  }
+
+  #search_container #orderby_drop, #direction_drop{
+    margin-bottom:0;
+    padding-left: 0;
+    height: 70px;
+    width: 155px;
+  }
+  #search_container #order_by_select, #search_container #direction_select{
+    height: 45px;
+    display: block;
+    border-radius: 0;
+  }
+
+  #search_container #search-btn{
+    margin-top: 24px;
+    height: 45px;
+    border-radius: 0 0.25rem 0.25rem 0
+  }
+}
+
+
+@media screen and (max-width: 1274px) {
+  #auctions_container div.card{
+    min-width: 18rem;
+    width: 50%;
+    margin:5px auto;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  #search_container{
+    width: 95%;
+  }
+}
+
+@media screen and (max-width: 860px){
+  #auctions_container div.card{
+    min-width: 18rem;
+    width: 100%;
+    margin:5px auto;
+  }
+}
+
+@media screen and (max-width: 700px){
+  #search_container{
+    flex-wrap: wrap;
+    width: 98%;
+    margin: 0 auto;
+  }
+  #search_container input{
+    margin: 5px 0 0 0;
+    border-radius: 0.25rem;
+    height: 39px;
+  }
+  #search_container #orderby_drop, #direction_drop{
+    width: 100%;
+    display: flex;
+    padding-left: 0;
+  }
+  #search_container #orderby_drop{
+    margin-top: 10px;
+    margin-bottom: -1px;
+    height: 44px;
+  }
+  #search_container ul label{
+    width: 80px;
+    padding-top: 7px;
+  }
+  #orderby_drop select{
+    border-radius: 0.25rem 0.25rem 0 0;
+  }
+  #direction_drop select{
+    border-radius: 0 0 0.25rem 0.25rem;
+  }
+  #search_container a{
+    width: 30%;
+    margin: 5px 5px 5px 0;
+    border-radius: 0.25rem;
+  }#search_container input#search-box{
+    width: 65%;
+  }
+  #search_container div.input-group-btn{
+    width: 100%;
+    height: 60px;
+  }
+  #search-btn{
+    margin: 0;
+    width: 100%;
+  }
 }
 
 /* Register page style*/

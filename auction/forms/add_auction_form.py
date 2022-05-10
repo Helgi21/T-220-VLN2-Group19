@@ -12,4 +12,4 @@ class AddAuctionForm(Form):
     cat = forms.ModelChoiceField(queryset=Category.objects.all())
 
     image = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    #tag = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    condition = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
