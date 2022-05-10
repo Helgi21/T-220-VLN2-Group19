@@ -31,6 +31,7 @@
                       <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                           <li><a class="dropdown-item" href="{% url 'user_profile' %}">Profile</a></li>
                           <li><a class="dropdown-item" href="{% url 'auction:offers' %}">Offers</a></li>
+                          <li><a class="dropdown-item" href="{% url 'myAuctions' %}">My Auctions</a></li>
                           <li><a class="dropdown-item" href="{% url 'sales' %}">Sales</a></li>
                           <li><a class="dropdown-item" href="{% url 'purchases' %}">Purchases</a></li>
                           {% if request.user.is_superuser %}

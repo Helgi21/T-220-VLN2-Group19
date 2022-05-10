@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <h1>My Sales</h1>
+    <p>Items you have sold that either only have an accepted offer or are fully paid</p>
+    {% if object_list|length < 1 %}
+        <h3>No items sold!</h3>
+    {% endif %}
+    {% for offer in object_list %}
+         <div class="card">
+            <div class="card-header">
+                <h5 style="font-weight: 400; line-height: 1.2;">
+                    {{ offer.auction.title }} -
+                    {% if offer.status == 4 %}
+                        <b style="color: yellow; text-shadow: 0 0 1px black">Buyer has not yet paid</b>
+                    {% elif offer.status == 5 %}
+                        <b style="color: green;">Buyer has paid!</b>
+                    {% endif %}
+                </h5>
+            </div>
+            <div style="height: 200px; text-align: center;"><img src="{{ offer.auction.images.first.link }}" class="card-img-middle" alt="..." style="max-height: 100%; max-width: 100%;"></div>
+            <div class="card-body">
+                <h5 class="card-text">Accepted Price: {{ offer.price }}<span style="font-size: 15px">Kr.</span></h5>
+                <p> Posted: {{ offer.auction.creation_time|date:'j M, Y - H:i' }}<small style="font-size:15px">{{ offer.auction.creation_time|date:'.s' }}</small></p>
+                <a href="{% url 'auction:singleAuction' pk=offer.auction.id %}" class="btn btn-primary stretched_link">View Auction</a>
+                <a href="" class="btn btn-info stretched_link">Rate Buyer</a>
+            </div>
+         </div>
+    {% endfor %}
+{% endblock %}

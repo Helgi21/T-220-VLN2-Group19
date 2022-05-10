@@ -4,11 +4,12 @@ from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views import View
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 from user.forms import UserCreateForm as UsCrF
 from user.forms import EditUserForm as EdUsF
 from django.contrib.auth import get_user_model
 from user import models
+from auction import models as auction_models
 User = get_user_model()
 
 
@@ -69,14 +70,6 @@ class Profile(LoginRequiredMixin, DetailView):
             print("payment post request")
 
 
-class Purchases(LoginRequiredMixin, View):
-    pass
-
-
-class Sales(LoginRequiredMixin, View):
-    pass
-
-
 class Register(View):
     def get(self, request):
         return render(request, 'user/register.html', {
@@ -109,5 +102,28 @@ class Report(View):
     pass
 
 
-class Pay(View):
-    pass
+class MyAuctions(LoginRequiredMixin, ListView):
+    model = auction_models.Auction
+    template_name = 'user/my_auctions.html'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(user__id=self.request.user.id)
+
+
+class Sales(LoginRequiredMixin, ListView):
+    model = auction_models.Offer
+    template_name = 'user/sales.html'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(auction__user_id=self.request.user.id).filter(status__in=[4, 5])
+
+
+class Purchases(LoginRequiredMixin, ListView):
+    model = auction_models.Offer
+    template_name = 'user/purchases.html'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(user_id=self.request.user.id, status__in=[4, 5])
