@@ -7,7 +7,9 @@
         {% endfor %}
 {#        </div>#}
         <div class="single-auction-main-info">
-            <h1 class="single-auction-title">{{ auction.title }}</h1>
+            <div class="single-auction-title">
+                <h1 class="single-auction-title">{{ auction.title }}</h1>
+            </div>
             <p class="single-auction-description">{{ auction.description }}</p>
         </div>
         <h4 class="single-auction-price">Price: {{ auction.price }} kr </h4>

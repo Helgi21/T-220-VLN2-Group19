@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
     <h4>Make a payment for {{ auction.title }}</h4>
-    <form name="payForm" action="{% url 'auction:pay' pk=offer.id %}" method="post">
+    <form name="payForm" onsubmit="return validateForm()" action="{% url 'auction:pay' pk=offer.id %}" method="post">
         {% csrf_token %}
         <label for="price" >Price</label>
         <input class="form-control" id="price" type="text" placeholder="{{ offer.price }} kr." readonly>
@@ -316,7 +316,7 @@
                 </div>
             </div>
         </div>
-        <input class="btn btn-primary" type="submit" value="Submit" onclick="validateForm()">
+        <input class="btn btn-primary" type="submit" value="Submit">
     </form>
 
     <script src="{% static 'js/pay.js' %}"></script>

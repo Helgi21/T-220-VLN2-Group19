@@ -1,3 +1,5 @@
+// #ToDo: Fix validation, it's not perfect
+
 function validateCard(numb) {
     const validCardNumber = numb => {
         const regex = new RegExp("^[/d]{13,19}$");
@@ -73,7 +75,7 @@ function validateForm() {
         return false;
     }
 
-    if (month.length !== 2 && hasNonNumber.test(month) === false){
+    if (month === /^(0[1-9]|1[0-2])$/){
         alert("Month must be 2 digits")
         return false;
     }

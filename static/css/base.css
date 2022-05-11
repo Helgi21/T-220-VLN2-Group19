@@ -130,6 +130,11 @@ ul.messages li.edit_form_msg_li ul li{
 }
 
 /* Some of the auction list styles - other styles in the list still need to be moved other */
+.card-header h5{
+  overflow: hidden;
+  height: 24px;
+}
+
 #auctions_container div.card{
   min-width: 18rem;
   width: 33%;
@@ -418,4 +423,28 @@ ul.messages li.edit_form_msg_li ul li{
   /*border: 1px solid red;*/
   height: 219px;
   margin: 0 240px 0 385px;
+}
+
+.single-auction-title {
+  word-break: break-all;
+}
+/* Add Auction page style */
+
+.add-auction-center {
+  position: absolute;
+  top: 10%;
+  left: 20%;
+  right: 20%;
+  background: #fff;
+  padding: 40px;
+}
+
+.auction-Title {
+  font-size: 26px;
+  margin: 0 0 20px;
+  text-align: center;
+}
+
+.add-auction-center #id_description{
+  height: 160px
 }

@@ -44,7 +44,7 @@ class Auction(models.Model):
     price = models.PositiveIntegerField()
     loc = models.ForeignKey(Location, on_delete=models.CASCADE)
     cat = models.ForeignKey(Category, on_delete=models.CASCADE)
-    condition = models.ForeignKey(Condition, on_delete=models.  CASCADE)
+    condition = models.ForeignKey(Condition, on_delete=models.CASCADE)
     creation_time = models.DateTimeField(auto_now_add=True)
 
 

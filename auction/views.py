@@ -120,6 +120,7 @@ class AddAuction(LoginRequiredMixin, View):
             auction_obj.price = form.cleaned_data['price']
             auction_obj.loc = form.cleaned_data.get('loc')
             auction_obj.cat = form.cleaned_data.get('cat')
+            auction_obj.condition = form.cleaned_data.get('condition')
 
             image_obj = models.Image()
             image_obj.link = form.cleaned_data['image']
@@ -177,6 +178,14 @@ class ViewOffers(LoginRequiredMixin, ListView):
             offer.status = offer_response[0]
 
             offer.save()
+            if offer_response[0] == str(4):
+                print(offer_response[0])
+                offers_to_update = Offer.objects.all()
+                for offer_to_decline in offers_to_update:
+                    print(offer_to_decline)
+                    if offer_to_decline.id != int(offer_response[1]) and offer_to_decline.auction.id == offer.auction.id:
+                        offer_to_decline.status = 3
+                        offer_to_decline.save()
 
             if offer_response == 5:
                 messages.success(request, f'Offer accepted!')
@@ -200,11 +209,13 @@ class Pay(LoginRequiredMixin, DetailView):
         offer_instance.status = 5
         offer_instance.save()
 
-        offers_to_update = Offer.objects.all()
-        for offer in offers_to_update:
-            if offer.id != pk and offer.auction == offer_instance.auction:
-                offer.status = 3
-                offer.save()
+        # offers_to_update = Offer.objects.all()
+        # for offer in offers_to_update:
+        #     if offer.id != pk and offer.auction == offer_instance.auction:
+        #         offer.status = 3
+        #         offer.save()
+
+
 
         messages.success(request, f'Payment sent!')
         return redirect(f'/offers')

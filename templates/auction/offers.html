@@ -14,12 +14,13 @@
     </div>
     <div class="sent_offers">
         {% for offer in offer_list %} {# SENT OFFERS #}
-                <div class="well container-fluid ">
-                    <div class="row">
+                <div class="card">
+                    <div class="card-header">
                         <a href="{% url 'auction:singleAuction' pk=offer.auction.id %}"> <h2>{{ offer.auction.title }}</h2></a>
                         <h4>Sent to: {{ offer.auction.user }}</h4> {# ToDo link to seller profile #}
                     </div>
                     <div class="row">
+                        <img src="{{ offer.auction.images.first.link }}" alt="auction image">
                         <h4> Offer: {{ offer.price }} kr.</h4>
                         <h4> {{ offer.get_status }}</h4>
                         <div class="pay_button_{{ offer.get_status }}" style="display: none;">
