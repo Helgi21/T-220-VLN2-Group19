@@ -334,13 +334,13 @@ ul.messages li.edit_form_msg_li ul li{
 
 .login-center .btn {
   cursor: pointer;
-    background: blue;
-    width: 100%;
-    padding: 10px 15px;
-    border: 0;
-    color: #fff;
-    font-size: 14px;
-    font-weight: 400;
+  background: blue;
+  width: 100%;
+  padding: 10px 15px;
+  border: 0;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 400;
 }
 
 .login-center .btn:hover {
@@ -464,4 +464,50 @@ ul.messages li.edit_form_msg_li ul li{
   margin-top: 10px;
   margin-left: 4px;
   font-size: 18px;
+}
+
+/* Payment info style */
+
+.pay-card-holder {
+  position: absolute;
+  top: 9.5%;
+  left: 10%;
+  background: #fff;
+  width: 81%;
+  min-width: 500px;
+  padding: 35px 70px 10px;
+  height: 705px;
+  text-align: center;
+}
+
+@media screen and (max-width: 700px), (max-height: 500px) {
+  .pay-card-holder {
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+}
+
+.pay-card-holder label {
+  margin: 20px 0 10px 0;
+}
+
+.pay-card-holder input {
+  margin: 0 4px 8px
+}
+
+.pay-card-holder .btn {
+  cursor: pointer;
+  background: blue;
+  width: 50%;
+  padding: 10px 15px;
+  border: 0;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 25px;
+}
+
+#month_year {
+  margin: auto;
+  width: 50%;
 }
