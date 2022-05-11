@@ -1,18 +1,24 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="single-auction-main-section">
-{#        <div class="single-auction-img-container">#}
         {% for image in auction.images.all %}
             <img src="{{ image.link }}">
         {% endfor %}
-{#        </div>#}
         <div class="single-auction-main-info">
             <div class="single-auction-title">
                 <h1 class="single-auction-title">{{ auction.title }}</h1>
             </div>
             <p class="single-auction-description">{{ auction.description }}</p>
         </div>
-        <h4 class="single-auction-price">Price: {{ auction.price }} kr </h4>
+        {% if accepted_offer == NULL %}
+            <p class="single-auction-accepted_offer-info">Bought at {{ accepted_offer.price }}</p>
+        {% endif %}
+        {% if accepted_offer != NULL %}
+            <h4 class="single-auction-price">Price: {{ auction.price }} kr </h4>
+        {% else %}
+            <h4 class="single-auction-price" style="text-decoration: line-through">Price: {{ auction.price }} kr </h4>
+        {% endif %}
+        <p class="single-auction-highest-offer">Highest Offer: {{ highest_offer.price }}</p>
         <p class="single-auction-small-info-section">
             <span> Seller: {{ auction.user.username }} </span>
             <span>Location: {{ auction.loc.name }} </span>
@@ -22,15 +28,19 @@
         <span class="single-auction-condition">Condition: {{ auction.condition }}</span>
 
         <div class="single-auction-btn-section">
-            {% if request.user.username != auction.user.username %}
-            <!-- Make offer button -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#offerModal">
-                Make offer
-            </button>
-            {% endif %}
+            {% if accepted_offer != NULL %}
+                {% if request.user.username != auction.user.username %}
+                    <!-- Make offer button -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#offerModal">
+                        Make offer
+                    </button>
+                {% endif %}
 
-            {% if request.user.username == auction.user.username %}
-                <button type="button" class="btn btn-primary">Edit Info</button>
+                {% if request.user.username == auction.user.username %}
+                    <button type="button" class="btn btn-primary">Edit Info</button>
+                {% endif %}
+            {% else %}
+                <button type="button" id="single-auction-btn-sold" class="btn btn-primary">SOLD!</button>
             {% endif %}
         </div>
     </div>
@@ -58,6 +68,5 @@
             </div>
         </div>
     </div>
-
 
 {% endblock %}
