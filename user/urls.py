@@ -2,6 +2,8 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
 from . import views
 
+app_name = "user"
+
 urlpatterns = [
     path('profile/', views.UserProfile.as_view(), name="user_profile"),
     path('profile/<int:pk>/', views.Profile.as_view(), name="profile"),

@@ -3,46 +3,76 @@
 {% load static %}
 
 {% block content %}
+    <div class="offer-sort-buttons">
+        <h2>View Offers</h2>
+        <div class="well">
+            <input type="radio" class="btn-check" name="options" id="sent" checked>
+            <label class="btn btn-secondary" for="sent" onclick="offers_rb(0)">Sent offers</label>
 
-    <h2>View Offers</h2>
-    <div class="well">
-        <input type="radio" class="btn-check" name="options" id="sent"  checked>
-        <label class="btn btn-secondary" for="sent" onclick="offers_rb(0)">Sent offers</label>
-
-        <input type="radio" class="btn-check" name="options" id="received" >
-        <label class="btn btn-secondary" for="received" onclick="offers_rb(1)">Received offers</label>
+            <input type="radio" class="btn-check" name="options" id="received" >
+            <label class="btn btn-secondary" for="received" onclick="offers_rb(1)">Received offers</label>
+        </div>
     </div>
-    <div class="sent_offers">
-        {% for offer in offer_list %} {# SENT OFFERS #}
+    <div class="offers-container">
+        <div class="card-group offers-sent-offers">
+            {% for offer in offer_list %} {# SENT OFFERS #}
                 <div class="card">
                     <div class="card-header">
-                        <a href="{% url 'auction:singleAuction' pk=offer.auction.id %}"> <h2>{{ offer.auction.title }}</h2></a>
-                        <h4>Sent to: {{ offer.auction.user }}</h4> {# ToDo link to seller profile #}
+                        <a href="{% url 'auction:singleAuction' pk=offer.auction.id %}">
+                            <h5>{{ offer.auction.title }}</h5>
+                        </a>
+                        <h5>
+                            Sent to:
+                            <a href="{% url 'user:profile' pk=offer.auction.user_id %}">
+                                {{ offer.auction.user }}
+                            </a>
+                        </h5>
                     </div>
-                    <div class="row">
+                    <div class="card-body">
                         <img src="{{ offer.auction.images.first.link }}" alt="auction image">
-                        <h4> Offer: {{ offer.price }} kr.</h4>
-                        <h4> {{ offer.get_status }}</h4>
+                        <div class="offer-text">
+                            <h4> Offer: {{ offer.price }} kr.</h4>
+                            <h4> {{ offer.get_status }}</h4>
+                        </div>
                         <div class="pay_button_{{ offer.get_status }}" style="display: none;">
-                            <button class="btn btn-success" onclick="window.location.href='{% url "auction:pay" pk=offer.id %}'">Pay now</button>
+                            <button class="btn btn-success"
+                                    onclick="window.location.href='{% url "auction:pay" pk=offer.id %}'">
+                                Pay now
+                            </button>
                         </div>
                     </div>
                 </div>
-        {% endfor %}
-    </div>
-    <div class="received_offers ">
-        {% for offer in received_offers %} {# Received OFFERS #}
-                <div class="well container-fluid">
-                    <div class="row">
-                        <a href="{% url 'auction:singleAuction' pk=offer.auction.id %}"> <h2>{{ offer.auction.title }}</h2></a>
-                        <h4 class="not_{{ offer.get_status }}_offer_from_user">{{ offer.get_status }} Offer from: {{ offer.user.username }}</h4> {# ToDo link to seller profile #}
-                        <h4 class="{{ offer.get_status }}_offer_from_user"  style="display: none;"> Counter Offer from: {{ offer.auction.user.username }}</h4> {# ToDo link to seller profile #}
+            {% endfor %}
+        </div>
+        <div class="card-group offers-received-offers ">
+            {% for offer in received_offers %} {# Received OFFERS #}
+                <div class="card">
+                    <div class="card-header">
+                        <a href="{% url 'auction:singleAuction' pk=offer.auction.id %}">
+                            <h5>{{ offer.auction.title }}</h5>
+                        </a>
+                        <h5 class="not_{{ offer.get_status }}_offer_from_user">
+                            {{ offer.get_status }} Offer from:
+                            <a href ="{% url 'user:profile' pk=offer.auction.user_id %}">
+                                 {{ offer.user.username }}
+                            </a>
+                        </h5>
+                        <h5 class="{{ offer.get_status }}_offer_from_user"  style="display: none;">
+                            {{ offer.get_status }} Counter offer from:
+                            <a href ="{% url 'user:profile' pk=offer.auction.user_id %}">
+                                 {{ offer.user.username }}
+                            </a>
+                        </h5>
                     </div>
-                    <div class="row" id="view_offer_btn">
-                        <h4> Offer {{ offer.price }}</h4>
+                    <div class="card-body">
+                        <img src="{{ offer.auction.images.first.link }}" alt="auction image">
+                        <div class="card-text" id="view_offer_btn">
+                            <h4> Offer: {{ offer.price }} kr.</h4>
+                        </div>
                         <!-- Make offer button -->
-                        <button type="button" class="btn btn-primary modal_{{ offer.get_status }}" data-bs-toggle="modal"
-                                data-bs-target="#offerModal{{ offer.id }}"  style="display: none;">
+                        <button type="button" class="btn btn-primary modal_{{ offer.get_status }}"
+                                data-bs-toggle="modal" data-bs-target="#offerModal{{ offer.id }}"
+                                style="display: none;">
                             View
                         </button>
                         <!-- View offer Modal -->
@@ -68,13 +98,14 @@
                                                 <input type="hidden" name="offer_response" value="3_{{ offer.id }}">
                                                 <input type="submit" value="Decline" class="btn btn-success">
                                             </form>
-                                            <button type="button" class="btn btn-primary button_counter_{{ offer.status }}" data-bs-toggle="modal"
+                                            <button type="button"
+                                                    class="btn btn-primary button_counter_{{ offer.status }}"
+                                                    data-bs-toggle="modal"
                                                     data-bs-target="#counterOfferModal{{ offer.id }}">
                                                 Make counter offer
                                             </button>
-
                                         </div>
-                                     </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -97,15 +128,14 @@
                                                 <input type="submit" value="Send" class="btn btn-success">
                                             </form>
                                         </div>
-                                     </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
-
     <script src="{% static 'js/offers.js' %}"></script>
-
 {% endblock %}
