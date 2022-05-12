@@ -126,12 +126,16 @@ class AddAuction(LoginRequiredMixin, View):
             auction_obj.cat = form.cleaned_data.get('cat')
             auction_obj.condition = form.cleaned_data.get('condition')
 
-            image_obj = models.Image()
-            image_obj.link = form.cleaned_data['image']
-            image_obj.auction = auction_obj
-
             auction_obj.save()
-            image_obj.save()
+
+            image_list = form.cleaned_data['image'].split()
+
+            for image in image_list:
+                image_obj = models.Image()
+                image_obj.link = image
+                image_obj.auction = auction_obj
+
+                image_obj.save()
 
             # TAGS DISCONTINUED FOR NOW - NOT IMPORTANT
             # for word in form.cleaned_data['tags'].split(" "):
