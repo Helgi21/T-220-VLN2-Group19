@@ -45,11 +45,11 @@ function offers_rb(option){
 }
 
 function show_sent(){
-    document.getElementsByClassName('sent_offers')[0].style.display = "block"
-    document.getElementsByClassName('received_offers')[0].style.display = "none"
+    document.getElementsByClassName('offers-sent-offers')[0].style.display = "block"
+    document.getElementsByClassName('offers-received-offers')[0].style.display = "none"
 
 }
 function show_received(){
-    document.getElementsByClassName('sent_offers')[0].style.display = "none"
-    document.getElementsByClassName('received_offers')[0].style.display = "block"
+    document.getElementsByClassName('offers-sent-offers')[0].style.display = "none"
+    document.getElementsByClassName('offers-received-offers')[0].style.display = "block"
 }

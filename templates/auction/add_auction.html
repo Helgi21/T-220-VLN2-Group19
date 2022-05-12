@@ -1,8 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
-    <form class="form-horizontal" action="{% url 'auction:addAuction' %}" method="post">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="create" class="btn btn-primary pull-right"  style="clear:both; margin: 10px 0">
-    </form>
+    <div class="add-auction-center">
+        <h1 class="add-auction-title">Add Auction</h1>
+        <form class="form-horizontal" id="add-auction-form" action="{% url 'auction:addAuction' %}" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Create" class="btn btn-primary pull-right"  style="clear:both; margin: 10px 0">
+        </form>
+    </div>
+
+
 {% endblock %}

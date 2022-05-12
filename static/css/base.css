@@ -130,10 +130,21 @@ ul.messages li.edit_form_msg_li ul li{
 }
 
 /* Some of the auction list styles - other styles in the list still need to be moved other */
+.card-header h5{
+  overflow: hidden;
+  height: 24px;
+}
+
 #auctions_container div.card{
   min-width: 18rem;
   width: 33%;
   margin:5px auto;
+}
+
+.auction-Title {
+  font-size: 26px;
+  margin: 0 0 20px;
+  text-align: center;
 }
 
 @media screen and (min-width: 700px){
@@ -329,13 +340,13 @@ ul.messages li.edit_form_msg_li ul li{
 
 .login-center .btn {
   cursor: pointer;
-    background: blue;
-    width: 100%;
-    padding: 10px 15px;
-    border: 0;
-    color: #fff;
-    font-size: 14px;
-    font-weight: 400;
+  background: blue;
+  width: 100%;
+  padding: 10px 15px;
+  border: 0;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 400;
 }
 
 .login-center .btn:hover {
@@ -353,7 +364,7 @@ ul.messages li.edit_form_msg_li ul li{
   position: absolute;
   margin: 60px 1% 20px;
   width: 98%;
-  min-height: 340px;
+  min-height: 370px;
   min-width: 1140px;
   border: 1px solid lightgrey;
   padding: 12px 15px;
@@ -363,7 +374,7 @@ ul.messages li.edit_form_msg_li ul li{
   border-radius: 6px;
 }
 
-.single-auction-main-section img {
+.single-auction-main-section #image-carousel {
   float: left;
   width: 90%;
   height: 90%;
@@ -373,6 +384,12 @@ ul.messages li.edit_form_msg_li ul li{
   border-radius: 5px;
   text-align: center;
   object-fit: contain;
+}
+.single-auction-main-section img{
+  float: left;
+  width:  380px;
+  height: 219px;
+  object-fit: cover;
 }
 
 .single-auction-small-info-section {
@@ -402,6 +419,8 @@ ul.messages li.edit_form_msg_li ul li{
 
 .single-auction-condition {
   margin-left: 25px;
+  margin-top: -10px;
+  margin-bottom: 18px;
 }
 
 .single-auction-img-container {
@@ -415,7 +434,116 @@ ul.messages li.edit_form_msg_li ul li{
 }
 
 .single-auction-main-info {
-  /*border: 1px solid red;*/
   height: 219px;
   margin: 0 240px 0 385px;
+}
+
+.single-auction-title {
+  word-break: break-all;
+}
+
+.single-auction-highest-offer {
+  margin-left: 19px;
+  text-decoration: underline;
+}
+
+#single-auction-btn-sold {
+  background-color: grey;
+  color: white;
+}
+
+.single-auction-accepted_offer-info {
+  margin-top: 10px;
+  margin-left: 4px;
+  font-size: 18px;
+}
+/* Add Auction page style */
+
+.add-auction-center {
+  position: absolute;
+  top: 10%;
+  left: 20%;
+  right: 20%;
+  background: #fff;
+  padding: 40px;
+}
+
+.add-auction-center #id_description{
+  height: 160px
+}
+
+/* Offers page style */
+
+.offers-container .auction-header {
+  font-size: 26px;
+  margin: 0 0 20px;
+  text-align: center;
+}
+
+.offers-container img{
+  height: 200px;
+}
+
+.offers-container{
+  display: flex;
+}
+
+.offers-sent-offers{
+  display: inline;
+  flex-wrap: wrap;
+  padding: 5px;
+  width: 33%
+}
+
+.offers-received-offers{
+  display: inline;
+  flex-wrap: wrap;
+  padding: 5px;
+  width: 33%
+}
+
+/* Payment info style */
+
+.pay-card-holder {
+  position: absolute;
+  top: 9.5%;
+  left: 10%;
+  background: #fff;
+  width: 81%;
+  min-width: 500px;
+  padding: 35px 70px 10px;
+  height: 705px;
+  text-align: center;
+}
+
+@media screen and (max-width: 700px), (max-height: 500px) {
+  .pay-card-holder {
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+}
+
+.pay-card-holder label {
+  margin: 20px 0 10px 0;
+}
+
+.pay-card-holder input {
+  margin: 0 4px 8px
+}
+
+.pay-card-holder .btn {
+  cursor: pointer;
+  background: blue;
+  width: 50%;
+  padding: 10px 15px;
+  border: 0;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 25px;
+}
+
+#month_year {
+  margin: auto;
+  width: 50%;
 }

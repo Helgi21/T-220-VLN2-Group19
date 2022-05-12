@@ -2,6 +2,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
+from django.db.models import Max
 
 User = get_user_model()
 
@@ -44,7 +45,7 @@ class Auction(models.Model):
     price = models.PositiveIntegerField()
     loc = models.ForeignKey(Location, on_delete=models.CASCADE)
     cat = models.ForeignKey(Category, on_delete=models.CASCADE)
-    condition = models.ForeignKey(Condition, on_delete=models.  CASCADE)
+    condition = models.ForeignKey(Condition, on_delete=models.CASCADE)
     creation_time = models.DateTimeField(auto_now_add=True)
 
 
@@ -71,3 +72,6 @@ class Offer(models.Model):
     def get_status(self):
         return self.OfferStatus(self.status).label
 
+    # def get_highest_price(self):
+    #     highest_price = self.objects.aggregate(Max('price'))['highest_price']
+    #     return self.objects.filter(status=highest_price).first()
