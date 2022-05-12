@@ -23,7 +23,16 @@
                 <h5 class="card-text">Accepted Price: {{ offer.price }}<span style="font-size: 15px">Kr.</span></h5>
                 <p> Posted: {{ offer.auction.creation_time|date:'j M, Y - H:i' }}<small style="font-size:15px">{{ offer.auction.creation_time|date:'.s' }}</small></p>
                 <a href="{% url 'auction:singleAuction' pk=offer.auction.id %}" class="btn btn-primary stretched_link">View Auction</a>
-                <a href="{% url 'review' %}?reviewing=buyer&offer_id={{offer.id}}" class="btn btn-info stretched_link">Rate Buyer</a>
+
+                <button id="buyer_review_button" type="button" class="btn btn-info stretched_link"{% if offer.seller_has_reviewed %} disabled {% endif %}>
+                    <a style="text-decoration: none; color: black;" href="/review/?reviewing=buyer&offer_id={{offer.id}}">
+                       Review Buyer
+                    </a>
+                </button>
+                {% if offer.seller_has_reviewed %}
+                    <label for="buyer_review_button" style="color: lightgrey">You have already sent a review</label>
+                {% endif %}
+
             </div>
          </div>
     {% endfor %}
