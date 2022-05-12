@@ -152,36 +152,58 @@ class Review(FormView):
             context['reviewed_user'] = offer.user
         else:  # reviewing seller
             context['reviewed_user'] = offer.auction.user
+        context['offer_id'] = offer.id
+        context['reviewing'] = self.request.GET.get('reviewing')
         return context
 
     def post(self, request, *args, **kwargs):
         form = self.get_form()
         if form.is_valid():
-            offer = auction_models.Offer.objects.get(id=request.POST.get('offer_id'))
-            if request.GET.get('reviewing') == 'buyer':
+            offer = auction_models.Offer.objects.get(id=self.request.GET.get('offer_id'))
+            new_review = models.Review()
+            new_review.description = form.cleaned_data['description']
+            new_review.rating = form.cleaned_data['rating']
+
+            if self.request.GET.get('reviewing') == 'buyer':
                 offer.seller_has_reviewed = True
                 offer.save()
+
+                new_review.type = 1
+                new_review.reviewed_user = offer.user
+                new_review.reviewer_user = offer.auction.user
+                new_review.save()
+                calculate_rating(offer.user)
             else:
                 offer.buyer_has_reviewed = True
                 offer.save()
+
+                new_review.type = 2
+                new_review.reviewed_user = offer.auction.user
+                new_review.reviewer_user = offer.user
+                new_review.save()
+                calculate_rating(offer.auction.user)
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
 
     def get_success_url(self):
         messages.add_message(self.request, messages.INFO, 'Review Sent!')
-        super(self).get_success_url()
+        return str(self.success_url)
 
     def valid_review(self, reviewing: str, offer_id: str) -> bool:
         offer = auction_models.Offer.objects.filter(id=offer_id)
         if len(offer) == 0:
+            print('len failed')
             return False
         offer = offer[0]
         if reviewing == 'buyer':
-            if offer.status != 5 or offer.status != 4:
+            print("buyer")
+            if offer.status != 5 and offer.status != 4:
+                print('offer status failed')
                 return False
             else:
                 if offer.seller_has_reviewed:
+                    print('has reviewed failed')
                     return False
             return True
         elif reviewing == 'seller':
@@ -193,3 +215,15 @@ class Review(FormView):
             return True
         else:
             return False
+
+def calculate_rating(user):
+    """
+        Recalculates and updates the average rating of the user
+        :param user:
+    """
+    reviews = models.Review.objects.filter(reviewed_user=user)
+    rating = 0
+    for review in reviews:
+        rating += review.rating
+    user.profile.rating = int(rating / len(reviews))
+    user.profile.save()

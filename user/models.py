@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 User = get_user_model()
 from django.utils.translation import gettext_lazy as _
+from auction import models as auction_models
 
 # Create your models here.
 """ REPLACED BY AUTH_USER BUILT INTO DJANGO
@@ -50,6 +51,7 @@ class Review(models.Model):
     rating = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(10)])
     type = models.PositiveIntegerField(choices=ReviewType.choices,
                                        validators=[MinValueValidator(1), MaxValueValidator(2)])
+    offer = models.ForeignKey(auction_models.Offer, on_delete=models.CASCADE, related_name='offer_reviews')
 
 
 class CardInfo(models.Model):
