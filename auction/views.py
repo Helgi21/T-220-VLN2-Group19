@@ -179,6 +179,11 @@ class ViewOffers(LoginRequiredMixin, ListView):
 
             return redirect(f'/offers/?received_offers')
 
+        elif 'cancel_offer' in request.POST:  # Cancel offers
+            offer_id = request.POST['cancel_offer_id']
+            offer = models.Offer.objects.get(id=offer_id)
+            offer.delete()
+
         else:  # Accept or decline only
             offer_response = request.POST['offer_response'].split('_')
 
