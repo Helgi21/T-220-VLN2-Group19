@@ -25,7 +25,11 @@
                   <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                       <a class="nav-link dropdown-toggle" href="" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          <img class="navbar-user-profile-pic" src="{{ request.user.profile.profile_picture }}">
+                          {% if not request.user.profile.profile_picture %}
+                              <img class="navbar-user-profile-pic" src="https://www.cmcaindia.org/wp-content/uploads/2015/11/default-profile-picture-gmail-2.png">
+                          {% else %}
+                              <img class="navbar-user-profile-pic" src="{{ request.user.profile.profile_picture }}">
+                          {% endif %}
                           {{ request.user.username }}
                       </a>
                       <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
@@ -47,7 +51,7 @@
               <div class="collapse navbar-collapse" id="signinNavbar">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a href="{% url 'login' %}" class="nav-item nav-link" id="sign-in-btn">Log In</a>
+                        <a href="{% url 'user:login' %}" class="nav-item nav-link" id="sign-in-btn">Log In</a>
                     </li>
                 </ul>
               </div>

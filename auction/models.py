@@ -2,7 +2,6 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
-from django.db.models import Max
 
 User = get_user_model()
 
@@ -68,6 +67,8 @@ class Offer(models.Model):
     status = models.IntegerField(choices=OfferStatus.choices, validators=[MinValueValidator(1), MaxValueValidator(5)])
     seller_has_reviewed = models.BooleanField(default=False)
     buyer_has_reviewed = models.BooleanField(default=False)
+    # auto_now instead of auto_now_add because this should be updated whenever changed
+    creation_time = models.DateTimeField(auto_now=True, null=True)
 
     def get_status(self):
         return self.OfferStatus(self.status).label

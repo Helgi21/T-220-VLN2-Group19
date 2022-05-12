@@ -3,6 +3,9 @@
 {% block content %}
     <h1>Purchases</h1>
     <p>Auctions you have won</p>
+    {% if object_list|length < 1 %}
+        <h3>No Purchases!</h3>
+    {% endif %}
     {% for offer in object_list %}
          <div class="card" style="margin: 10px;">
             <div class="card-header">

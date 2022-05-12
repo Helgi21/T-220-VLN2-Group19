@@ -8,9 +8,7 @@ from .forms.add_auction_form import AddAuctionForm
 from .forms.make_offer_form import MakeOfferForm
 from .forms.make_counter_offer_form import MakeCounterOfferForm
 from django.contrib import messages
-
-from django.http import Http404
-
+from user.notifications import Notification
 
 # Create your views here.
 from .models import Offer
@@ -95,14 +93,22 @@ class SingleAuction(DetailView):
     def post(self, request, pk):
         form = MakeOfferForm(data=request.POST)
         if form.is_valid():
+            auction = models.Auction.objects.get(id=pk)
             offer_obj = models.Offer()
             offer_obj.price = form.cleaned_data.get('price')
-            offer_obj.auction = models.Auction.objects.get(id=pk)
+            offer_obj.auction = auction
             offer_obj.user = request.user
             offer_obj.status = 1
             offer_obj.save()
 
             messages.success(request, 'Offer sent!')
+            # TODO: in notification link filter by auction when/if /offer supports it
+            Notification("New Offer!",
+                         str(f"You have received a new offer from user '{request.user.username}'"
+                             f" on your item '{models.Auction.objects.get(id=pk).title}'. "
+                             f"Offered price: {form.cleaned_data.get('price')}"),
+                         auction.user,
+                         "/offers/?received_offers")
 
             return redirect(f'/{pk}/')
 
@@ -169,12 +175,19 @@ class ViewOffers(LoginRequiredMixin, ListView):
             offer_price = request.POST['counter_offer_price']
 
             offer = models.Offer.objects.get(id=offer_id)
+            old_offer_price = offer.price
 
             offer.price = offer_price
             offer.status = 2
             print(offer.auction.title)
 
             offer.save()
+            Notification("Counter Offer!",
+                         str(f"You have received a counter offer on the item '{offer.auction.title}'. "
+                             f"Your offered price: {old_offer_price}kr. "
+                             f"Their counter offer: {offer.price}kr. "),
+                         offer.user,
+                         "/offers/?received_offers")
             messages.success(request, f'Counter offer sent!')
 
             return redirect(f'/offers/?received_offers')
@@ -195,14 +208,24 @@ class ViewOffers(LoginRequiredMixin, ListView):
                 print(offer_response[0])
                 offers_to_update = Offer.objects.all()
                 for offer_to_decline in offers_to_update:
-                    print(offer_to_decline)
                     if offer_to_decline.id != int(offer_response[1]) and offer_to_decline.auction.id == offer.auction.id:
+                        Notification("Offer Declined", str(f"Your offer of {offer_to_decline.price}Kr "
+                                                           f"on item '{offer.auction.title}' has been declined."),
+                                     offer.user, "/offers/")
                         offer_to_decline.status = 3
                         offer_to_decline.save()
-
-            if offer_response == 5:
+            print(offer.status)
+            if offer.status == str(4):
+                print("accepted")
+                Notification("Offer Accepted!", str(f"Your offer of {offer.price}Kr on item '{offer.auction.title}' "
+                                                    f"has been accepted! Please proceed to pay for the product."),
+                             offer.user, "/offers/")
                 messages.success(request, f'Offer accepted!')
-            elif offer_response == 4:
+            elif offer.status == str(3):
+                print("declined")
+                Notification("Offer Declined", str(f"Your offer of {offer.price}Kr "
+                                                   f"on item '{offer.auction.title}' has been declined."),
+                             offer.user, "/offers/")
                 messages.success(request, f'Offer declined!')
 
             return redirect(f'/offers/?received_offers')
