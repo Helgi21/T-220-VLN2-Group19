@@ -67,3 +67,13 @@ class CardInfo(models.Model):
     region = models.CharField(max_length=255)
     zip = models.CharField(max_length=255)
     country = models.CharField(max_length=255)
+
+
+class Notification(models.Model):
+    title = models.CharField(max_length=100)
+    text = models.CharField(max_length=255)
+    time_created = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notifications")
+    onclick_link = models.CharField(max_length=255)
+    read = models.BooleanField(default=False)
+
