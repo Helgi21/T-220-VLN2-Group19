@@ -86,7 +86,7 @@ class SingleAuction(DetailView):
         form = MakeOfferForm()
         context = super().get_context_data(**kwargs)
         context['form'] = form
-        context['highest_offer'] = models.Offer.objects.filter(auction=self.object).order_by('-price')[0]
+        context['highest_offer'] = models.Offer.objects.filter(auction=self.object).order_by('-price').first()
         accepted_paid = models.Offer.objects.filter(auction=self.object, status__in=[4, 5])
         if len(accepted_paid) > 0:
             context['accepted_offer'] = accepted_paid
@@ -126,12 +126,16 @@ class AddAuction(LoginRequiredMixin, View):
             auction_obj.cat = form.cleaned_data.get('cat')
             auction_obj.condition = form.cleaned_data.get('condition')
 
-            image_obj = models.Image()
-            image_obj.link = form.cleaned_data['image']
-            image_obj.auction = auction_obj
-
             auction_obj.save()
-            image_obj.save()
+
+            image_list = form.cleaned_data['image'].split()
+
+            for image in image_list:
+                image_obj = models.Image()
+                image_obj.link = image
+                image_obj.auction = auction_obj
+
+                image_obj.save()
 
             # TAGS DISCONTINUED FOR NOW - NOT IMPORTANT
             # for word in form.cleaned_data['tags'].split(" "):

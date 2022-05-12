@@ -144,6 +144,12 @@ ul.messages li.edit_form_msg_li ul li{
   margin:5px auto;
 }
 
+.auction-Title {
+  font-size: 26px;
+  margin: 0 0 20px;
+  text-align: center;
+}
+
 @media screen and (min-width: 700px){
   #search_container {
   width: 68%;
@@ -371,7 +377,7 @@ ul.messages li.edit_form_msg_li ul li{
   border-radius: 6px;
 }
 
-.single-auction-main-section img {
+.single-auction-main-section #image-carousel {
   float: left;
   width: 90%;
   height: 90%;
@@ -381,6 +387,12 @@ ul.messages li.edit_form_msg_li ul li{
   border-radius: 5px;
   text-align: center;
   object-fit: contain;
+}
+.single-auction-main-section img{
+  float: left;
+  width:  380px;
+  height: 219px;
+  object-fit: cover;
 }
 
 .single-auction-small-info-section {
@@ -432,26 +444,6 @@ ul.messages li.edit_form_msg_li ul li{
 .single-auction-title {
   word-break: break-all;
 }
-/* Add Auction page style */
-
-.add-auction-center {
-  position: absolute;
-  top: 10%;
-  left: 20%;
-  right: 20%;
-  background: #fff;
-  padding: 40px;
-}
-
-.auction-Title {
-  font-size: 26px;
-  margin: 0 0 20px;
-  text-align: center;
-}
-
-.add-auction-center #id_description{
-  height: 160px
-}
 
 .single-auction-highest-offer {
   margin-left: 19px;
@@ -467,6 +459,50 @@ ul.messages li.edit_form_msg_li ul li{
   margin-top: 10px;
   margin-left: 4px;
   font-size: 18px;
+}
+/* Add Auction page style */
+
+.add-auction-center {
+  position: absolute;
+  top: 10%;
+  left: 20%;
+  right: 20%;
+  background: #fff;
+  padding: 40px;
+}
+
+.add-auction-center #id_description{
+  height: 160px
+}
+
+/* Offers page style */
+
+.offers-container .auction-header {
+  font-size: 26px;
+  margin: 0 0 20px;
+  text-align: center;
+}
+
+.offers-container img{
+  height: 200px;
+}
+
+.offers-container{
+  display: flex;
+}
+
+.offers-sent-offers{
+  display: inline;
+  flex-wrap: wrap;
+  padding: 5px;
+  width: 33%
+}
+
+.offers-received-offers{
+  display: inline;
+  flex-wrap: wrap;
+  padding: 5px;
+  width: 33%
 }
 
 /* Payment info style */
