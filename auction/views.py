@@ -86,7 +86,7 @@ class SingleAuction(DetailView):
         form = MakeOfferForm()
         context = super().get_context_data(**kwargs)
         context['form'] = form
-        context['highest_offer'] = models.Offer.objects.filter(auction=self.object).order_by('-price')[0]
+        context['highest_offer'] = models.Offer.objects.filter(auction=self.object).order_by('-price').first()
         accepted_paid = models.Offer.objects.filter(auction=self.object, status__in=[4, 5])
         if len(accepted_paid) > 0:
             context['accepted_offer'] = accepted_paid
@@ -178,6 +178,11 @@ class ViewOffers(LoginRequiredMixin, ListView):
             messages.success(request, f'Counter offer sent!')
 
             return redirect(f'/offers/?received_offers')
+
+        elif 'cancel_offer' in request.POST:  # Cancel offers
+            offer_id = request.POST['cancel_offer_id']
+            offer = models.Offer.objects.get(id=offer_id)
+            offer.delete()
 
         else:  # Accept or decline only
             offer_response = request.POST['offer_response'].split('_')
