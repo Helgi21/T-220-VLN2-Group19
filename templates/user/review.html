@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<h3 id="review_form_title">Reviewing user: <a href="/profile/{{reviewed_user.id}}" id="review_username">{{ reviewed_user.username }}</a></h3>
-<form method="post" action="/review/?reviewing={{reviewing}}&offer_id={{offer_id}}">
-    {% csrf_token %}
-    {{ form }}
-    <input type="hidden" name="reviewing" value="{{reviewing}}" />
-    <input type="hidden" name="offer" value="{{offer}}"/>
-    <button type="submit">Submit Review</button>
-</form>
+<div class="review-container">
+    <h3 id="review_form_title">Reviewing user: <a href="/profile/{{reviewed_user.id}}" id="review_username">{{ reviewed_user.username }}</a></h3>
+    <form method="post" action="/review/?reviewing={{reviewing}}&offer_id={{offer_id}}">
+        {% csrf_token %}
+        {{ form }}
+        <input type="hidden" name="reviewing" value="{{reviewing}}" />
+        <input type="hidden" name="offer" value="{{offer}}"/>
+        <button type="submit">Submit Review</button>
+    </form>
+</div>
 {% endblock %}
