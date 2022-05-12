@@ -1,10 +1,9 @@
 {% extends 'base.html' %}
-
 {% load static %}
-
 {% block content %}
+
     <div class="offer-sort-buttons">
-        <h2>View Offers</h2>
+        <h2 class="user-offers-main-title">View Offers</h2>
         <div class="well">
             <input type="radio" class="btn-check" name="options" id="sent" checked>
             <label class="btn btn-secondary" for="sent" onclick="offers_rb(0)">Sent offers</label>
@@ -13,8 +12,7 @@
             <label class="btn btn-secondary" for="received" onclick="offers_rb(1)">Received offers</label>
         </div>
     </div>
-    <div class="offers-container">
-        <div class="card-group offers-sent-offers">
+        <div class="offers-sent-offers">
             {% for offer in offer_list %} {# SENT OFFERS #}
                 <div class="card">
                     <div class="card-header">
@@ -47,15 +45,12 @@
                                 <input type="hidden" name="cancel_offer" value="{{ offer.id }}">
                                 <input type="submit" value="Cancel" class="btn btn-danger">
                             </form>
-
-
                         </div>
-
                     </div>
                 </div>
             {% endfor %}
         </div>
-        <div class="card-group offers-received-offers ">
+        <div class="offers-received-offers">
             {% for offer in received_offers %} {# Received OFFERS #}
                 <div class="card">
                     <div class="card-header">
@@ -147,6 +142,5 @@
                 </div>
             {% endfor %}
         </div>
-    </div>
     <script src="{% static 'js/offers.js' %}"></script>
 {% endblock %}
