@@ -53,6 +53,7 @@ ul.messages li.edit_form_msg_li ul li{
 
 
 /* The sidebar menu */
+
 .profile_container {
   display: flex;
   margin-top: 65px;
@@ -66,6 +67,7 @@ ul.messages li.edit_form_msg_li ul li{
 }
 
 /* The navigation menu links */
+
 .sidenav a {
   padding: 6px 8px 12px 45px;
   text-decoration: none;
@@ -78,6 +80,7 @@ ul.messages li.edit_form_msg_li ul li{
   color: grey;
 }
 /* Style page content */
+
 .main_page {
   height: 100%;
   width: 100%;
@@ -510,4 +513,40 @@ ul.messages li.edit_form_msg_li ul li{
 #month_year {
   margin: auto;
   width: 50%;
+}
+
+/* User View Offers Style */
+
+.user-offers-site .well {
+  margin: 0 20px 15px;
+}
+
+.user-offers-main-title {
+  margin: 20px 25px;
+}
+
+.card {
+  width: 95%;
+  min-width: 450px;
+  margin: 10px 2%;
+  padding: 0 15px;
+}
+
+.card .pay_button_Accepted{
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+.received_offers .well {
+  border: 2px outset lightgrey;
+  background-color: white;
+  width: 90%;
+  margin: 20px auto;
+  min-width: 550px;
+  padding: 10px 20px;
+}
+
+.received_offers .well #offer-view-btn {
+  width: 80%;
+  margin: 10px 10%;
 }

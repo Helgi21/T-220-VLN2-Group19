@@ -1,10 +1,8 @@
 {% extends 'base.html' %}
-
 {% load static %}
-
 {% block content %}
-
-    <h2>View Offers</h2>
+<div class="user-offers-site">
+    <h2 class="user-offers-main-title">View Offers</h2>
     <div class="well">
         <input type="radio" class="btn-check" name="options" id="sent"  checked>
         <label class="btn btn-secondary" for="sent" onclick="offers_rb(0)">Sent offers</label>
@@ -42,7 +40,7 @@
                         <h4> Offer {{ offer.price }}</h4>
                         <!-- Make offer button -->
                         <button type="button" class="btn btn-primary modal_{{ offer.get_status }}" data-bs-toggle="modal"
-                                data-bs-target="#offerModal{{ offer.id }}"  style="display: none;">
+                                data-bs-target="#offerModal{{ offer.id }}" id="offer-view-btn"  style="display: none;">
                             View
                         </button>
                         <!-- View offer Modal -->
@@ -105,7 +103,7 @@
                 </div>
         {% endfor %}
     </div>
-
+</div>
     <script src="{% static 'js/offers.js' %}"></script>
 
 {% endblock %}
