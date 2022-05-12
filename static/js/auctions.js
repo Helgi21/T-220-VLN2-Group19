@@ -32,7 +32,7 @@ function search() {
             }else{
                 newHtml = res.data.map(d => {
                     let date_string = formatDateString(d.creation_time)
-                    return `<div class="card" style="width: 18rem; margin:5px auto;">
+                    return `<div class="card">
                                 <div class="card-header">
                                     <h5 style="font-weight: 400; line-height: 1.2;">${d.title}</h5>
                                 </div>
