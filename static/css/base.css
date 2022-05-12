@@ -527,7 +527,7 @@ ul.messages li.edit_form_msg_li ul li{
   margin: 20px 5px;
 }
 
-.card {
+.offers-sent-offers .card {
   width: 95%;
   min-width: 500px;
   max-width: 650px;
@@ -536,19 +536,33 @@ ul.messages li.edit_form_msg_li ul li{
   display: inline-grid;
 }
 
-.card .pay_button_Accepted{
+.offers-sent-offers .card .pay_button_Accepted{
   text-align: right;
   margin-bottom: 10px;
 }
 
-.received_offers .well {
-  border: 2px outset lightgrey;
-  background-color: white;
-  width: 90%;
-  margin: 20px auto;
-  min-width: 550px;
-  padding: 10px 20px;
+.offers-received-offers .card {
+  width: 95%;
+  min-width: 500px;
+  max-width: 650px;
+  margin: 10px 2%;
+  padding: 10px 15px;
+  display: inline-grid;
 }
+
+.offers-received-offers .card .pay_button_Accepted{
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+/*.received_offers .well {*/
+/*  border: 2px outset lightgrey;*/
+/*  background-color: white;*/
+/*  width: 90%;*/
+/*  margin: 20px auto;*/
+/*  min-width: 550px;*/
+/*  padding: 10px 20px;*/
+/*}*/
 
 .received_offers .well #offer-view-btn {
   width: 80%;
