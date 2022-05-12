@@ -163,6 +163,7 @@ class Review(FormView):
             new_review = models.Review()
             new_review.description = form.cleaned_data['description']
             new_review.rating = form.cleaned_data['rating']
+            new_review.offer = offer
 
             if self.request.GET.get('reviewing') == 'buyer':
                 offer.seller_has_reviewed = True
