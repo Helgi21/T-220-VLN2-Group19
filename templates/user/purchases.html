@@ -23,7 +23,7 @@
                 {% if offer.status == 4 %}
                     <a href="{% url 'auction:pay' pk=offer.id %}" class="btn btn-success stretched_link">Pay</a>
                 {% elif offer.status == 5 %}
-                    <a href="{% url 'review' %}?reviewing=seller&offer_id={{offer.id}}" class="btn btn-info stretched_link">Rate Seller</a>
+                    <a href="{% url 'user:review' %}?reviewing=seller&offer_id={{offer.id}}" class="btn btn-info stretched_link">Rate Seller</a>
                 {% endif %}
             </div>
          </div>

@@ -86,7 +86,7 @@ class SingleAuction(DetailView):
         form = MakeOfferForm()
         context = super().get_context_data(**kwargs)
         context['form'] = form
-        context['highest_offer'] = models.Offer.objects.filter(auction=self.object).order_by('-price')[0]
+        context['highest_offer'] = models.Offer.objects.filter(auction=self.object).order_by('-price').first()
         accepted_paid = models.Offer.objects.filter(auction=self.object, status__in=[4, 5])
         if len(accepted_paid) > 0:
             context['accepted_offer'] = accepted_paid
