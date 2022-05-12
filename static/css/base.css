@@ -374,7 +374,7 @@ ul.messages li.edit_form_msg_li ul li{
   border-radius: 6px;
 }
 
-.single-auction-main-section img {
+.single-auction-main-section #image-carousel {
   float: left;
   width: 90%;
   height: 90%;
@@ -384,6 +384,12 @@ ul.messages li.edit_form_msg_li ul li{
   border-radius: 5px;
   text-align: center;
   object-fit: contain;
+}
+.single-auction-main-section img{
+  float: left;
+  width:  380px;
+  height: 219px;
+  object-fit: cover;
 }
 
 .single-auction-small-info-section {
