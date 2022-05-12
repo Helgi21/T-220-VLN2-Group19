@@ -40,6 +40,17 @@
                                 Pay now
                             </button>
                         </div>
+                        <div class="cancel_offer_{{ offer.get_status }}" style="display: none;">
+
+                            <form role="form" action="{% url 'auction:offers' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="cancel_offer" value="{{ offer.id }}">
+                                <input type="submit" value="Cancel" class="btn btn-danger">
+                            </form>
+
+
+                        </div>
+
                     </div>
                 </div>
             {% endfor %}
