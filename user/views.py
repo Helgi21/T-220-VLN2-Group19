@@ -1,15 +1,17 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
-from django.core.exceptions import ValidationError
+from django.contrib.auth import get_user_model
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views import View
-from django.views.generic import DetailView, ListView
-from user.forms import UserCreateForm as UsCrF
-from user.forms import EditUserForm as EdUsF
-from django.contrib.auth import get_user_model
+from django.views.generic import DetailView, ListView, FormView
+from user.forms.UserCreateForm import UserCreateForm
+from user.forms.EditUserForm import EditUserForm
 from user import models
 from auction import models as auction_models
+from user.forms.ReviewForm import ReviewForm
+
 User = get_user_model()
 
 
@@ -33,20 +35,19 @@ class Profile(LoginRequiredMixin, DetailView):
         context['edit_user_form'] = None
         if self.request.user == self.object:
             context['payment_options'] = self.object.cards
-            context['edit_user_form'] = EdUsF.EditUserForm(self.request.user.username,
-                                                           data={"username": self.request.user.username,
-                                                                 "first_name": self.request.user.first_name,
-                                                                 "last_name": self.request.user.last_name,
-                                                                 "email": self.request.user.email,
-                                                                 "profile_picture":
-                                                                     self.request.user.profile.profile_picture,
-                                                                 "bio": self.request.user.profile.bio,
-                                                                 "birthday": self.request.user.profile.birthday})
+            context['edit_user_form'] = EditUserForm(self.request.user.username,
+                                                     data={"username": self.request.user.username,
+                                                           "first_name": self.request.user.first_name,
+                                                           "last_name": self.request.user.last_name,
+                                                           "email": self.request.user.email,
+                                                           "profile_picture": self.request.user.profile.profile_picture,
+                                                           "bio": self.request.user.profile.bio,
+                                                           "birthday": self.request.user.profile.birthday})
         return context
 
     def post(self, request, *args, **kwargs):
         if 'first_name' in request.POST:
-            form = EdUsF.EditUserForm(self.request.user.username, data=request.POST)
+            form = EditUserForm(self.request.user.username, data=request.POST)
 
             if form.is_valid():
                 user_model_instance = User.objects.get(id=request.user.id)
@@ -73,11 +74,11 @@ class Profile(LoginRequiredMixin, DetailView):
 class Register(View):
     def get(self, request):
         return render(request, 'user/register.html', {
-            'form': UsCrF.UserCreateForm()
+            'form': UserCreateForm()
         })
 
     def post(self, request):
-        form = UsCrF.UserCreateForm(data=request.POST)
+        form = UserCreateForm(data=request.POST)
         if form.is_valid():
             form.save()
             print(request.POST)
@@ -89,7 +90,7 @@ class Register(View):
         else:
             # messages.error(request, 'invalid registration details')
             return render(request, 'user/register.html', {
-                'form': UsCrF.UserCreateForm(data=request.POST)
+                'form': UserCreateForm(data=request.POST)
             })
 
 
@@ -127,3 +128,68 @@ class Purchases(LoginRequiredMixin, ListView):
     def get_queryset(self):
         qs = super().get_queryset()
         return qs.filter(user_id=self.request.user.id, status__in=[4, 5])
+
+
+class Review(FormView):
+    template_name = 'user/review.html'
+    form_class = ReviewForm
+    success_url = '/'
+
+    def get(self, request, *args, **kwargs):
+        if request.GET.get('reviewing') and request.GET.get('offer_id') and \
+                self.valid_review(request.GET.get('reviewing'), request.GET.get('offer_id')):
+            return super().get(request, *args, **kwargs)
+
+        messages.error(request, "Invalid request - Contact admin if this problem persists")
+        # Trick to go back and keep scroll position,
+        # I could go back with HTTP_REFERER, but that would not keep scroll position
+        return HttpResponse('<script>history.back();</script>')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        offer = auction_models.Offer.objects.get(id=self.request.GET.get('offer_id'))
+        if self.request.GET.get('reviewing') == 'buyer':
+            context['reviewed_user'] = offer.user
+        else:  # reviewing seller
+            context['reviewed_user'] = offer.auction.user
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            offer = auction_models.Offer.objects.get(id=request.POST.get('offer_id'))
+            if request.GET.get('reviewing') == 'buyer':
+                offer.seller_has_reviewed = True
+                offer.save()
+            else:
+                offer.buyer_has_reviewed = True
+                offer.save()
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def get_success_url(self):
+        messages.add_message(self.request, messages.INFO, 'Review Sent!')
+        super(self).get_success_url()
+
+    def valid_review(self, reviewing: str, offer_id: str) -> bool:
+        offer = auction_models.Offer.objects.filter(id=offer_id)
+        if len(offer) == 0:
+            return False
+        offer = offer[0]
+        if reviewing == 'buyer':
+            if offer.status != 5 or offer.status != 4:
+                return False
+            else:
+                if offer.seller_has_reviewed:
+                    return False
+            return True
+        elif reviewing == 'seller':
+            if offer.status != 5:
+                return False
+            else:
+                if offer.buyer_has_reviewed:
+                    return False
+            return True
+        else:
+            return False

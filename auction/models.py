@@ -65,6 +65,8 @@ class Offer(models.Model):
     auction = models.ForeignKey(Auction, on_delete=models.CASCADE)
     price = models.PositiveIntegerField()
     status = models.IntegerField(choices=OfferStatus.choices, validators=[MinValueValidator(1), MaxValueValidator(5)])
+    seller_has_reviewed = models.BooleanField(default=False)
+    buyer_has_reviewed = models.BooleanField(default=False)
 
     def get_status(self):
         return self.OfferStatus(self.status).label

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h3 id="review_form_title">Reviewing user: <a href="/profile/{{reviewed_user.id}}" id="review_username">{{ reviewed_user.username }}</a></h3>
+<form method="post" action="{% url 'review' %}">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">Submit Review</button>
+</form>
+{% endblock %}
