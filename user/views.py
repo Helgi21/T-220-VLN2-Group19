@@ -34,6 +34,8 @@ class Profile(LoginRequiredMixin, DetailView):
         context = super().get_context_data()
         context['payment_options'] = None
         context['edit_user_form'] = None
+        context['reviews'] = models.Review.objects.filter(reviewed_user=self.object.id)
+
         if self.request.user == self.object:
             context['payment_options'] = self.object.cards
             context['edit_user_form'] = EditUserForm(self.request.user.username,
@@ -47,6 +49,7 @@ class Profile(LoginRequiredMixin, DetailView):
         return context
 
     def post(self, request, *args, **kwargs):
+        print(request.POST)
         if 'first_name' in request.POST:
             form = EditUserForm(self.request.user.username, data=request.POST)
 
@@ -67,9 +70,15 @@ class Profile(LoginRequiredMixin, DetailView):
                     print(error)
                 messages.error(request, form.errors, extra_tags='edit_form_msg_li')
                 return redirect(f"/profile/{request.user.id}?profile_edit")
+        elif 'delete_account' in request.POST:
+            print("Delete")
+            account_id = request.POST['delete_account']
+            account = models.User.objects.get(id=request.user.id)
 
-        else:
-            print("payment post request")
+            account.delete()
+            messages.success(request, 'Bye!')
+            return redirect('/')
+
 
 
 class Register(View):

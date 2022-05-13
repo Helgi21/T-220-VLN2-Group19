@@ -3,25 +3,32 @@
 {% block content %}
     <div class="profile_container">
         <div class="sidenav">
+            <a href="./?profile_info">Profile</a>
             {% if request.user.username == user.username %}
-                <a href="./?profile_info">Profile</a>
                 <a href="./?profile_edit">Edit Info</a>
                 <a href="./?payment_options">Payment Options</a>
-                <a href="" id="deactivate" style="color: red; padding-top: 80%">Deactivate Account</a>
+            {% endif %}
+            <a href="./?profile_reviews">See reviews</a>
+            {% if request.user.username == user.username %}
+                <br><br><br>
+                <form role="form" action="/profile/{{ request.user.id }}/" method="post" style="padding-left: 40px">
+                        {% csrf_token %}
+                        <input type="hidden" name="delete_account" value="{{ account.id }}">
+                        <input type="submit" value="Delete Account" class="btn btn-danger">
+                    </form>
             {% else %}
-                {%  if request.user.username != user.username %}
-                    <a id="user-profile-report-user" href="#" class="text-danger">Report User</a>
-                {% endif %}
                 {% if request.user.is_superuser %}
                     <a id="user-profile-ban-user" href="#" class="text-danger">Ban User</a>
                     <a id="user-profile-ban-user" href="#" class="text-danger">Make Admin</a>
                 {% endif %}
             {% endif %}
+
         </div>
 
         <div id="profile_main_page" class="main_page">
             <span id="profile_message" style="display: none;"></span>
             {% include 'user/profile_info.html' %}
+            {% include 'user/profile_reviews.html' %}
             {% if edit_user_form != None and payment_options != None %}
                 {% include 'user/profile_edit.html' %}
                 {% include 'user/profile_payment_options.html' %}

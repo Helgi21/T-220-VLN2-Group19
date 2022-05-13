@@ -106,6 +106,18 @@ class SingleAuction(DetailView):
         return context
 
     def post(self, request, pk):
+        print(request.POST)
+        if 'delete_auction' in request.POST:
+            auction_id = request.POST['delete_auction']
+            auction = models.Auction.objects.get(id=pk)
+            if auction.is_finished:
+                messages.error(request, 'Cannot delete this auction')
+                return redirect('/')
+
+            auction.delete()
+            messages.success(request, 'Auction deleted!')
+            return redirect('/')
+
         form = MakeOfferForm(data=request.POST)
         if form.is_valid():
             auction = models.Auction.objects.get(id=pk)
