@@ -16,7 +16,6 @@
                 <p> Posted: {{ auction.creation_time|date:'j M, Y - H:i' }}<small style="font-size:15px">{{ auction.creation_time|date:'.s' }}</small></p>
                 <a href="{% url 'auction:singleAuction' pk=auction.id %}" class="btn btn-primary stretched_link">View Auction</a>
                 <a href="{% url 'auction:offers' %}?received_offers" class="btn btn-info stretched_link">See offers</a> <!-- TODO: if filter by auction in offers screeen is implemented make this filter by this auction -->
-                <a href="" class="btn btn-danger stretched_link">Delete Auction</a>
             </div>
          </div>
     {% endfor %}

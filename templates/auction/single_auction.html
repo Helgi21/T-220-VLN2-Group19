@@ -60,7 +60,11 @@
                     </button>
                 {% endif %}
                 {% if request.user.username == auction.user.username %}
-                    <button type="button" class="btn btn-primary">Edit Info</button>
+                    <form role="form" action="{% url 'auction:singleAuction' pk=auction.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="delete_auction" value="{{ offer.id }}">
+                        <input type="submit" value="Delete" class="btn btn-danger">
+                    </form>
                 {% endif %}
             {% endif %}
         </div>
