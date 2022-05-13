@@ -32,7 +32,6 @@ class Profile(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context['avg_rate'] = models.User.objects.aggregate(Avg('rating'))
         context['payment_options'] = None
         context['edit_user_form'] = None
         if self.request.user == self.object:
