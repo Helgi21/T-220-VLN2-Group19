@@ -2,22 +2,37 @@
       <div class="container">
           <a class="navbar-brand" href="/" style="color:white; font-size: 160%;">Fire Sale!</a>
 
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#notificationNavbar #profileNavbarDropdown #signinNavbar" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation" style="float: right;">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#notificationNavbar #profileNavbarDropdown #signinNavbar #navbar-rating" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation" style="float: right;">
             <span class="navbar-toggler-icon"></span>
           </button>
 
           {% if request.user.is_authenticated %}
-          <div style="float: right; margin-left: 60%">
+          <div style="float: right; margin-left: 40%">
               <div class="collapse navbar-collapse" id="notificationNavbar">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <span class="badge badge-pill badge-warning" style="float:right;margin-bottom:-15px;margin-right:-12px;font-size:10px">0</span>
-                        <a class="nav-link" href="">Notifications</a>
+                    <li class="nav-item dropdown">
+                        <span class="badge badge-pill badge-warning" style="float:right;margin-bottom:-15px;margin-right:-12px;font-size:10px">{{ request.user.notifications.all|length }}</span>
+                        <a class="nav-link dropdown-toggle" href="" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Notifications</a>
+                        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDarkDropdownMenuLink">
+                          {% for n in request.user.notifications.all %}
+                            <li id="each-noti-container" style="display: block; position: relative; left: 10px; padding-right: 30px;"><a class="dropdown-item">{{ n.title }} <br/> {{ n.text }}</a></li>
+                          {% endfor %}
+                        </ul>
                     </li>
                 </ul>
               </div>
           </div>
           {% endif %}
+
+          <div>
+              <div class="collapse navbar-collapse" id="navbar-rating">
+                  <ul class="navbar-nav">
+                      <li class="nav-item">
+                        <a class="nav-link disabled">Average Rating: {{ request.user.profile.rating }}</a>
+                      </li>
+                  </ul>
+              </div>
+          </div>
 
           <div style="float:right; margin-right: 20px; margin-left: 15px;">
           {% if request.user.is_authenticated %}

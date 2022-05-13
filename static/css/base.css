@@ -3,6 +3,7 @@ body{
 }
 main {
   margin-top: 65px;
+  overflow: auto;
 }
 ul.messages li{
   text-align: center;
@@ -410,7 +411,7 @@ ul.messages li.edit_form_msg_li ul li{
 }
 
 .single-auction-btn-section {
-  position: absolute;
+  float: right;
   right: 30px;
   bottom: 25px;
 }
@@ -459,6 +460,10 @@ ul.messages li.edit_form_msg_li ul li{
   margin-top: 10px;
   margin-left: 4px;
   font-size: 18px;
+}
+
+.similar-items{
+  position: absolute;
 }
 /* Add Auction page style */
 
@@ -630,18 +635,42 @@ ul.messages li.edit_form_msg_li ul li{
   display: block;
 }
 
-body {
-  position: relative;
-  min-height: 86vh;
-}
-
-main {
-  padding-bottom: 2.5rem;    /* Footer height */
-}
-
 footer {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
-  height: 2.5rem;            /* Footer height */
+  padding: 0;
+  margin: 0;
+
 }
+
+footer .card-body{
+  padding: 0px;
+}
+
+footer span{
+  vertical-align: text-top;
+}
+
+/* profile reviews */
+
+
+
+
+/* <<<<<<< Updated upstream */
+
+.each-noti-container {
+
+}
+
+
+.notifi-x-btn {
+
+}
+
+
+.notifi-x-btn:hover {
+  background-color: #333333;
+}
+
+/* >>>>>>> Stashed changes */

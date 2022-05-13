@@ -1,0 +1,12 @@
+<div id="profile_reviews">
+    {% for review in reviews %}
+        <div class="card>">
+            <div class="card-body">
+                <span>From: {{ review.reviewer_user.username }}</span><br>
+                <span>Rating: {{ review.rating }}/10</span><br>
+                <span>Review: {{ review.description }}</span><br>
+                <span>Item: {{ review.offer.auction.title }}</span>
+            </div>
+        </div>
+    {% endfor %}
+</div>

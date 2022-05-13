@@ -17,7 +17,7 @@ class EditUserForm(forms.Form):
     profile_picture = forms.URLField(required=False, max_length=999,
                                      widget=forms.URLInput(attrs={'class': 'form-control'}))
     bio = forms.CharField(max_length=255, required=False, widget=forms.Textarea(attrs={'class': 'form-control'}))
-    birthday = forms.DateField(required=False, input_formats=['%Y-%m-%d'],
+    birthday = forms.DateField(required=False, label="Birthday (YYYY-MM-DD)", input_formats=['%Y-%m-%d'],
                                widget=forms.DateInput(attrs={'class': 'form-control'}, format='%Y-%m-%d'))
 
     def clean(self):

@@ -11,6 +11,8 @@
         <div id="profile_lower_container">
             <div class="user-profile-small-info">
                 <a><b>{{ user.first_name }} {{ user.last_name }}</b></a>
+                <label>Rating</label>
+                <a>{{ user.profile.rating }}/10</a>
                 <label>Joined</label>
                 <a id="user-profile-joined">{{ user.date_joined|date:'j M, Y - H:i' }}<small style="font-size:15px">{{ user.date_joined|date:'.s' }}</small></a>
                 <label>Email</label>

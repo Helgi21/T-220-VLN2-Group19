@@ -12,6 +12,7 @@ from .forms.pay_forms import ContactPayForm, PaymentPayForm
 from .forms.make_counter_offer_form import MakeCounterOfferForm
 from django.contrib import messages
 from user.notifications import Notification
+from django.db.models import Avg
 
 # Create your views here.
 from .models import Offer
@@ -38,17 +39,15 @@ class AllAuctions(ListView):
             if order_by == 'price' or order_by == 'title':
                 dir_map['asc'] = '-'
                 dir_map['desc'] = ''
-
+            print(old)
             direction = dir_map[direction]
             if category == 'all':
-                a = models.Auction.objects.filter(title__icontains=search).exclude(offer__status__in=[1, 2, 3])
-                a = a.union(
-                    models.Auction.objects.filter(description__icontains=search).exclude(offer__status__in=[1, 2, 3]))
+                a = models.Auction.objects.filter(title__icontains=search).filter(is_finished=old)
+                a = a.union(models.Auction.objects.filter(description__icontains=search).filter(is_finished=old))
             else:
-                a = models.Auction.objects.filter(title__icontains=search, cat_id=category).exclude(
-                    offer__status__in=[4, 5])
-                a = a.union(models.Auction.objects.filter(description__icontains=search, cat_id=category).exclude(
-                    offer__status__in=[4, 5]))
+                a = models.Auction.objects.filter(title__icontains=search, cat_id=category).filter(is_finished=old)
+                a = a.union(models.Auction.objects
+                            .filter(description__icontains=search, cat_id=category).filter(is_finished=old))
 
             a = a.order_by(str(direction) + str(order_by))
             auctions = [{
@@ -92,11 +91,35 @@ class SingleAuction(DetailView):
         context['form'] = form
         context['highest_offer'] = models.Offer.objects.filter(auction=self.object).order_by('-price').first()
         accepted_paid = models.Offer.objects.filter(auction=self.object, status__in=[4, 5])
+        all_similar_items = models.Auction.objects.filter(cat=self.object.cat, is_finished=False).exclude(id=self.object.id)
+
         if len(accepted_paid) > 0:
             context['accepted_offer'] = accepted_paid
+
+        similar_items = []
+        for i, x in enumerate(all_similar_items):
+            if i >= 4:
+                break
+            similar_items.append(x)
+
+        if len(similar_items) > 0:
+            context['similar_items'] = similar_items
+
         return context
 
     def post(self, request, pk):
+        print(request.POST)
+        if 'delete_auction' in request.POST:
+            auction_id = request.POST['delete_auction']
+            auction = models.Auction.objects.get(id=pk)
+            if auction.is_finished:
+                messages.error(request, 'Cannot delete this auction')
+                return redirect('/')
+
+            auction.delete()
+            messages.success(request, 'Auction deleted!')
+            return redirect('/')
+
         form = MakeOfferForm(data=request.POST)
         if form.is_valid():
             auction = models.Auction.objects.get(id=pk)
@@ -214,6 +237,7 @@ class ViewOffers(LoginRequiredMixin, ListView):
 
             offer = models.Offer.objects.get(id=offer_response[1])
             offer.status = offer_response[0]
+            offer.is_finished = True
 
             offer.save()
             if offer_response[0] == str(4):
