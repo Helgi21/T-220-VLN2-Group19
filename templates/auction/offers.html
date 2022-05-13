@@ -32,20 +32,19 @@
                             <h4> Offer: {{ offer.price }} kr.</h4>
                             <h4> {{ offer.get_status }}</h4>
                         </div>
-                        <div class="pay_button_{{ offer.get_status }}" style="display: none;">
+                        {% if offer.status == 4%}
                             <button class="btn btn-success"
                                     onclick="window.location.href='{% url "auction:pay" pk=offer.id %}'">
                                 Pay now
                             </button>
-                        </div>
-                        <div class="cancel_offer_{{ offer.get_status }}" style="display: none;">
-
+                        {% endif %}
+                        {% if offer.status <= 2 %}
                             <form role="form" action="{% url 'auction:offers' %}" method="post">
                                 {% csrf_token %}
                                 <input type="hidden" name="cancel_offer" value="{{ offer.id }}">
                                 <input type="submit" value="Cancel" class="btn btn-danger">
                             </form>
-                        </div>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}
@@ -57,18 +56,23 @@
                         <a href="{% url 'auction:singleAuction' pk=offer.auction.id %}">
                             <h5>{{ offer.auction.title }}</h5>
                         </a>
-                        <h5 class="not_{{ offer.get_status }}_offer_from_user">
-                            {{ offer.get_status }} Offer from:
-                            <a href ="{% url 'user:profile' pk=offer.auction.user_id %}">
-                                 {{ offer.user.username }}
-                            </a>
-                        </h5>
-                        <h5 class="{{ offer.get_status }}_offer_from_user"  style="display: none;">
-                            {{ offer.get_status }} Counter offer from:
-                            <a href ="{% url 'user:profile' pk=offer.auction.user_id %}">
-                                 {{ offer.user.username }}
-                            </a>
-                        </h5>
+
+                        {% if offer.status == 2 %}
+                            <h5 class="counter_offer_from_user">
+                                {{ offer.get_status }} Counter offer from:
+                                <a href ="{% url 'user:profile' pk=offer.auction.user_id %}">
+                                     {{ offer.user.username }}
+                                </a>
+                            </h5>
+                        {% else %}
+                            <h5 class="not_counter_offer_from_user">
+                                {{ offer.get_status }} Offer from:
+                                <a href ="{% url 'user:profile' pk=offer.auction.user_id %}">
+                                     {{ offer.user.username }}
+                                </a>
+                            </h5>
+                        {% endif %}
+
                     </div>
                     <div class="card-body">
                         <img src="{{ offer.auction.images.first.link }}" alt="auction image">
@@ -76,68 +80,73 @@
                             <h4> Offer: {{ offer.price }} kr.</h4>
                         </div>
                         <!-- Make offer button -->
-                        <button type="button" class="btn btn-primary modal_{{ offer.get_status }}"
-                                data-bs-toggle="modal" data-bs-target="#offerModal{{ offer.id }}"
-                                style="display: none;">
-                            View
-                        </button>
-                        <!-- View offer Modal -->
-                        <div class="modal fade" id="offerModal{{ offer.id }}" tabindex="-1" role="dialog"
-                             aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                                                data-bs-toggle="modal" data-bs-target="#offerModal">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                            <form role="form" action="{% url 'auction:offers' %}" method="post">
-                                                {% csrf_token %}
-                                                <input type="hidden" name="offer_response" value="4_{{ offer.id }}">
-                                                <input type="submit" value="Accept" class="btn btn-success">
-                                            </form>
-                                            <form role="form" action="{% url 'auction:offers' %}" method="post">
-                                                {% csrf_token %}
-                                                <input type="hidden" name="offer_response" value="3_{{ offer.id }}">
-                                                <input type="submit" value="Decline" class="btn btn-success">
-                                            </form>
-                                            <button type="button"
-                                                    class="btn btn-primary button_counter_{{ offer.status }}"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#counterOfferModal{{ offer.id }}">
-                                                Make counter offer
+                        {% if offer.status == 1 %}
+                            <button type="button" class="btn btn-primary modal_{{ offer.get_status }}"
+                                    data-bs-toggle="modal" data-bs-target="#offerModal{{ offer.id }}">
+                                View
+                            </button>
+                            <!-- View offer Modal -->
+                            <div class="modal fade" id="offerModal{{ offer.id }}" tabindex="-1" role="dialog"
+                                 aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                                    data-bs-toggle="modal" data-bs-target="#offerModal">
+                                                <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal fade" id="counterOfferModal{{ offer.id }}" tabindex="-1" role="dialog"
-                             aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                                                data-bs-toggle="modal" data-bs-target="#CounterOfferModal">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                            <form role="form" action="{% url 'auction:offers' %}" method="post">
-                                                {% csrf_token %}
-                                                <input name="counter_offer_price" type="number" >
-                                                <input type="hidden" name="counter_offer_id" value="{{ offer.id }}">
-                                                <input type="submit" value="Send" class="btn btn-success">
-                                            </form>
+                                        <div class="modal-body">
+                                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                                <form role="form" action="{% url 'auction:offers' %}" method="post">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="offer_response" value="4_{{ offer.id }}">
+                                                    <input type="submit" value="Accept" class="btn btn-success">
+                                                </form>
+                                                <form role="form" action="{% url 'auction:offers' %}" method="post">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="offer_response" value="3_{{ offer.id }}">
+                                                    <input type="submit" value="Decline" class="btn btn-success">
+                                                </form>
+                                                {%  if offer.status != 2 %}
+                                                    <button type="button"
+                                                            class="btn btn-primary button_counter_{{ offer.status }}"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#counterOfferModal{{ offer.id }}">
+                                                        Make counter offer
+                                                    </button>
+                                                {% endif %}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        {% endif %}
+                        {% if offer.status != 2 %}
+                            <div class="modal fade" id="counterOfferModal{{ offer.id }}" tabindex="-1" role="dialog"
+                                 aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                                    data-bs-toggle="modal" data-bs-target="#CounterOfferModal">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                                <form role="form" action="{% url 'auction:offers' %}" method="post">
+                                                    {% csrf_token %}
+                                                    <input name="counter_offer_price" type="number" >
+                                                    <input type="hidden" name="counter_offer_id" value="{{ offer.id }}">
+                                                    <input type="submit" value="Send" class="btn btn-success">
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}

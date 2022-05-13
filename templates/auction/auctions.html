@@ -47,7 +47,12 @@
                    <li class="list-group-item" aria-current="true" data-catid="{{ category.id }}">&nbsp;&nbsp;&nbsp;{{ category.name }}</li>
                 {% endfor %}
             </ul>
+            <div class="form-check form-switch">
+                <input class="form-check-input" id="old-auctions" type="checkbox" id="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckDefault">Show old / finished auctions</label>
+            </div>
         </div>
+
     </div>
 
 {% endblock %}

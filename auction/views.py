@@ -3,6 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.views.generic import DetailView, ListView
+from django.db.models import Q
 from . import models
 from .forms.add_auction_form import AddAuctionForm
 from .forms.make_offer_form import MakeOfferForm
@@ -23,7 +24,8 @@ class AllAuctions(ListView):
         order_by = self.request.GET.get('order_by')
         direction = self.request.GET.get('direction')
         category = self.request.GET.get('category')
-        if search and order_by and direction and category:
+        old = self.request.GET.get('old')
+        if search and order_by and direction and category and old:
             if search == "*":
                 search = ""
 
@@ -36,14 +38,16 @@ class AllAuctions(ListView):
                 dir_map['desc'] = ''
 
             direction = dir_map[direction]
-
             if category == 'all':
-                a = models.Auction.objects.filter(title__icontains=search).exclude(offer__status__in=[4, 5])
-                a = a.union(models.Auction.objects.filter(description__icontains=search).exclude(offer__status__in=[4, 5]))
+                a = models.Auction.objects.filter(title__icontains=search).exclude(offer__status__in=[1, 2, 3])
+                a = a.union(
+                    models.Auction.objects.filter(description__icontains=search).exclude(offer__status__in=[1, 2, 3]))
             else:
-                a = models.Auction.objects.filter(title__icontains=search, cat_id=category).exclude(offer__status__in=[4, 5])
-                a = a.union(models.Auction.objects.filter(description__icontains=search, cat_id=category).exclude(offer__status__in=[4, 5]))
-            print(a)
+                a = models.Auction.objects.filter(title__icontains=search, cat_id=category).exclude(
+                    offer__status__in=[4, 5])
+                a = a.union(models.Auction.objects.filter(description__icontains=search, cat_id=category).exclude(
+                    offer__status__in=[4, 5]))
+
             a = a.order_by(str(direction) + str(order_by))
             auctions = [{
                 'id': x.id,
@@ -188,14 +192,20 @@ class ViewOffers(LoginRequiredMixin, ListView):
                              f"Their counter offer: {offer.price}kr. "),
                          offer.user,
                          "/offers/?received_offers")
-            messages.success(request, f'Counter offer sent!')
+            messages.success(request, 'Counter offer sent!')
 
             return redirect(f'/offers/?received_offers')
 
         elif 'cancel_offer' in request.POST:  # Cancel offers
-            offer_id = request.POST['cancel_offer_id']
+            offer_id = request.POST['cancel_offer']
             offer = models.Offer.objects.get(id=offer_id)
+            if offer.status == 4 or offer.status == 5:
+                messages.error(request, 'Cannot cancel this offer')
+                return redirect(f'/offers')
+
             offer.delete()
+            messages.success(request, 'Offer cancelled!')
+            return redirect(f'/offers')
 
         else:  # Accept or decline only
             offer_response = request.POST['offer_response'].split('_')
@@ -221,6 +231,7 @@ class ViewOffers(LoginRequiredMixin, ListView):
                                                     f"has been accepted! Please proceed to pay for the product."),
                              offer.user, "/offers/")
                 messages.success(request, f'Offer accepted!')
+
             elif offer.status == str(3):
                 print("declined")
                 Notification("Offer Declined", str(f"Your offer of {offer.price}Kr "

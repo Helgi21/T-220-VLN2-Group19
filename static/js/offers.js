@@ -7,39 +7,11 @@ if (link.length > 1 && link[1] === 'received_offers'){
 }
 
 let pay_button = document.getElementsByClassName('pay_button_Accepted');
-let pending_offers = document.getElementsByClassName('modal_Pending');
-let counter_offers = document.getElementsByClassName('modal_Counter');
-let counter_button = document.getElementsByClassName('button_counter_2');
-let regular_received_offer = document.getElementsByClassName('not_Counter_offer_from_user');
-let counter_received_offer = document.getElementsByClassName('Counter_offer_from_user');
-let cancel_offer_pending = document.getElementById('cancel_offer_Pending');
-let cancel_offer_counter = document.getElementById('cancel_offer_Counter');
-
 
 for(let i = 0; i < pay_button.length; i++){
     pay_button[i].style.display = "block"
 }
-for(let i = 0; i < counter_received_offer.length; i++){
-    counter_received_offer[i].style.display = "block"
-}
-for(let i = 0; i < pending_offers.length; i++){
-    pending_offers[i].style.display = "block"
-}
-for(let i = 0; i < counter_offers.length; i++){
-    counter_offers[i].style.display = "block"
-}
-for(let i = 0; i < counter_button.length; i++){
-    counter_button[i].style.display = "none"
-}
-for(let i = 0; i < regular_received_offer.length; i++){
-    regular_received_offer[i].style.display = "none"
-}
-for(let i = 0; i < cancel_offer_pending.length; i++){
-    cancel_offer_pending[i].style.display = "block"
-}
-for(let i = 0; i < cancel_offer_counter.length; i++){
-    cancel_offer_counter[i].style.display = "block"
-}
+
 
 
 

@@ -18,12 +18,13 @@ function search() {
     let orderBy = $('#order_by_select').find(":selected").val()
     let direction = $('#direction_select').find(":selected").val()
     let category = $('#category_list').find(".active").data('catid')
+    let old = $('#old-auctions').checked
 
     if(searchText === ""){
         searchText = "*"
     }
     $.ajax({
-        url: '?search=' + searchText + '&order_by=' + orderBy + '&direction=' + direction + '&category=' + category,
+        url: '?search=' + searchText + '&order_by=' + orderBy + '&direction=' + direction + '&category=' + category + '&old=' + old,
         type: 'GET',
         success: function (res){
             let newHtml = ""

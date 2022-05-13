@@ -40,7 +40,9 @@
         {% endif %}
         <p class="single-auction-highest-offer">Highest Offer: {{ highest_offer.price }}</p>
         <p class="single-auction-small-info-section">
-            <span> Seller: {{ auction.user.username }} </span>
+            <span>
+                Seller: <a href="{% url 'user:profile' pk=auction.user_id %}">{{ auction.user.username }}</a>
+            </span>
             <span>Location: {{ auction.loc.name }} </span>
             <span>Category: {{ auction.cat.name }} </span>
         </p>
