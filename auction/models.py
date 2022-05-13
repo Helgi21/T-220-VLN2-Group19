@@ -46,6 +46,7 @@ class Auction(models.Model):
     cat = models.ForeignKey(Category, on_delete=models.CASCADE)
     condition = models.ForeignKey(Condition, on_delete=models.CASCADE)
     creation_time = models.DateTimeField(auto_now_add=True)
+    is_finished = models.BooleanField(default=False)
 
 
 class Image(models.Model):

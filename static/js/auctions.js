@@ -10,15 +10,17 @@ $(document).ready(function (){
         search()
     });
 
+    $('#live-old-buttons').on('click', function(e){
+        search()
+    });
 });
 
-
 function search() {
-    let searchText = $('#search-box').val()
-    let orderBy = $('#order_by_select').find(":selected").val()
-    let direction = $('#direction_select').find(":selected").val()
-    let category = $('#category_list').find(".active").data('catid')
-    let old = $('#old-auctions').checked
+    let searchText = $('#search-box').val();
+    let orderBy = $('#order_by_select').find(":selected").val();
+    let direction = $('#direction_select').find(":selected").val();
+    let category = $('#category_list').find(".active").data('catid');
+    let old = $('input[name=live_old]:checked').val();
 
     if(searchText === ""){
         searchText = "*"
