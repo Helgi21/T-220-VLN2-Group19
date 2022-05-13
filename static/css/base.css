@@ -652,20 +652,15 @@ footer {
   height: 2.5rem;            /* Footer height */
 }
 
-<<<<<<< Updated upstream
-
-.each-noti-container {
-
-}
-
-
-.notifi-x-btn {
-
-}
-
+/*<<<<<<< Updated upstream*/
 
 .notifi-x-btn:hover {
   background-color: #333333;
 }
-=======
->>>>>>> Stashed changes
+/*=======*/
+/*>>>>>>> Stashed changes*/
+
+#navbar-rating {
+  color: white;
+}
+

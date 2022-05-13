@@ -11,6 +11,7 @@ from user.forms.EditUserForm import EditUserForm
 from user import models
 from auction import models as auction_models
 from user.forms.ReviewForm import ReviewForm
+from django.db.models import Avg
 
 User = get_user_model()
 
@@ -31,6 +32,7 @@ class Profile(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
+        context['avg_rate'] = models.User.objects.aggregate(Avg('rating'))
         context['payment_options'] = None
         context['edit_user_form'] = None
         if self.request.user == self.object:

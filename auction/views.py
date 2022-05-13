@@ -10,6 +10,7 @@ from .forms.make_offer_form import MakeOfferForm
 from .forms.make_counter_offer_form import MakeCounterOfferForm
 from django.contrib import messages
 from user.notifications import Notification
+from django.db.models import Avg
 
 # Create your views here.
 from .models import Offer
