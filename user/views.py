@@ -109,7 +109,7 @@ class MyAuctions(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        return qs.filter(user__id=self.request.user.id)
+        return qs.filter(user__id=self.request.user.id).order_by('-creation_time')
 
 
 class Sales(LoginRequiredMixin, ListView):
@@ -118,7 +118,7 @@ class Sales(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        return qs.filter(auction__user_id=self.request.user.id).filter(status__in=[4, 5])
+        return qs.filter(auction__user_id=self.request.user.id).filter(status__in=[4, 5]).order_by('-creation_time')
 
 
 class Purchases(LoginRequiredMixin, ListView):
@@ -127,10 +127,10 @@ class Purchases(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        return qs.filter(user_id=self.request.user.id, status__in=[4, 5])
+        return qs.filter(user_id=self.request.user.id, status__in=[4, 5]).order_by('-creation_time')
 
 
-class Review(FormView):
+class Review(LoginRequiredMixin, FormView):
     template_name = 'user/review.html'
     form_class = ReviewForm
     success_url = '/'
@@ -194,17 +194,13 @@ class Review(FormView):
     def valid_review(self, reviewing: str, offer_id: str) -> bool:
         offer = auction_models.Offer.objects.filter(id=offer_id)
         if len(offer) == 0:
-            print('len failed')
             return False
         offer = offer[0]
         if reviewing == 'buyer':
-            print("buyer")
             if offer.status != 5 and offer.status != 4:
-                print('offer status failed')
                 return False
             else:
                 if offer.seller_has_reviewed:
-                    print('has reviewed failed')
                     return False
             return True
         elif reviewing == 'seller':

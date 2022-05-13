@@ -1,6 +1,8 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.db.models import ForeignKey
+
 User = get_user_model()
 from django.utils.translation import gettext_lazy as _
 from auction import models as auction_models
@@ -54,19 +56,29 @@ class Review(models.Model):
     offer = models.ForeignKey(auction_models.Offer, on_delete=models.CASCADE, related_name='offer_reviews')
 
 
+class Country(models.Model):
+    code = models.CharField(max_length=2)
+    name = models.CharField(max_length=150)
+
+    def __str__(self):
+        return self.name
+
+
 class CardInfo(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="cards")
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
+    cardholder_first_name = models.CharField(max_length=255)
+    cardholder_last_name = models.CharField(max_length=255)
     card_number = models.BigIntegerField(validators=[MinValueValidator(1000000000000000),
                                                      MaxValueValidator(9999999999999999)])
     cvc = models.SmallIntegerField(validators=[MinValueValidator(100), MaxValueValidator(999)])
     expires = models.DateField()
     street = models.CharField(max_length=255)
+    house_number = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(9999)], default=0)
     city = models.CharField(max_length=255)
-    region = models.CharField(max_length=255)
-    zip = models.CharField(max_length=255)
-    country = models.CharField(max_length=255)
+    zip = models.CharField(max_length=15)
+    country = ForeignKey(Country, on_delete=models.CASCADE, related_name="cards")
 
 
 class Notification(models.Model):
@@ -76,4 +88,3 @@ class Notification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notifications")
     onclick_link = models.CharField(max_length=255)
     read = models.BooleanField(default=False)
-

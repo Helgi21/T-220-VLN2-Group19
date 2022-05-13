@@ -1,12 +1,14 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.views.generic import DetailView, ListView
 from django.db.models import Q
 from . import models
+from user import models as user_models
 from .forms.add_auction_form import AddAuctionForm
 from .forms.make_offer_form import MakeOfferForm
+from .forms.pay_forms import ContactPayForm, PaymentPayForm
 from .forms.make_counter_offer_form import MakeCounterOfferForm
 from django.contrib import messages
 from user.notifications import Notification
@@ -162,7 +164,7 @@ class ViewOffers(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        return qs.filter(user=self.request.user).exclude(status=5).exclude(status=2)
+        return qs.filter(user=self.request.user).exclude(status=5).exclude(status=2).order_by('-creation_time')
 
     def get_context_data(self, *args):
         context = super().get_context_data()
@@ -170,7 +172,7 @@ class ViewOffers(LoginRequiredMixin, ListView):
             .exclude(status__in=[5, 2])
         q2 = models.Offer.objects.all().filter(user=self.request.user).filter(status=2)
 
-        context['received_offers'] = context['received_offers'].union(q2)
+        context['received_offers'] = context['received_offers'].union(q2).order_by('-creation_time')
         return context
 
     def post(self, request):
@@ -245,24 +247,89 @@ class ViewOffers(LoginRequiredMixin, ListView):
 class Pay(LoginRequiredMixin, DetailView):
     model = Offer
     template_name = 'auction/pay.html'
+    success_url = '/purchases/'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if request.GET.get('fill_in_saved') != None and request.GET.get('fill_in_saved') != 'dont_use_saved':
+            data = user_models.CardInfo.objects.get(id=request.GET.get('fill_in_saved'))
+            self.contact_form = ContactPayForm(initial={
+                'first_name': data.first_name,
+                'last_name': data.last_name,
+                'street_name': data.street,
+                'house_number': data.house_number,
+                'city': data.city,
+                'country': data.country,
+                'zip': data.zip
+            }, prefix="contact_form")
+            self.payment_form = PaymentPayForm(initial={
+                'cardholder_first_name': data.cardholder_first_name,
+                'cardholder_last_name': data.cardholder_last_name,
+                'card_number': data.card_number,
+                'expires': data.expires,
+                'cvc': data.cvc
+            }, prefix="payment_form")
+        else:
+            self.contact_form = ContactPayForm(initial={'first_name': request.user.first_name,
+                                                    'last_name': request.user.last_name}, prefix='contact_form')
+            self.payment_form = PaymentPayForm(initial={'cardholder_first_name': request.user.first_name,
+                                                    'cardholder_first_name': request.user.last_name}, prefix='payment_form')
+        pk = self.object.id
+        if request.user.id != self.object.user.id or (self.object.status != 4 and self.object.status != 5):
+            messages.error(request, "Invalid request - Contact admin if this problem persists")
+            # Trick to go back and keep scroll position,
+            # I could go back with HTTP_REFERER, but that would not keep scroll position
+            return HttpResponse('<script>history.back();</script>')
+
+        context = self.get_context_data()
+        return self.render_to_response(context)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['auction'] = self.object.auction
+        if 'contact_pay_form' in kwargs and 'contact_pay_form' in kwargs:
+            context['contact_form'] = ContactPayForm(self.request.POST, prefix='contact_form')
+            context['payment_form'] = PaymentPayForm(self.request.POST, prefix='payment_form')
+        else:
+            context['contact_form'] = self.contact_form
+            context['payment_form'] = self.payment_form
         return context
 
     def post(self, request, pk):
-        offer_instance = Offer.objects.get(id=pk)
-        offer_instance.status = 5
-        offer_instance.save()
+        self.object = models.Offer.objects.get(id=pk)
+        print(request.POST)
+        contact_form = ContactPayForm(request.POST, prefix='contact_form')
+        payment_form = PaymentPayForm(request.POST, prefix='payment_form')
+        if contact_form.is_valid() and payment_form.is_valid():
+            if request.POST.get('payment_detail_save-checkbox') == 'on':
+                cardinfo_instance = user_models.CardInfo()
+                cardinfo_instance.first_name = contact_form.cleaned_data['first_name']
+                cardinfo_instance.last_name = contact_form.cleaned_data['last_name']
+                cardinfo_instance.card_number = payment_form.cleaned_data['card_number']
+                cardinfo_instance.cvc = payment_form.cleaned_data['cvc']
+                cardinfo_instance.expires = payment_form.cleaned_data['expires']
+                cardinfo_instance.street = contact_form.cleaned_data['street_name']
+                cardinfo_instance.city = contact_form.cleaned_data['city']
+                cardinfo_instance.zip = contact_form.cleaned_data['zip']
+                cardinfo_instance.country = user_models.Country.objects.get(id=contact_form.cleaned_data['country'].id)
+                cardinfo_instance.user = request.user
+                cardinfo_instance.house_number = contact_form.cleaned_data['house_number']
+                cardinfo_instance.cardholder_first_name = payment_form.cleaned_data['cardholder_first_name']
+                cardinfo_instance.cardholder_last_name = payment_form.cleaned_data['cardholder_last_name']
 
-        # offers_to_update = Offer.objects.all()
-        # for offer in offers_to_update:
-        #     if offer.id != pk and offer.auction == offer_instance.auction:
-        #         offer.status = 3
-        #         offer.save()
+                cardinfo_instance.save()
+            offer_instance = Offer.objects.get(id=pk)
+            offer_instance.status = 5
+            offer_instance.save()
+            messages.success(request, "Payment successful!")
+            return self.forms_valid(contact_form, payment_form)
+        else:
+            print("pay fail")
+            return self.forms_invalid(contact_form, payment_form)
 
+    def forms_valid(self, form1, form2):
+        """If the form is valid, redirect to the supplied URL."""
+        return HttpResponseRedirect(self.success_url)
 
-
-        messages.success(request, f'Payment sent!')
-        return redirect(f'/offers')
+    def forms_invalid(self, form1, form2):
+        """If the form is invalid, render the invalid form."""
+        return self.render_to_response(self.get_context_data(contact_pay_form=form1, payment_pay_form=form2))

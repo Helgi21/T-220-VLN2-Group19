@@ -1,4 +1,18 @@
 <div id="profile_payment_options">
-    <h1>FEATURE NOT IMPLEMENTED</h1>
+    <h1>Your saved payment options</h1>
     <p>Saved payment options already sent to template. access like this: for option in payment_options </p>
+    {% for option in payment_options.all %}
+        <div class="card">
+            <div class="card-body">
+                <p>CONTACT NAME: {{ option.first_name }} {{ option.last_name }}</p>
+                <p>CARD_NR: {{ option.card_number }}</p>
+                <p>CVC: {{ option.cvc }} &nbsp;&nbsp; EXP: {{ option.expires }}</p>
+                <p>STREET: {{ option.street }} {{ option.house_number }} &nbsp;&nbsp;CITY: {{ option.city }}</p>
+                <p>COUNTRY: {{ option.country.name }}</p>
+                <p>CARDHOLDER: {{ option.cardholder_first_name }} {{ option.cardholder_last_name }}</p>
+            </div>
+
+        </div>
+
+    {% endfor %}
 </div>
