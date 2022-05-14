@@ -29,3 +29,14 @@ Link: [Verklegt námskeið 2 - Group 19](https://drive.google.com/drive/folders/
 
 **_Linux or MacOS_**
 >source venv/bin/activate
+
+
+# About
+
+## Extra requirements done
+- lorem
+- ipsum
+- 
+## Mentions
+-
+-
