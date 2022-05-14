@@ -15,7 +15,7 @@
                         <a class="nav-link dropdown-toggle" href="" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Notifications</a>
                         <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDarkDropdownMenuLink">
                           {% for n in request.user.notifications.all %}
-                            <li id="each-noti-container" style="display: block; position: relative; left: 10px; padding-right: 30px;"><a class="dropdown-item">{{ n.title }} <br/> {{ n.text }}</a></li>
+                            <li id="each-noti-container" style="display: block; position: relative; left: 10px; padding-right: 30px;"><a class="dropdown-item" href="{{ n.onclick_link }}">{{ n.title }} <br/> {{ n.text }}</a></li>
                           {% endfor %}
                         </ul>
                     </li>
@@ -28,7 +28,7 @@
               <div class="collapse navbar-collapse" id="navbar-rating">
                   <ul class="navbar-nav">
                       <li class="nav-item">
-                        <a class="nav-link disabled">Average Rating: {{ request.user.profile.rating }}</a>
+                          <a class="nav-link disabled"><span style="font-size:10px">Avg Rating: </span>{{ request.user.profile.rating }}</a>
                       </li>
                   </ul>
               </div>
