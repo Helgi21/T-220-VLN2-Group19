@@ -25,6 +25,8 @@ function showPayment(){
         profile_edit.style.display = "none";
         profile_info.style.display = "none";
     }
+    profile_reviews.style.display = "none";
+
 }
 function showEdit(){
     if(elementsExist()){
@@ -32,7 +34,6 @@ function showEdit(){
         profile_edit.style.display = "block";
         profile_info.style.display = "none";
         profile_reviews.style.display = "none";
-
     }
 }
 
