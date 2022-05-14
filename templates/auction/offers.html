@@ -61,7 +61,7 @@
                             <h5 class="counter_offer_from_user">
                                 {{ offer.get_status }} Counter offer from:
                                 <a href ="{% url 'user:profile' pk=offer.auction.user_id %}">
-                                     {{ offer.user.username }}
+                                     {{ offer.auction.user.username }}
                                 </a>
                             </h5>
                         {% else %}
@@ -80,7 +80,9 @@
                             <h4> Offer: {{ offer.price }} kr.</h4>
                         </div>
                         <!-- Make offer button -->
-                        {% if offer.status == 1 %}
+
+
+                    {% if offer.status == 1 or offer.status == 2 %}
                             <button type="button" class="btn btn-primary modal_{{ offer.get_status }}"
                                     data-bs-toggle="modal" data-bs-target="#offerModal{{ offer.id }}">
                                 View
