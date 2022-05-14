@@ -31,14 +31,20 @@
             <p class="single-auction-description">{{ auction.description }}</p>
         </div>
         {% if accepted_offer %}
-            <p class="single-auction-accepted_offer-info">Bought at {{ accepted_offer.price }}</p>
+            <p class="single-auction-accepted_offer-info">Bought for <b>{{ accepted_offer.price }}</b>Kr.</p>
         {% endif %}
         {% if accepted_offer %}
             <h4 class="single-auction-price" style="text-decoration: line-through">Price: {{ auction.price }} kr </h4>
         {% else %}
             <h4 class="single-auction-price">Price: {{ auction.price }} kr </h4>
         {% endif %}
-        <p class="single-auction-highest-offer">Highest Offer: {{ highest_offer.price }}</p>
+        <p class="single-auction-highest-offer">Highest Offer:
+            {% if highest_offer %}
+                <b><i>{{ highest_offer.price }}</i></b>Kr.
+            {% else %}
+                <i>No offers yet</i>
+            {% endif %}
+        </p>
         <p class="single-auction-small-info-section">
             <span>
                 Seller: <a href="{% url 'user:profile' pk=auction.user_id %}">{{ auction.user.username }}</a>
@@ -47,7 +53,7 @@
             <span>Category: {{ auction.cat.name }} </span>
         </p>
 
-        <span class="single-auction-condition">Condition: {{ auction.condition }}</span>
+        <span class="single-auction-condition">Condition: <b>{{ auction.condition }}</b></span>
 
         <div class="single-auction-btn-section">
             {% if auction.is_finished %}

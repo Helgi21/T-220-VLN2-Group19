@@ -39,7 +39,7 @@ class AllAuctions(ListView):
             if order_by == 'price' or order_by == 'title':
                 dir_map['asc'] = '-'
                 dir_map['desc'] = ''
-            print(old)
+
             direction = dir_map[direction]
             if category == 'all':
                 a = models.Auction.objects.filter(title__icontains=search).filter(is_finished=old)
@@ -94,7 +94,8 @@ class SingleAuction(DetailView):
         all_similar_items = models.Auction.objects.filter(cat=self.object.cat, is_finished=False).exclude(id=self.object.id)
 
         if len(accepted_paid) > 0:
-            context['accepted_offer'] = accepted_paid
+            print("acc off")
+            context['accepted_offer'] = accepted_paid[0]
 
         similar_items = []
         for i, x in enumerate(all_similar_items):
