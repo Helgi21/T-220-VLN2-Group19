@@ -238,7 +238,7 @@ class ViewOffers(LoginRequiredMixin, ListView):
 
             offer = models.Offer.objects.get(id=offer_response[1])
             offer.status = offer_response[0]
-            offer.is_finished = True
+            offer.auction.is_finished = True
 
             offer.save()
             if offer_response[0] == str(4):
