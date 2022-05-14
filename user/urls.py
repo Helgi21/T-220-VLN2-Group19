@@ -12,7 +12,7 @@ urlpatterns = [
     path('my_auctions/', views.MyAuctions.as_view(), name="myAuctions"),
     path('register/', views.Register.as_view(), name="register"),
     path('login/', views.Login.as_view(), name="login"),
-    path('logout/', LogoutView.as_view(next_page="login"), name="logout"),
+    path('logout/', LogoutView.as_view(next_page="user:login"), name="logout"),
     path('report/', views.Report.as_view(), name="report"),
     path('review/', views.Review.as_view(), name="review")
 ]
