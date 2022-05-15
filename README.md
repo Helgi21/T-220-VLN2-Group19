@@ -45,8 +45,7 @@ Link: [Verklegt námskeið 2 - Group 19](https://drive.google.com/drive/folders/
   + You can see other users average rating on their profile
 
 ## Misc Mentions
-- 
--
+- password for user HelgiSt is GoodPassword123
 
 ## Disabled buttons (buttons with no functionality)
 - if superuser: manage button in user nav
