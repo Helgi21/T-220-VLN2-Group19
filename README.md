@@ -38,6 +38,11 @@ Link: [Verklegt námskeið 2 - Group 19](https://drive.google.com/drive/folders/
 
 - In offer page, filter between sent offer and received offers
 - send counter offer
+- user reviews
+  + When buyer has paid he can review the seller
+  + When seller has accepted an offer he can review the buyer
+  + You can see all reviews made of user on their profile page
+  + You can see other users average rating on their profile
 
 ## Misc Mentions
 - 
